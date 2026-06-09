@@ -1,0 +1,17 @@
+{
+  "name": "minhas-contas",
+  "version": "1.0.0",
+  "description": "PWA de controle financeiro pessoal estilo caderno com comandos de voz.",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx -y serve . -l 5000"
+  },
+  "keywords": [
+    "pwa",
+    "finance",
+    "wallet",
+    "notebook"
+  ],
+  "author": "Rosil",
+  "license": "MIT"
+}

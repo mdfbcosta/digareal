@@ -1,0 +1,13 @@
+# Backups locais — não vão para o GitHub
+backup_*/
+backup_fase*/
+backup_pre_*/
+
+# Arquivos temporários
+*.log
+scratch_*.txt
+find_css.js
+
+# OS files
+.DS_Store
+Thumbs.db

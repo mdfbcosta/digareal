@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhas Contas - PWA</title>
+    <!-- PWA meta tags -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#f7f4ee">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Minhas Contas">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    
+    <!-- CSS and icons -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div id="app">
+        <!-- Slide Container for Swipe Navigation -->
+        <div class="slide-container" id="slide-container">
+            
+            <!-- SCREEN 1: HOME (Super Minimalist Input) -->
+            <section class="slide" id="screen-home">
+                <!-- Alfinete Vermelho Dinâmico (Alerta de Dívidas Atrasadas) -->
+                <button class="home-fixed-debts-alert" id="home-fixed-debts-alert" style="display: none;" title="Dívidas mensais em atraso!">
+                    <i class="fa-solid fa-thumbtack"></i>
+                    <span class="home-fixed-debts-alert-badge"></span>
+                </button>
+
+                <div class="home-center-container">
+                    <div class="home-mic-wrapper" id="home-mic-wrapper">
+                        <div class="home-mic-pulse-ring"></div>
+                        <button class="home-mic-btn" id="btn-mic">
+                            <i class="fa-solid fa-microphone"></i>
+                        </button>
+                        <div class="home-alert-dot" id="home-alert-dot" title="O assistente tem uma pergunta!"></div>
+                    </div>
+
+                    <div class="home-instruction-text">Toque e fale uma<br>movimentação.</div>
+                    
+                    <div class="home-examples-box">
+                        <span class="home-example-line income"><strong>Exemplo:</strong> 'Recebi 50 reais'</span>
+                        <span class="home-example-line expense"><strong>Exemplo:</strong> 'Gastei 100 com gasolina'</span>
+                    </div>
+                </div>
+
+                <!-- Swipe Arrow Indicator (Verticamente Centralizado na Direita) -->
+                <div class="swipe-arrow-right" id="swipe-arrow-indicator" title="Deslizar para ver o caderno">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </div>
+
+                <!-- 💬 CHAT SCREEN OVERLAY -->
+                <div class="chat-screen-overlay" id="chat-screen-overlay">
+                    <div class="chat-header">
+                        <button class="btn-close-chat" id="btn-close-chat">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                        <span class="chat-header-title">Assistente Financeiro</span>
+                    </div>
+                    <div class="chat-messages-container" id="chat-messages-container">
+                        <!-- Bubbles populated dynamically in JS -->
+                    </div>
+                    <div class="chat-input-bar">
+                        <input type="text" class="chat-input-field" id="chat-input-field" placeholder="Escreva ou fale aqui...">
+                        <button class="chat-action-btn" id="chat-mic-btn" title="Gravar voz">
+                            <i class="fa-solid fa-microphone"></i>
+                        </button>
+                        <button class="chat-action-btn" id="chat-send-btn" title="Enviar texto">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SCREEN 2: NOTEBOOK DETAILS -->
+            <section class="slide" id="screen-details">
+
+
+                <!-- Notebook Header (Fixed Summary) -->
+                <div class="notebook-header">
+                    <div class="notebook-top-row">
+                        <button class="btn-back-home" id="btn-back-home" title="Voltar ao início">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                        
+                        <div class="active-notebook-title">
+                            <span id="notebook-name-display">Caderno Padrão</span>
+                            <button style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size: 0.8rem; margin-left: 2px;" id="btn-switch-notebook" title="Trocar de Caderno">
+                                <i class="fa-solid fa-caret-down"></i>
+                            </button>
+                        </div>
+
+                        <!-- Menu de 3 pontinhos horizontais -->
+                        <div class="notebook-menu-wrapper">
+                            <button class="btn-notebook-menu" id="btn-notebook-menu" title="Opções do Caderno">
+                                <i class="fa-solid fa-ellipsis"></i>
+                            </button>
+                            <!-- Dropdown menu flutuante -->
+                            <div class="notebook-dropdown-menu" id="notebook-dropdown">
+                                <button class="dropdown-item" id="btn-toggle-font">
+                                    <i class="fa-solid fa-pen-nib"></i>
+                                    <span id="font-btn-text">Caligrafia Cursiva</span>
+                                </button>
+                                <button class="dropdown-item" id="btn-show-chat-logs">
+                                    <i class="fa-solid fa-comments"></i>
+                                    <span>Diário de Conversas</span>
+                                </button>
+                                <button class="dropdown-item" id="btn-share-settings">
+                                    <i class="fa-solid fa-user-group"></i>
+                                    <span>Compartilhar Caderno</span>
+                                </button>
+                                <button class="dropdown-item" id="btn-menu-fixed-accounts">
+                                    <i class="fa-solid fa-thumbtack" style="color: var(--red-ink);"></i>
+                                    <span>Dívida Mensal</span>
+                                </button>
+                                <button class="dropdown-item" id="btn-menu-fixed-incomes">
+                                    <i class="fa-solid fa-thumbtack" style="color: var(--blue-ink);"></i>
+                                    <span>Receita Mensal</span>
+                                </button>
+                                <button class="dropdown-item" id="btn-export-csv">
+                                    <i class="fa-solid fa-file-csv" style="color: #2e7d32;"></i>
+                                    <span>Exportar Caderno (CSV)</span>
+                                </button>
+                                <button class="dropdown-item" id="btn-toggle-theme-opt">
+                                    <i class="fa-solid fa-paste"></i>
+                                    <span id="theme-btn-text">Papel: Chamex</span>
+                                </button>
+                                <button class="dropdown-item text-danger" id="btn-logout" style="border-top: 1px dashed rgba(0,0,0,0.06);">
+                                    <i class="fa-solid fa-right-from-bracket"></i>
+                                    <span>Sair do Caderno</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fita Unificada de Saldos em Linha Única -->
+                    <div class="compact-balance-row">
+                        <div class="compact-balance-item income">
+                            <span>Entradas</span>
+                            <strong id="val-income">R$ 0,00</strong>
+                        </div>
+                        <div class="compact-balance-divider"></div>
+                        <div class="compact-balance-item expense">
+                            <span>Saídas</span>
+                            <strong id="val-expense">R$ 0,00</strong>
+                        </div>
+                        <div class="compact-balance-divider"></div>
+                        <div class="compact-balance-item total">
+                            <span>Disponível</span>
+                            <strong id="val-balance">R$ 0,00</strong>
+                        </div>
+                    </div>
+
+                    <!-- Saldo Livre Projetado (Anotação a lápis no papel) -->
+                    <div class="projected-balance-note" id="projected-balance-note">
+                        ✏️ Saldo livre para gastar: <strong id="val-projected-balance">R$ 0,00</strong> (após dívidas pendentes)
+                    </div>
+
+                    <!-- Carrossel de Meses Horizontal -->
+                    <div class="months-carousel-wrapper">
+                        <div class="months-carousel" id="months-carousel">
+                            <!-- Populated dynamically via JS like: OUT | NOV | DEZ/25 | JAN | FEV -->
+                        </div>
+                        <div class="carousel-pins-container">
+                            <button class="btn-open-fixed-accounts" id="btn-open-fixed-accounts" title="Dívidas Mensais">
+                                <i class="fa-solid fa-thumbtack" style="color: var(--red-ink); font-size: 1.1rem;"></i>
+                            </button>
+                            <button class="btn-open-fixed-incomes" id="btn-open-fixed-incomes" title="Receitas Mensais">
+                                <i class="fa-solid fa-thumbtack" style="color: var(--blue-ink); font-size: 1.1rem;"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Filtros e Busca Retrátil (Aberto por padrão) -->
+                    <div class="collapsible-filters-box active" id="collapsible-filters">
+                        <div class="collapsible-filters-content">
+                            <div class="search-wrapper">
+                                <i class="fa-solid fa-magnifying-glass search-icon" style="color: var(--red-ink); font-size: 1.15rem;"></i>
+                                <input type="text" class="search-input" id="search-transactions" placeholder="Buscar item (ex: mercado)...">
+                            </div>
+                            <div class="filter-bar">
+                                <button class="filter-pill active" data-type="all">Todos</button>
+                                <button class="filter-pill" data-type="income">Entradas</button>
+                                <button class="filter-pill" data-type="expense">Saídas</button>
+                                <button class="filter-pill" data-type="recurring">Fixos</button>
+                                <button class="filter-pill" data-type="sporadic">Esporádicos</button>
+                            </div>
+                        </div>
+                        <div class="collapsible-filters-toggle-row">
+                            <button id="btn-toggle-filters-arrow" class="btn-toggle-filters-arrow" title="Recolher Filtros">
+                                <i class="fa-solid fa-chevron-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lined/Squared/Dotted Page -->
+                <div class="notebook-page theme-ruled" id="notebook-page-body">
+
+
+                    <!-- Transaction List -->
+                    <div class="transaction-list" id="transaction-list">
+                        <!-- Populated dynamically -->
+                    </div>
+
+                    <!-- Doodle Report Section -->
+                    <div class="doodle-chart-box" id="doodle-chart-box" style="display: none;">
+                        <div class="doodle-chart-title">Resumo por Categoria</div>
+                        <div class="doodle-bars-container" id="doodle-bars-container">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Page indicator dots -->
+                <div class="page-indicator">
+                    <div class="indicator-dot active" id="dot-home"></div>
+                    <div class="indicator-dot" id="dot-details"></div>
+                </div>
+
+                <!-- Red Dot Notification Badge -->
+                <div class="doubts-notification-badge" id="doubts-notification-badge" style="display: none;">
+                    <div class="doubts-red-dot"></div>
+                    <span class="doubts-text" id="doubts-badge-text">Tenho algumas perguntas, Rosil!</span>
+                </div>
+
+                <!-- STICKER FLOATING PIGGY BANK BUTTON -->
+                <button class="btn-floating-piggy" id="btn-floating-piggy" title="Meu Cofrinho">
+                    <span class="piggy-badge" id="piggy-balance-badge">R$ 0</span>
+                    <i class="fa-solid fa-piggy-bank"></i>
+                </button>
+            </section>
+            
+        </div>
+
+        <!-- FULL-SCREEN PAGE: AGENDA MENSAL (DÍVIDAS & RECEITAS) -->
+        <div class="fixed-accounts-fullscreen-panel" id="modal-fixed-accounts">
+            <div class="fixed-accounts-page-content theme-soft-ruled">
+                <!-- Header Row -->
+                <div class="fixed-accounts-header">
+                    <button class="btn-back-fixed-accounts" id="btn-back-fixed-accounts" title="Voltar">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <!-- Abas de Navegação (Dívidas vs Receitas) na primeira linha -->
+                    <div class="fixed-tabs-bar">
+                        <button class="fixed-tab-btn active" id="fixed-tab-debts" data-tab="debts">
+                            <i class="fa-solid fa-thumbtack" style="color: var(--red-ink); margin-right: 4px;"></i> Dívidas Mensais
+                        </button>
+                        <button class="fixed-tab-btn" id="fixed-tab-incomes" data-tab="incomes">
+                            <i class="fa-solid fa-thumbtack" style="color: var(--blue-ink); margin-right: 4px;"></i> Receitas Mensais
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Resumo do Orçamento Fixo -->
+                <!-- Resumo do Orçamento Fixo (Card KPI Premium Adaptativo) -->
+                <div class="fixed-budget-summary-card" id="fixed-budget-summary-card">
+                    <!-- Populado dinamicamente via JS -->
+                </div>
+                
+                <!-- Carrossel de Meses Horizontal na tela de Dívidas Mensais -->
+                <div class="months-carousel-wrapper" style="margin-bottom: 15px; margin-top: 4px;">
+                    <div class="months-carousel" id="fixed-months-carousel">
+                        <!-- Populated dynamically via JS -->
+                    </div>
+                </div>
+
+                <!-- Botão de inclusão de Dívida / Receita alinhado à esquerda -->
+                <div class="fixed-add-button-row" id="fixed-add-button-row">
+                    <button class="btn-toggle-add-fixed" id="btn-toggle-add-fixed" title="Cadastrar Novo Item">
+                        <i class="fa-solid fa-plus"></i> Dívida
+                    </button>
+                </div>
+                
+                <!-- Collapsible Form for Insertion -->
+                <div class="fixed-form-collapsible" id="fixed-form-collapsible">
+                    <form id="form-fixed-account" onsubmit="return false;">
+                        <div style="display:grid; grid-template-columns: 2fr 1fr; gap: 8px; margin-bottom: 8px;">
+                            <div class="modal-field" style="margin:0;">
+                                <label for="fixed-name" id="label-fixed-name">Nome da Dívida</label>
+                                <input type="text" id="fixed-name" placeholder="Ex: Colégio José" required>
+                            </div>
+                            <div class="modal-field" style="margin:0;">
+                                <label for="fixed-value">Valor (R$)</label>
+                                <input type="number" id="fixed-value" placeholder="300" step="0.01" required>
+                            </div>
+                        </div>
+                        <div style="display:grid; grid-template-columns: 1fr 1.2fr; gap: 8px; margin-bottom: 12px;">
+                            <div class="modal-field" style="margin:0;">
+                                <label for="fixed-day" id="label-fixed-day">Dia do Vencimento</label>
+                                <input type="number" id="fixed-day" placeholder="Ex: 5" min="1" max="31" required>
+                            </div>
+                            <div class="modal-field" style="margin:0;">
+                                <label for="fixed-expiration">Válido até (Opcional)</label>
+                                <input type="month" id="fixed-expiration" style="width: 100%; box-sizing: border-box;">
+                            </div>
+                        </div>
+                        <div style="display:flex; justify-content:flex-end; gap: 8px;">
+                            <button type="button" class="btn-secondary" id="btn-cancel-fixed-account" style="padding:10px 16px; height: 38px; display:flex; align-items:center; gap:6px;">
+                                Cancelar
+                            </button>
+                            <button class="btn-primary" id="btn-save-fixed-account" style="padding:10px 16px; height: 38px; display:flex; align-items:center; gap:6px;">
+                                <i class="fa-solid fa-plus"></i> <span id="btn-save-fixed-text">Cadastrar</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- List Container -->
+                <div class="fixed-accounts-list-container" id="fixed-accounts-list-container">
+                    <span class="fixed-accounts-list-subtitle" id="fixed-list-subtitle">Minhas Dívidas Mensais</span>
+                    <div id="fixed-accounts-list" style="display:flex; flex-direction:column; gap:10px;">
+                        <!-- List of fixed accounts will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 📖 CAPA DO CADERNO: TELA DE LOGIN / CADASTRO -->
+    <div class="modal-overlay welcome-cover-overlay" id="modal-welcome">
+        <div class="leather-book-cover">
+            <!-- Book Gold Line border -->
+            <div class="cover-gold-border"></div>
+            
+            <div class="cover-content">
+                <h1 class="cover-title">Minhas Contas</h1>
+                <div class="cover-separator"></div>
+                <p class="cover-subtitle">Seu assistente de finanças pessoal</p>
+                
+                <!-- Etiqueta de papel clássica para inputs -->
+                <div class="paper-label-container">
+                    <!-- Toggle Switch elegante para alternar entre cadastro e login -->
+                    <div class="auth-toggle-bar">
+                        <button class="auth-toggle-btn active" id="toggle-auth-register">Escrever na Capa</button>
+                        <button class="auth-toggle-btn" id="toggle-auth-login">Abrir Caderno</button>
+                    </div>
+
+                    <form id="auth-form" onsubmit="return false;">
+                        <div class="modal-field" id="field-auth-name">
+                            <label for="auth-name">Como quer ser chamado?</label>
+                            <input type="text" id="auth-name" placeholder="Seu nome (Ex: Rosil)" required>
+                        </div>
+                        
+                        <div class="modal-field">
+                            <label for="auth-contact">E-mail ou Celular</label>
+                            <input type="text" id="auth-contact" placeholder="Digite seu e-mail ou celular" required>
+                        </div>
+                        
+                        <div class="modal-field">
+                            <label for="auth-password">Senha do Caderno</label>
+                            <input type="password" id="auth-password" placeholder="Crie uma senha de acesso" required>
+                        </div>
+                        
+                        <button class="btn-primary" id="btn-auth-submit" style="width:100%; margin-top: 15px;">
+                            Começar Lançamentos
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Benefícios discretos no rodapé -->
+                <div class="cover-features-footer">
+                    <span><i class="fa-solid fa-microphone"></i> Voz</span>
+                    <span><i class="fa-solid fa-plane-slash"></i> Offline</span>
+                    <span><i class="fa-solid fa-users"></i> Família</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: FILA DE DÚVIDAS -->
+    <div class="doubts-overlay" id="doubts-panel">
+        <div class="doubts-content">
+            <div class="doubts-header">
+                <span class="doubts-title"><i class="fa-solid fa-question-circle"></i> Fila de Dúvidas</span>
+                <button class="doubts-close" id="btn-close-doubts">&times;</button>
+            </div>
+            <div class="doubts-list" id="doubts-list-container">
+                <!-- Sticky note doubt items generated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: EDIÇÃO / CRIAÇÃO DE TRANSAÇÃO -->
+    <div class="modal-overlay" id="modal-edit-transaction">
+        <div class="modal-card">
+            <h3 style="font-family: var(--font-title); font-weight: 700;" id="edit-modal-title">Editar Transação</h3>
+            
+            <div class="modal-field">
+                <label for="edit-item">Item / Origem</label>
+                <input type="text" id="edit-item" required>
+            </div>
+            
+            <div class="modal-field">
+                <label for="edit-value">Valor (R$)</label>
+                <input type="number" id="edit-value" step="0.01" required>
+            </div>
+
+            <div class="modal-field">
+                <label for="edit-type">Tipo de Transação</label>
+                <select id="edit-type">
+                    <option value="salario">Entrada: Salário</option>
+                    <option value="receita_esporadica">Entrada: Receita Esporádica</option>
+                    <option value="receita_recorrente">Entrada: Receita Recorrente</option>
+                    <option value="despesa_esporadica">Saída: Despesa Esporádica</option>
+                    <option value="despesa_recorrente">Saída: Despesa Recorrente</option>
+                </select>
+            </div>
+
+            <div class="modal-field">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <label for="edit-category">Categoria</label>
+                    <button style="background:none; border:none; color:var(--accent-color); font-size:0.75rem; cursor:pointer;" id="btn-add-category-quick">+ Nova Categoria</button>
+                </div>
+                <select id="edit-category">
+                    <!-- Populated dynamically -->
+                </select>
+            </div>
+
+            <div class="modal-field">
+                <label for="edit-date">Data da Transação</label>
+                <input type="date" id="edit-date">
+            </div>
+
+            <div class="modal-field">
+                <label for="edit-time">Horário</label>
+                <input type="time" id="edit-time">
+            </div>
+
+            <div class="modal-field">
+                <label for="edit-author">Registrado Por</label>
+                <select id="edit-author">
+                    <!-- Members list populated dynamically -->
+                </select>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn-danger" id="btn-delete-transaction" style="margin-right:auto; display:none;">Excluir</button>
+                <button class="btn-secondary" id="btn-cancel-edit">Cancelar</button>
+                <button class="btn-primary" id="btn-save-transaction">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: ADD CATEGORIA RÁPIDA -->
+    <div class="modal-overlay" id="modal-new-category" style="z-index: 210;">
+        <div class="modal-card">
+            <h3 style="font-family: var(--font-title); font-weight: 700;">Nova Categoria</h3>
+            <div class="modal-field">
+                <label for="new-category-name">Nome da Categoria</label>
+                <input type="text" id="new-category-name" placeholder="Ex: Viagem, Pets...">
+            </div>
+            <div class="modal-actions">
+                <button class="btn-secondary" id="btn-cancel-new-category">Cancelar</button>
+                <button class="btn-primary" id="btn-save-new-category">Adicionar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: ESTANTE DE CADERNOS / SWITCH -->
+    <div class="modal-overlay" id="modal-switch-notebook">
+        <div class="modal-card">
+            <h3 style="font-family: var(--font-title); font-weight: 700;">Estante de Cadernos</h3>
+            <p style="font-size:0.8rem; color:var(--text-muted);">Alterne entre seus cadernos pessoais ou os compartilhados com você.</p>
+            
+            <div id="notebooks-shelf-list" style="display:flex; flex-direction:column; gap:10px; max-height:200px; overflow-y:auto; padding:5px 0;">
+                <!-- List of books -->
+            </div>
+
+            <div style="border-top:1px solid rgba(0,0,0,0.06); padding-top:12px; display:flex; flex-direction:column; gap:10px;">
+                <div class="modal-field">
+                    <label>Criar Novo Caderno</label>
+                    <div style="display:flex; gap:8px;">
+                        <input type="text" id="new-notebook-name" placeholder="Ex: Finanças Pessoais" style="flex-grow:1; padding:8px;">
+                        <button class="btn-primary" id="btn-create-notebook" style="padding:8px 12px;"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                </div>
+
+                <div class="modal-field">
+                    <label>Inserir Código de Convite</label>
+                    <div style="display:flex; gap:8px;">
+                        <input type="text" id="invite-code-input" placeholder="Ex: MC-8923" style="flex-grow:1; padding:8px;">
+                        <button class="btn-primary" id="btn-redeem-invite" style="padding:8px 12px;">Entrar</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-secondary" id="btn-close-switch-notebook">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: GESTÃO DE COMPARTILHAMENTO SIMPLIFICADO -->
+    <div class="modal-overlay" id="modal-sharing-details">
+        <div class="modal-card">
+            <h3 style="font-family: var(--font-title); font-weight: 700;">Compartilhar Acesso</h3>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">Convide sua família para acompanhar e anotar contas juntos.</p>
+
+            <!-- Passo 1: Nome do Convidado e Grau -->
+            <div class="modal-field">
+                <label>Dados do Convidado</label>
+                <div style="display:flex; gap:8px;">
+                    <input type="text" id="share-new-name" placeholder="Nome (Ex: Maria)" style="flex-grow:1; padding:8px; font-size:0.85rem; border-radius:6px; border:1px solid rgba(0,0,0,0.12);">
+                    <input type="text" id="share-new-role" placeholder="Grau (Ex: Esposa)" style="width: 130px; padding:8px; font-size:0.85rem; border-radius:6px; border:1px solid rgba(0,0,0,0.12);">
+                </div>
+            </div>
+
+            <!-- Passo 2: Código e Botão de Compartilhar -->
+            <div class="share-box-wrapper" style="background:#FAF6EE; border:1px dashed var(--line-color); padding:12px; border-radius:8px; margin: 15px 0; display:flex; flex-direction:column; gap:8px;">
+                <span style="font-size:0.7rem; font-weight:600; color:var(--text-muted); text-transform:uppercase;">Seu Código de Convite</span>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <strong style="font-size:1.3rem; letter-spacing:1px; color:var(--blue-ink);" id="display-invite-code">MC-8923</strong>
+                    
+                    <button class="btn-primary" id="btn-share-invite-native" style="padding: 10px 14px; border-radius: 8px; font-size: 1rem; display: flex; align-items: center; gap: 6px;" title="Enviar Convite">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span style="font-size:0.8rem; font-weight:600;">Enviar</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="modal-field">
+                <label>Pessoas com Acesso</label>
+                <div id="sharing-members-list" style="display:flex; flex-direction:column; gap:8px; max-height: 120px; overflow-y:auto; padding:2px;">
+                    <!-- Members list generated here -->
+                </div>
+            </div>
+
+            <div class="modal-actions" style="margin-top: 15px;">
+                <button class="btn-secondary" id="btn-close-sharing" style="width: 100%;">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: COFRINHO -->
+    <div class="modal-overlay" id="modal-cofrinho" style="z-index: 200;">
+        <div class="modal-card cofrinho-card" style="background: #FFF5F7; border: 2px solid #FFD1DC;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <h3 style="font-family: var(--font-title); font-weight: 700; margin:0; color: #D14D72;"><i class="fa-solid fa-piggy-bank"></i> Meu Cofrinho</h3>
+                <button class="doubts-close" id="btn-close-cofrinho" style="position:static; background:none; border:none; font-size:1.5rem; color: #D14D72; cursor:pointer;">&times;</button>
+            </div>
+
+            <!-- Balanço do Cofrinho -->
+            <div class="cofrinho-balance-box" style="margin-bottom: 8px;">
+                <span class="cofrinho-balance-label">Saldo Acumulado</span>
+                <strong class="cofrinho-balance-value" id="cofrinho-total-balance">R$ 0,00</strong>
+            </div>
+
+            <!-- Seção da Meta do Cofrinho -->
+            <div class="cofrinho-meta-section" id="cofrinho-meta-section">
+                <!-- State 1: Sem Meta -->
+                <div id="cofrinho-meta-empty" style="display: none; text-align: center; margin: 8px 0;">
+                    <button class="btn-cofrinho-meta-toggle" id="btn-show-meta-form">
+                        <i class="fa-solid fa-bullseye"></i> Definir Meta do Cofre
+                    </button>
+                </div>
+                
+                <!-- State 2: Form de Cadastro/Edição de Meta -->
+                <div id="cofrinho-meta-form" style="display: none; margin: 8px 0; background: white; padding: 10px; border-radius: 8px; border: 1px solid #FFD1DC;">
+                    <div style="display: grid; grid-template-columns: 1.3fr 1fr; gap: 6px; margin-bottom: 6px;">
+                        <input type="text" id="cofrinho-meta-name-input" placeholder="Ex: Comprar Notebook" style="font-size: 0.8rem; padding: 6px; border: 1px solid #FFD1DC; border-radius: 6px; outline: none; background: #fff; width: 100%; box-sizing: border-box;">
+                        <input type="number" id="cofrinho-meta-val-input" placeholder="Valor (R$)" style="font-size: 0.8rem; padding: 6px; border: 1px solid #FFD1DC; border-radius: 6px; outline: none; background: #fff; width: 100%; box-sizing: border-box;">
+                    </div>
+                    <div style="display: flex; justify-content: flex-end; gap: 6px;">
+                        <button class="btn-secondary" id="btn-cancel-meta" style="padding: 4px 8px; font-size: 0.75rem; border-radius: 4px; border: 1px solid #FFD1DC; background: transparent; color: #D14D72; cursor: pointer;">Cancelar</button>
+                        <button class="btn-primary" id="btn-save-meta" style="padding: 4px 8px; font-size: 0.75rem; border-radius: 4px; background: #D14D72; border-color: #D14D72; color:#fff; cursor: pointer; border: none;">Salvar Meta</button>
+                    </div>
+                </div>
+
+                <!-- State 3: Meta Ativa -->
+                <div id="cofrinho-meta-active" style="display: none; margin: 10px 0;">
+                    <!-- Linha 1: Nome da Meta ocupando todo o espaço disponível -->
+                    <div style="font-size: 0.88rem; margin-bottom: 4px; color: #D14D72; font-weight: bold; word-break: break-word;" id="cofrinho-meta-display-name">
+                        Meta: Viagem
+                    </div>
+                    <!-- Linha 2: Valores de progresso e ações -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; margin-bottom: 6px;">
+                        <span id="cofrinho-meta-display-values" style="color: #B07D8B; font-weight: 600;">R$ 0 / R$ 0</span>
+                        <div style="display:flex; align-items:center; gap: 8px;">
+                            <button id="btn-edit-meta" style="background:none; border:none; color:#D14D72; cursor:pointer; font-size: 0.8rem; padding: 2px;" title="Editar Meta"><i class="fa-solid fa-pencil"></i></button>
+                            <button id="btn-delete-meta" style="background:none; border:none; color:#D14D72; cursor:pointer; font-size: 0.8rem; padding: 2px;" title="Excluir Meta"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <!-- Hand-drawn doodle progress bar -->
+                    <div class="doodle-progress-bar-wrapper">
+                        <div class="doodle-progress-bar-fill" id="cofrinho-meta-progress-fill" style="width: 0%;"></div>
+                        <span class="doodle-progress-bar-pct" id="cofrinho-meta-progress-pct">0%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulário de Depósito / Retirada -->
+            <div class="cofrinho-actions-box">
+                <div class="modal-field">
+                    <label for="cofrinho-amount" style="color: #D14D72;">Valor (R$)</label>
+                    <input type="number" id="cofrinho-amount" placeholder="0,00" step="0.01" style="border: 1px solid #FFD1DC; padding: 10px; border-radius: 8px; font-size: 1.1rem; width: 100%; box-sizing: border-box;">
+                </div>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+                    <button class="btn-cofrinho-deposit" id="btn-cofrinho-deposit">
+                        <i class="fa-solid fa-arrow-down"></i> Guardar
+                    </button>
+                    <button class="btn-cofrinho-withdraw" id="btn-cofrinho-withdraw">
+                        <i class="fa-solid fa-arrow-up"></i> Resgatar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Histórico do Cofrinho -->
+            <div style="flex-grow:1; overflow-y:auto; display:flex; flex-direction:column; gap:8px; margin-top: 15px;" id="cofrinho-history-container">
+                <span style="font-size:0.7rem; font-weight:600; color:#B07D8B; text-transform:uppercase; display:block;">Histórico de Economias</span>
+                <div id="cofrinho-history-list" style="display:flex; flex-direction:column; gap:6px;">
+                    <!-- Cofrinho operations will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: HISTÓRICO DE CONVERSAS (DIÁRIO) -->
+    <div class="modal-overlay" id="modal-chat-logs">
+        <div class="modal-card" style="max-height:85vh; display:flex; flex-direction:column; background:#FAF6EE;">
+            <h3 style="font-family: var(--font-title); font-weight: 700; margin-bottom: 8px;"><i class="fa-solid fa-comments"></i> Diário de Conversas</h3>
+            <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:12px;">Histórico completo de conversas arquivadas com o assistente.</p>
+            
+            <div id="chat-logs-archive-list" style="flex-grow:1; overflow-y:auto; display:flex; flex-direction:column; gap:12px; padding:5px 0;">
+                <!-- Populated dynamically -->
+            </div>
+            
+            <div class="modal-actions" style="margin-top:12px;">
+                <button class="btn-secondary" id="btn-close-chat-logs" style="width:100%;">Fechar Diário</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS files -->
+    <script src="js/storage.js?v=18.2"></script>
+    <script src="js/parser.js?v=18.2"></script>
+    <script src="js/speech.js?v=18.2"></script>
+    <script src="js/app.js?v=18.2"></script>
+</body>
+</html>

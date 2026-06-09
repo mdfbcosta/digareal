@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DigaReal - PWA</title>
+    <!-- PWA meta tags -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#f7f4ee">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="DigaReal">
+
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    
+    <!-- CSS and icons -->
+    <link rel="stylesheet" href="css/style-v25.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div id="app">
+        <!-- Slide Container for Swipe Navigation -->
+        <div class="slide-container" id="slide-container">
+            
+            <!-- SCREEN 1: HOME (Super Minimalist Input) -->
+            <section class="slide" id="screen-home">
+                <!-- Doodle de fundo combinado -->
+                <img src="porquinho_xicara.png" class="home-floating-doodle doodle-piggy-cup" alt="Doodle Porquinho e Xícara">
+
+                <!-- Alfinete Vermelho Dinâmico (Alerta de Dívidas Atrasadas) -->
+                <button class="home-fixed-debts-alert" id="home-fixed-debts-alert" style="display: none;" title="Dívidas mensais em atraso!">
+                    <i class="fa-solid fa-thumbtack"></i>
+                    <span class="home-fixed-debts-alert-badge"></span>
+                </button>
+
+                <div class="home-center-container">
+                    <div class="home-mic-wrapper" id="home-mic-wrapper">
+                        <div class="home-mic-pulse-ring ring-1"></div>
+                        <div class="home-mic-pulse-ring ring-2"></div>
+                        <div class="home-mic-pulse-ring ring-3"></div>
+                        <button class="home-mic-btn" id="btn-mic" title="Toque para falar">
+                            <i class="fa-solid fa-microphone"></i>
+                        </button>
+                        <div class="home-alert-dot" id="home-alert-dot" title="O assistente tem uma pergunta!"></div>
+                    </div>
+
+                    <div class="home-instruction-text">Toque e fale uma<br>movimentação.</div>
+                    
+                    <!-- Bloco de Exemplos com estilo Post-it e Fita Adesiva -->
+                    <div class="home-examples-note">
+                        <div class="home-examples-tape"></div>
+                        <div class="home-instruction-subtitle">Dicas de Lançamento</div>
+                        <div class="home-examples-box">
+                            <span class="home-example-line income"><i class="fa-solid fa-pen-clip"></i> "Recebi 50 reais"</span>
+                            <span class="home-example-line expense"><i class="fa-solid fa-pen-clip"></i> "Gastei 100 com gasolina"</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botão de Teclado Flutuante (Canto Inferior Esquerdo) -->
+                <button class="home-keyboard-btn" id="btn-keyboard-entry" title="Digitar movimentação">
+                    <i class="fa-regular fa-keyboard"></i>
+                </button>
+
+                <!-- Botão de Silenciar Voz Flutuante (Canto Inferior Direito) -->
+                <button class="home-voice-toggle-btn" id="btn-toggle-voice-home" title="Silenciar assistente">
+                    <i class="fa-solid fa-volume-high"></i>
+                </button>
+
+                <!-- Swipe Arrow Indicator (Verticamente Centralizado na Direita) -->
+                <div class="swipe-arrow-right" id="swipe-arrow-indicator" title="Deslizar para ver o caderno">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </div>
+
+                <!-- 💬 CHAT SCREEN OVERLAY -->
+                <div class="chat-screen-overlay" id="chat-screen-overlay">
+                    <div class="chat-header">
+                        <button class="btn-close-chat" id="btn-close-chat">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                        <span class="chat-header-title">Assistente Financeiro</span>
+                        <button class="chat-voice-toggle-btn" id="btn-toggle-voice-chat" title="Silenciar assistente">
+                            <i class="fa-solid fa-volume-high"></i>
+                        </button>
+                    </div>
+                    <div class="chat-messages-container" id="chat-messages-container">
+                        <!-- Bubbles populated dynamically in JS -->
+                    </div>
+                    <div class="chat-input-bar">
+                        <input type="text" class="chat-input-field" id="chat-input-field" placeholder="Escreva ou fale aqui...">
+                        <button class="chat-action-btn" id="chat-mic-btn" title="Gravar voz">
+                            <i class="fa-solid fa-microphone"></i>
+                        </button>
+                        <button class="chat-action-btn" id="chat-send-btn" title="Enviar texto">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SCREEN 2: NOTEBOOK DETAILS -->
+            <section class="slide" id="screen-details">
+
+
+                <!-- Notebook Header (Fixed Summary) -->
+                <div class="notebook-header">
+                    <div class="notebook-top-row">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <button class="btn-back-home" id="btn-back-home" title="Voltar ao início">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </button>
+                            
+                            <div class="active-notebook-title">
+                                <span id="notebook-name-display">Caderno Padrão</span>
+                                <button style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size: 0.8rem; margin-left: 2px;" id="btn-switch-notebook" title="Trocar de Caderno">
+                                    <i class="fa-solid fa-caret-down"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Menu de 3 pontinhos horizontais -->
+                        <div class="notebook-menu-wrapper">
+                            <button class="btn-notebook-menu" id="btn-notebook-menu" title="Opções do Caderno">
+                                <i class="fa-solid fa-ellipsis"></i>
+                            </button>
+                            <!-- Dropdown menu flutuante -->
+                            <div class="notebook-dropdown-menu" id="notebook-dropdown">
+                                <div class="menu-branding-header">
+                                    <img src="logo.png" alt="Logo DigaReal" class="menu-branding-logo">
+                                    <div class="menu-branding-text">
+                                        <span class="menu-app-name">DigaReal</span>
+                                        <span class="menu-user-greeting" id="menu-user-greeting">Olá!</span>
+                                    </div>
+                                </div>
+                                <button class="dropdown-item" id="btn-edit-profile" style="border-top: 1px solid rgba(0,0,0,0.06);">
+                                    <i class="fa-regular fa-user"></i>
+                                    <span>Editar Perfil</span>
+                                </button>
+                                <button class="dropdown-item" id="btn-show-chat-logs">
+                                    <i class="fa-solid fa-comments"></i>
+                                    <span>Diário de Conversas</span>
+                                </button>
+                                <button class="dropdown-item" id="btn-export-csv">
+                                    <i class="fa-solid fa-file-csv" style="color: #2e7d32;"></i>
+                                    <span>Exportar Caderno (CSV)</span>
+                                </button>
+                                <button class="dropdown-item" id="btn-dev-simulate-billing" style="border-top: 1px dashed rgba(0,0,0,0.06); color: #16a34a;">
+                                    <i class="fa-solid fa-flask" style="color: #16a34a;"></i>
+                                    <span>Simular Cobrança (Teste)</span>
+                                </button>
+                                <button class="dropdown-item" id="btn-dev-add-referral" style="border-top: 1px dashed rgba(0,0,0,0.06); color: #25d366;">
+                                    <i class="fa-solid fa-user-plus" style="color: #25d366;"></i>
+                                    <span>Simular Indicação (+1 Amigo)</span>
+                                </button>
+                                <button class="dropdown-item text-danger" id="btn-logout" style="border-top: 1px dashed rgba(0,0,0,0.06);">
+                                    <i class="fa-solid fa-right-from-bracket"></i>
+                                    <span>Sair do Caderno</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Novo Quadro de Resumo Financeiro Premium -->
+                    <div class="kpi-summary-card">
+                        <div class="kpi-left-section">
+                            <span class="kpi-label">Saldo disponível</span>
+                            <strong class="kpi-main-balance" id="val-balance">R$ 0,00</strong>
+                            <div class="kpi-projected-note" id="projected-balance-note">
+                                <span>✏️ Saldo livre para gastar: <strong id="val-projected-balance">R$ 0,00</strong></span>
+                                <span class="kpi-subtext">(após dívidas pendentes)</span>
+                            </div>
+                        </div>
+                        <div class="kpi-right-section">
+                            <div class="kpi-mini-item income">
+                                <span class="kpi-mini-label">Entradas</span>
+                                <strong class="kpi-mini-val" id="val-income">R$ 0,00</strong>
+                            </div>
+                            <div class="kpi-mini-item expense">
+                                <span class="kpi-mini-label">Saídas</span>
+                                <strong class="kpi-mini-val" id="val-expense">R$ 0,00</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Carrossel de Meses Horizontal -->
+                    <div class="months-carousel-wrapper">
+                        <div class="months-carousel" id="months-carousel">
+                            <!-- Populated dynamically via JS like: OUT | NOV | DEZ/25 | JAN | FEV -->
+                        </div>
+                        <div class="carousel-pins-container">
+                            <button class="btn-months-picker" id="btn-months-picker" title="Selecionar Mês">
+                                <i class="fa-regular fa-calendar-days" style="color: var(--text-muted); font-size: 1.15rem;"></i>
+                                <i class="fa-solid fa-chevron-down" style="color: var(--text-muted); font-size: 0.65rem; margin-left: 2px;"></i>
+                            </button>
+                            <input type="month" id="months-carousel-picker" style="position: absolute; opacity: 0; pointer-events: none; width: 0; height: 0;">
+                        </div>
+                    </div>
+
+                    <!-- Novo Bloco de Filtros e Busca Compacto -->
+                    <div class="search-filter-row">
+                        <div class="filter-dropdown-wrapper">
+                            <button class="btn-filter-dropdown" id="btn-filter-dropdown" title="Filtros">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;">
+                                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                                    <line x1="6" y1="12" x2="18" y2="12"></line>
+                                    <line x1="10" y1="18" x2="14" y2="18"></line>
+                                </svg>
+                                <span>Filtros</span>
+                                <i class="fa-solid fa-chevron-down chevron-icon"></i>
+                            </button>
+                            <!-- Dropdown de Filtros real -->
+                            <div class="filter-dropdown-menu" id="filter-dropdown-menu">
+                                <button class="filter-dropdown-item active" data-type="all">Todos</button>
+                                <button class="filter-dropdown-item" data-type="income">Entradas</button>
+                                <button class="filter-dropdown-item" data-type="expense">Saídas</button>
+                                <button class="filter-dropdown-item" data-type="recurring">Fixos</button>
+                                <button class="filter-dropdown-item" data-type="sporadic">Esporádicos</button>
+                            </div>
+                        </div>
+                        <div class="search-box-compact">
+                            <input type="text" class="search-input-compact" id="search-transactions" placeholder="Buscar...">
+                            <i class="fa-solid fa-magnifying-glass search-icon-compact"></i>
+                        </div>
+                    </div>
+                </div>
+
+                    <!-- Lined/Squared/Dotted Page -->
+                    <div class="notebook-page theme-chamex" id="notebook-page-body">
+
+
+                    <!-- Transaction List -->
+                    <div class="transaction-list" id="transaction-list">
+                        <!-- Populated dynamically -->
+                    </div>
+
+                    <!-- Doodle Report Section -->
+                    <div class="doodle-chart-box" id="doodle-chart-box" style="display: none;">
+                        <div class="doodle-chart-title">Resumo por Categoria</div>
+                        <div class="doodle-bars-container" id="doodle-bars-container">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Red Dot Notification Badge -->
+                <div class="doubts-notification-badge" id="doubts-notification-badge" style="display: none;">
+                    <div class="doubts-red-dot"></div>
+                    <span class="doubts-text" id="doubts-badge-text">Tenho algumas perguntas, Rosil!</span>
+                </div>
+
+                <!-- STICKER FLOATING PIGGY BANK BUTTON -->
+                <button class="btn-floating-piggy" id="btn-floating-piggy" title="Meu Cofrinho">
+                    <span class="piggy-badge" id="piggy-balance-badge">R$ 0</span>
+                    <i class="fa-solid fa-piggy-bank"></i>
+                </button>
+            </section>
+
+            <!-- SCREEN 3: AGENDA MENSAL (DÍVIDAS & RECEITAS) -->
+            <section class="slide fixed-accounts-fullscreen-panel" id="modal-fixed-accounts">
+            <div class="fixed-accounts-page-content theme-soft-ruled">
+                <!-- Header Row -->
+                <div class="fixed-accounts-header">
+                    <button class="btn-back-fixed-accounts" id="btn-back-fixed-accounts" title="Voltar">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <!-- Abas de Navegação (Dívidas vs Receitas) na primeira linha -->
+                    <div class="fixed-tabs-bar">
+                        <button class="fixed-tab-btn active" id="fixed-tab-debts" data-tab="debts">
+                            <i class="fa-solid fa-thumbtack" style="color: var(--red-ink); margin-right: 4px;"></i> Dívidas Mensais
+                        </button>
+                        <button class="fixed-tab-btn" id="fixed-tab-incomes" data-tab="incomes">
+                            <i class="fa-solid fa-thumbtack" style="color: var(--blue-ink); margin-right: 4px;"></i> Receitas Mensais
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Resumo do Orçamento Fixo -->
+                <!-- Resumo do Orçamento Fixo (Card KPI Premium Adaptativo) -->
+                <div class="fixed-budget-summary-card" id="fixed-budget-summary-card">
+                    <!-- Populado dinamicamente via JS -->
+                </div>
+                
+                <!-- Carrossel de Meses Horizontal na tela de Dívidas Mensais -->
+                <div class="months-carousel-wrapper" style="margin-bottom: 15px; margin-top: 4px;">
+                    <div class="months-carousel" id="fixed-months-carousel">
+                        <!-- Populated dynamically via JS -->
+                    </div>
+                </div>
+
+                <!-- Botão de inclusão de Dívida / Receita alinhado à esquerda -->
+                <div class="fixed-add-button-row" id="fixed-add-button-row">
+                    <button class="btn-toggle-add-fixed" id="btn-toggle-add-fixed" title="Cadastrar Novo Item">
+                        <i class="fa-solid fa-plus"></i> Dívida
+                    </button>
+                </div>
+                
+                <!-- Collapsible Form for Insertion -->
+                <div class="fixed-form-collapsible" id="fixed-form-collapsible">
+                    <form id="form-fixed-account" onsubmit="return false;">
+                        <div style="display:grid; grid-template-columns: 2fr 1fr; gap: 8px; margin-bottom: 8px;">
+                            <div class="modal-field" style="margin:0;">
+                                <label for="fixed-name" id="label-fixed-name">Nome da Dívida</label>
+                                <input type="text" id="fixed-name" placeholder="Ex: Colégio José" required>
+                            </div>
+                            <div class="modal-field" style="margin:0;">
+                                <label for="fixed-value">Valor (R$)</label>
+                                <input type="number" id="fixed-value" placeholder="300" step="0.01" required>
+                            </div>
+                        </div>
+                        <div style="display:grid; grid-template-columns: 1fr 1.2fr; gap: 8px; margin-bottom: 12px;">
+                            <div class="modal-field" style="margin:0;">
+                                <label for="fixed-day" id="label-fixed-day">Dia do Vencimento</label>
+                                <input type="number" id="fixed-day" placeholder="Ex: 5" min="1" max="31" required>
+                            </div>
+                            <div class="modal-field" style="margin:0;">
+                                <label for="fixed-expiration">Válido até (Opcional)</label>
+                                <input type="month" id="fixed-expiration" style="width: 100%; box-sizing: border-box;">
+                            </div>
+                        </div>
+                        <div style="display:flex; justify-content:flex-end; gap: 8px;">
+                            <button type="button" class="btn-secondary" id="btn-cancel-fixed-account" style="padding:10px 16px; height: 38px; display:flex; align-items:center; gap:6px;">
+                                Cancelar
+                            </button>
+                            <button class="btn-primary" id="btn-save-fixed-account" style="padding:10px 16px; height: 38px; display:flex; align-items:center; gap:6px;">
+                                <i class="fa-solid fa-plus"></i> <span id="btn-save-fixed-text">Cadastrar</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- List Container -->
+                <div class="fixed-accounts-list-container" id="fixed-accounts-list-container">
+                    <span class="fixed-accounts-list-subtitle" id="fixed-list-subtitle">Minhas Dívidas Mensais</span>
+                    <div id="fixed-accounts-list" style="display:flex; flex-direction:column; gap:10px;">
+                        <!-- List of fixed accounts will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 4: ESTANTE DE CADERNOS -->
+        <section class="slide shelf-fullscreen-panel" id="screen-shelf">
+            <!-- Header -->
+            <div style="display:flex; justify-content:space-between; align-items:center; padding: 18px 20px 10px 20px; border-bottom: 1px solid rgba(0,0,0,0.06); background: var(--paper-bg); z-index:10;">
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <button id="btn-close-shelf" style="background:none; border:none; font-size:1.3rem; color: #8C6239; cursor:pointer; padding: 4px;"><i class="fa-solid fa-arrow-left"></i></button>
+                    <div>
+                        <h3 style="font-family: var(--font-title); font-weight: 700; margin:0; color: #8C6239; font-size: 1.35rem;">Minha Estante</h3>
+                        <p style="font-size:0.75rem; color:var(--text-muted); margin:2px 0 0 0; font-family: var(--font-handwriting);">Alterne entre seus cadernos ou gerencie o compartilhamento.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="shelf-page-content">
+                <!-- Grid de Cadernos -->
+                <div class="shelf-grid-container" style="flex-grow:1; overflow-y:auto; padding: 10px 0;">
+                    <div id="shelf-notebooks-grid" class="shelf-notebooks-grid">
+                        <!-- Gerado dinamicamente -->
+                    </div>
+                </div>
+
+                <!-- Criar Novo Caderno -->
+                <div class="shelf-create-box" style="margin-top: 15px; padding: 16px; border-top:1px solid rgba(0,0,0,0.06); background:rgba(140, 98, 57, 0.02); border-radius:12px;">
+                    <h4 style="font-family: var(--font-title); color: #8C6239; margin: 0 0 8px 0; font-size: 0.95rem; font-weight:700;">Novo Caderno</h4>
+                    <div style="display:flex; gap:8px;">
+                        <input type="text" id="new-notebook-name" placeholder="Ex: Finanças Casa, Empresa..." style="flex-grow:1; padding:10px 12px; border-radius:8px; border:1px solid #EAD8C0; outline:none; font-size:0.9rem; background:white;">
+                        <button class="btn-primary" id="btn-create-notebook" style="padding:10px 16px; border-radius:8px; background: #8C6239; border-color:#8C6239; color:white; font-weight:600; cursor:pointer;"><i class="fa-solid fa-plus"></i> Criar</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        </div>
+
+        <!-- Barra de Navegação Inferior Fixa -->
+        <nav class="bottom-nav-bar" id="bottom-nav-bar" style="display: none;">
+            <button class="nav-tab-btn active" data-tab="home" id="tab-home">
+                <i class="fa-solid fa-house"></i>
+                <span>Resumo</span>
+            </button>
+            <button class="nav-tab-btn" data-tab="details" id="tab-details">
+                <i class="fa-solid fa-list"></i>
+                <span>Extrato</span>
+            </button>
+            <div class="nav-tab-btn-mic-wrapper">
+                <button class="nav-mic-btn" id="btn-nav-mic" title="Falar">
+                    <i class="fa-solid fa-microphone"></i>
+                </button>
+                <span class="nav-mic-label">Falar</span>
+            </div>
+            <button class="nav-tab-btn" data-tab="mensal" id="tab-mensal">
+                <i class="fa-solid fa-calendar-days"></i>
+                <span>Mensal</span>
+            </button>
+            <button class="nav-tab-btn" data-tab="shelf" id="tab-shelf">
+                <i class="fa-solid fa-book"></i>
+                <span>Cadernos</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- 📖 CAPA DO CADERNO: TELA DE LOGIN / CADASTRO -->
+    <div class="modal-overlay welcome-cover-overlay" id="modal-welcome">
+        <div class="leather-book-cover">
+            <!-- Book Gold Line border -->
+            <div class="cover-gold-border"></div>
+            
+            <div class="cover-content">
+                <h1 class="cover-title">DigaReal</h1>
+                <div class="cover-separator"></div>
+                <p class="cover-subtitle">Seu assistente de finanças pessoal</p>
+                
+                <!-- Etiqueta de papel clássica para inputs -->
+                <div class="paper-label-container">
+                    <!-- Toggle Switch elegante para alternar entre cadastro e login -->
+                    <div class="auth-toggle-bar">
+                        <button class="auth-toggle-btn active" id="toggle-auth-register">Escrever na Capa</button>
+                        <button class="auth-toggle-btn" id="toggle-auth-login">Abrir Caderno</button>
+                    </div>
+
+                    <form id="auth-form" onsubmit="return false;">
+                        <div class="modal-field" id="field-auth-name">
+                            <label for="auth-name">Como quer ser chamado?</label>
+                            <input type="text" id="auth-name" placeholder="Seu nome (Ex: Rosil)" required>
+                        </div>
+                        
+                        <div class="modal-field">
+                            <label for="auth-contact">E-mail ou Celular</label>
+                            <input type="text" id="auth-contact" placeholder="Digite seu e-mail ou celular" required>
+                        </div>
+                        
+                        <div class="modal-field">
+                            <label for="auth-password">Senha do Caderno</label>
+                            <input type="password" id="auth-password" placeholder="Crie uma senha de acesso" required>
+                        </div>
+                        
+                        <button class="btn-primary" id="btn-auth-submit" style="width:100%; margin-top: 15px;">
+                            Começar Lançamentos
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Benefícios discretos no rodapé -->
+                <div class="cover-features-footer">
+                    <span><i class="fa-solid fa-microphone"></i> Voz</span>
+                    <span><i class="fa-solid fa-plane-slash"></i> Offline</span>
+                    <span><i class="fa-solid fa-users"></i> Família</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: FILA DE DÚVIDAS -->
+    <div class="doubts-overlay" id="doubts-panel">
+        <div class="doubts-content">
+            <div class="doubts-header">
+                <span class="doubts-title"><i class="fa-solid fa-question-circle"></i> Fila de Dúvidas</span>
+                <button class="doubts-close" id="btn-close-doubts">&times;</button>
+            </div>
+            <div class="doubts-list" id="doubts-list-container">
+                <!-- Sticky note doubt items generated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: EDIÇÃO / CRIAÇÃO DE TRANSAÇÃO -->
+    <div class="modal-overlay" id="modal-edit-transaction">
+        <div class="modal-card">
+            <h3 style="font-family: var(--font-title); font-weight: 700;" id="edit-modal-title">Editar Transação</h3>
+            
+            <div class="modal-field">
+                <label for="edit-item">Item / Origem</label>
+                <input type="text" id="edit-item" required>
+            </div>
+            
+            <div class="modal-field">
+                <label for="edit-value">Valor (R$)</label>
+                <input type="number" id="edit-value" step="0.01" required>
+            </div>
+
+            <div class="modal-field">
+                <label for="edit-type">Tipo de Transação</label>
+                <select id="edit-type">
+                    <option value="salario">Entrada: Salário</option>
+                    <option value="receita_esporadica">Entrada: Receita Esporádica</option>
+                    <option value="receita_recorrente">Entrada: Receita Recorrente</option>
+                    <option value="despesa_esporadica">Saída: Despesa Esporádica</option>
+                    <option value="despesa_recorrente">Saída: Despesa Recorrente</option>
+                </select>
+            </div>
+
+            <div class="modal-field">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <label for="edit-category">Categoria</label>
+                    <button style="background:none; border:none; color:var(--accent-color); font-size:0.75rem; cursor:pointer;" id="btn-add-category-quick">+ Nova Categoria</button>
+                </div>
+                <select id="edit-category">
+                    <!-- Populated dynamically -->
+                </select>
+            </div>
+
+            <div class="modal-field">
+                <label for="edit-date">Data da Transação</label>
+                <input type="date" id="edit-date">
+            </div>
+
+            <div class="modal-field">
+                <label for="edit-time">Horário</label>
+                <input type="time" id="edit-time">
+            </div>
+
+            <div class="modal-field">
+                <label for="edit-author">Registrado Por</label>
+                <select id="edit-author">
+                    <!-- Members list populated dynamically -->
+                </select>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn-danger" id="btn-delete-transaction" style="margin-right:auto; display:none;">Excluir</button>
+                <button class="btn-secondary" id="btn-cancel-edit">Cancelar</button>
+                <button class="btn-primary" id="btn-save-transaction">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: ADD CATEGORIA RÁPIDA -->
+    <div class="modal-overlay" id="modal-new-category" style="z-index: 210;">
+        <div class="modal-card">
+            <h3 style="font-family: var(--font-title); font-weight: 700;">Nova Categoria</h3>
+            <div class="modal-field">
+                <label for="new-category-name">Nome da Categoria</label>
+                <input type="text" id="new-category-name" placeholder="Ex: Viagem, Pets...">
+            </div>
+            <div class="modal-actions">
+                <button class="btn-secondary" id="btn-cancel-new-category">Cancelar</button>
+                <button class="btn-primary" id="btn-save-new-category">Adicionar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: EDITAR PERFIL -->
+    <div class="modal-overlay" id="modal-edit-profile" style="z-index: 210;">
+        <div class="modal-card">
+            <h3 style="font-family: var(--font-title); font-weight: 700; margin-bottom:15px; color:#8C6239;">Editar Perfil</h3>
+            
+            <form id="form-edit-profile" onsubmit="return false;">
+                <!-- Campo de Foto -->
+                <div class="profile-pic-container" style="display: flex; flex-direction: column; align-items: center; margin-bottom: 15px; gap: 8px;">
+                    <div class="profile-pic-preview-wrapper" style="width: 70px; height: 70px; border-radius: 50%; border: 1px dashed #8C6239; display: flex; justify-content: center; align-items: center; overflow: hidden; background: rgba(140, 98, 57, 0.05);">
+                        <img src="" alt="Foto do Perfil" id="profile-pic-preview" style="display:none; width:100%; height:100%; object-fit:cover;">
+                        <i class="fa-regular fa-user" id="profile-pic-placeholder" style="font-size: 2rem; color: #8C6239;"></i>
+                    </div>
+                    <label class="btn-profile-pic-upload" style="font-size: 0.75rem; font-weight:600; color: #8C6239; cursor: pointer; text-decoration: underline;">
+                        Alterar Foto
+                        <input type="file" id="profile-pic-input" accept="image/*" style="display:none;">
+                    </label>
+                </div>
+
+                <div class="modal-field">
+                    <label for="profile-name">Nome Completo</label>
+                    <input type="text" id="profile-name" placeholder="Ex: Rosil Silva">
+                </div>
+
+                <div class="modal-field">
+                    <label for="profile-birthdate">Data de Nascimento</label>
+                    <input type="date" id="profile-birthdate" style="width: 100%; box-sizing: border-box;">
+                </div>
+
+                <div class="modal-field">
+                    <label for="profile-email">E-mail (Bloqueado)</label>
+                    <input type="text" id="profile-email" readonly disabled style="background:#f3f4f6; color:#9ca3af; cursor:not-allowed; width: 100%; box-sizing: border-box;">
+                </div>
+
+                <div class="modal-field">
+                    <label for="profile-whatsapp">WhatsApp</label>
+                    <input type="text" id="profile-whatsapp" placeholder="Ex: (83) 99999-9999">
+                </div>
+
+                <div class="modal-field">
+                    <label for="profile-password">Alterar Senha do Caderno</label>
+                    <div style="position:relative; display:flex; align-items:center;">
+                        <input type="password" id="profile-password" placeholder="Digite a nova senha" style="flex-grow:1; padding-right:36px; width: 100%; box-sizing: border-box;">
+                        <button type="button" id="btn-toggle-profile-pass" style="position:absolute; right:10px; background:none; border:none; color:var(--text-muted); cursor:pointer; padding: 4px;">
+                            <i class="fa-regular fa-eye-slash"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:20px;">
+                    <button type="button" class="btn-secondary" id="btn-cancel-profile">Cancelar</button>
+                    <button class="btn-primary" id="btn-save-profile" style="background:#8C6239; border-color:#8C6239; color:white;">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL POPUP: COMPARTILHAR CADERNO (Estilo Google Docs) -->
+    <div class="modal-overlay" id="modal-sharing-settings" style="z-index: 220;">
+        <div class="modal-card sharing-card-docs">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+                <div>
+                    <h3 style="font-family: var(--font-title); font-weight: 700; margin:0; color: #8C6239; font-size:1.25rem;" id="sharing-notebook-title">Compartilhar Acesso</h3>
+                    <p style="font-size:0.78rem; color:var(--text-muted); margin:4px 0 0 0;">Insira o e-mail ou celular do convidado (estilo Google Docs).</p>
+                </div>
+                <button id="btn-close-sharing" style="background:none; border:none; font-size:1.6rem; color: #8C6239; cursor:pointer; padding: 0 4px; line-height:1;">&times;</button>
+            </div>
+
+            <!-- Adicionar Nova Pessoa -->
+            <div class="modal-field" style="margin-bottom: 15px;">
+                <label style="color: #8C6239; font-size: 0.82rem; font-weight: 600;">Convidar Nova Pessoa</label>
+                <div style="display:flex; flex-direction:column; gap:8px;">
+                    <input type="text" id="share-guest-contact" placeholder="E-mail ou Celular do Convidado" style="padding: 10px; border-radius: 8px; border: 1px solid #EAD8C0; font-size: 0.9rem; outline:none; background:white;">
+                    <div style="display:flex; gap:8px;">
+                        <input type="text" id="share-guest-role" placeholder="Papel (Ex: Cônjuge, Sócio)" style="flex-grow:1; padding: 10px; border-radius: 8px; border: 1px solid #EAD8C0; font-size: 0.9rem; outline:none; background:white;">
+                        <button class="btn-primary" id="btn-add-share-access" style="background: #8C6239; border-color:#8C6239; color:white; font-weight:600; padding: 10px 16px; border-radius: 8px; cursor:pointer;">Adicionar Acesso</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pessoas com Acesso -->
+            <div class="modal-field">
+                <label style="color: #8C6239; font-size: 0.82rem; font-weight: 600; display:block; margin-bottom: 6px;">Pessoas com Acesso</label>
+                <div id="sharing-members-list-docs" style="display:flex; flex-direction:column; gap:8px; max-height: 180px; overflow-y:auto; padding-right:4px;">
+                    <!-- Membros e Convites pendentes preenchidos por JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: COFRINHO -->
+    <div class="modal-overlay" id="modal-cofrinho" style="z-index: 200;">
+        <div class="modal-card cofrinho-card" style="background: #FCFAF7; border: 2px solid #EAD8C0; max-width: 400px; width: 92%; display: flex; flex-direction: column; max-height: 85vh; overflow-y: auto; box-sizing: border-box;">
+            
+            <!-- VISTA 1: LISTA DE COFRINHOS -->
+            <div id="cofrinho-list-view" style="display: block; width: 100%;">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:15px;">
+                    <div>
+                        <h3 style="font-family: var(--font-title); font-weight: 700; margin:0; color: #8C6239; font-size: 1.35rem;">Meus Cofrinhos</h3>
+                        <p style="font-size: 0.8rem; color: #A08060; margin: 4px 0 0 0; font-family: var(--font-handwriting);">Organize seus objetivos e acompanhe cada conquista.</p>
+                    </div>
+                    <button id="btn-close-cofrinho" style="background:none; border:none; font-size:1.6rem; color: #8C6239; cursor:pointer; line-height: 1; padding: 0 4px;">&times;</button>
+                </div>
+
+                <!-- Lista de cofrinhos com scroll -->
+                <div id="cofrinhos-list-container" style="max-height: 48vh; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px; padding-right: 4px;">
+                    <!-- Preenchido dinamicamente via JS -->
+                </div>
+
+                <!-- Botão Criar Novo Cofrinho -->
+                <button class="btn-new-cofrinho" id="btn-new-cofrinho">
+                    <span class="plus-circle"><i class="fa-solid fa-plus"></i></span>
+                    <span>Novo cofrinho</span>
+                </button>
+            </div>
+
+            <!-- VISTA 2: FORMULÁRIO (CRIAR/EDITAR) -->
+            <div id="cofrinho-form-view" style="display: none; width: 100%;">
+                <div style="display:flex; align-items:center; gap: 10px; margin-bottom:15px;">
+                    <button id="btn-cancel-cofrinho" style="background:none; border:none; font-size:1.1rem; color: #8C6239; cursor:pointer; padding: 4px;"><i class="fa-solid fa-arrow-left"></i></button>
+                    <h3 id="cofrinho-form-title" style="font-family: var(--font-title); font-weight: 700; margin:0; color: #8C6239; font-size: 1.25rem;">Novo cofrinho</h3>
+                </div>
+
+                <div class="modal-field" style="margin-bottom: 12px;">
+                    <label style="color: #8C6239; font-size: 0.85rem; font-weight: 600;">Objetivo / Nome do Cofrinho</label>
+                    <input type="text" id="cofrinho-form-name" placeholder="Ex: Viagem Férias 2026" style="border: 1px solid #EAD8C0; padding: 10px; border-radius: 8px; font-size: 0.95rem; width: 100%; box-sizing: border-box; outline: none; background: white;">
+                </div>
+
+                <div class="modal-field" style="margin-bottom: 15px;">
+                    <label style="color: #8C6239; font-size: 0.85rem; font-weight: 600;">Meta (R$)</label>
+                    <input type="number" id="cofrinho-form-target" placeholder="Ex: 5000" style="border: 1px solid #EAD8C0; padding: 10px; border-radius: 8px; font-size: 0.95rem; width: 100%; box-sizing: border-box; outline: none; background: white;">
+                </div>
+
+                <div class="modal-field" style="margin-bottom: 20px;">
+                    <label style="color: #8C6239; font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 8px;">Escolha o Ícone</label>
+                    <div class="icon-picker-grid" id="cofrinho-form-icons">
+                        <button type="button" class="icon-picker-btn active" data-icon="piggy" style="background-color: #fdf2f8; color: #db2777; border-color: #db2777;" title="Porquinho"><i class="fa-solid fa-piggy-bank"></i></button>
+                        <button type="button" class="icon-picker-btn" data-icon="plane" style="background-color: #ffe4e6; color: #f43f5e;" title="Férias"><i class="fa-solid fa-plane"></i></button>
+                        <button type="button" class="icon-picker-btn" data-icon="child" style="background-color: #e0f2fe; color: #0284c7;" title="Filhos"><i class="fa-solid fa-child"></i></button>
+                        <button type="button" class="icon-picker-btn" data-icon="shield" style="background-color: #dcfce7; color: #15803d;" title="Emergência"><i class="fa-solid fa-shield-halved"></i></button>
+                        <button type="button" class="icon-picker-btn" data-icon="home" style="background-color: #ffedd5; color: #ea580c;" title="Reforma"><i class="fa-solid fa-house"></i></button>
+                        <button type="button" class="icon-picker-btn" data-icon="gift" style="background-color: #f3e8ff; color: #9333ea;" title="Presente"><i class="fa-solid fa-gift"></i></button>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn-primary" id="btn-save-cofrinho" style="flex: 1; background: #8C6239; border-color: #8C6239; color: white; padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none;">Salvar</button>
+                </div>
+            </div>
+
+            <!-- VISTA 3: DETALHES DO COFRINHO -->
+            <div id="cofrinho-detail-view" style="display: none; width: 100%;">
+                <div style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <button id="btn-back-to-list" style="background:none; border:none; font-size:1.1rem; color: #8C6239; cursor:pointer; padding: 4px;"><i class="fa-solid fa-arrow-left"></i></button>
+                    <!-- Large icon display centered in detail -->
+                    <div id="cofrinho-detail-icon-container" class="cofrinho-detail-icon-circle">
+                        <i class="fa-solid fa-plane"></i>
+                    </div>
+                    <button id="btn-delete-cofrinho" style="background:none; border:none; font-size:1.1rem; color: #d32f2f; cursor:pointer; padding: 4px;" title="Excluir Cofrinho"><i class="fa-solid fa-trash"></i></button>
+                </div>
+
+                <!-- Info Header -->
+                <div style="text-align: center; margin-bottom: 15px;">
+                    <h3 id="cofrinho-detail-name" style="font-family: var(--font-title); font-weight: 700; margin: 0; color: #333; font-size: 1.4rem;">Férias 2026</h3>
+                    <div style="display: inline-flex; align-items: center; gap: 6px; margin-top: 4px;">
+                        <span id="cofrinho-detail-meta" style="font-size: 0.88rem; color: #666; font-weight: 500;">Meta: R$ 5.000,00</span>
+                        <button id="btn-edit-cofrinho-meta" style="background:none; border:none; color:#8c6239; cursor:pointer; font-size: 0.8rem; padding: 2px;" title="Editar Meta"><i class="fa-solid fa-pencil"></i></button>
+                    </div>
+                </div>
+
+                <!-- Card de Saldo e Progresso -->
+                <div class="cofrinho-detail-balance-card" style="margin-bottom: 15px;">
+                    <span style="font-size: 0.72rem; color: #8c7355; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px;">Saldo acumulado</span>
+                    <strong id="cofrinho-detail-balance-val" style="font-size: 1.8rem; font-family: var(--font-title); font-weight: 700; display: block; margin: 2px 0 10px 0;">R$ 2.450,00</strong>
+                    
+                    <!-- Doodle progress bar -->
+                    <div class="doodle-progress-bar-wrapper" id="cofrinho-detail-progress-wrapper" style="height: 12px; margin-bottom: 8px;">
+                        <div class="doodle-progress-bar-fill" id="cofrinho-detail-progress-fill" style="width: 49%; background-color: #f43f5e;"></div>
+                        <span class="doodle-progress-bar-pct" id="cofrinho-detail-progress-pct" style="font-size: 0.65rem; line-height: 12px;">49%</span>
+                    </div>
+
+                    <!-- Progresso text footers -->
+                    <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: #8c7355;">
+                        <span id="cofrinho-detail-progress-desc">49% da meta</span>
+                        <span id="cofrinho-detail-remaining-desc">Faltam R$ 2.550,00</span>
+                    </div>
+                </div>
+
+                <!-- Histórico -->
+                <div style="display:flex; flex-direction:column; gap:4px; margin-bottom: 15px;">
+                    <span style="font-size:0.75rem; font-weight:700; color:#8c7355; text-transform:uppercase;">Histórico</span>
+                    <div id="cofrinho-detail-history-list" style="display:flex; flex-direction:column; gap:5px; max-height: 125px; overflow-y: auto;">
+                        <!-- Operações do cofrinho preenchidas por JS -->
+                    </div>
+                    <button id="btn-toggle-detail-history" style="background: none; border: none; color: #8c6239; cursor: pointer; font-size: 0.8rem; font-weight: 600; margin: 4px auto 0 auto; display: flex; align-items: center; gap: 4px;">
+                        <span>Ver tudo</span> <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                </div>
+
+                <!-- Bloco de Guardar/Resgatar -->
+                <div class="cofrinho-detail-action-box">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <span id="cofrinho-action-box-title" style="font-size:0.85rem; font-weight:700; color:#8c6239;">Guardar dinheiro</span>
+                        <button id="btn-close-cofrinho-detail" style="background:none; border:none; font-size:1.2rem; color: #8c6239; cursor:pointer; padding: 0 4px;">&times;</button>
+                    </div>
+
+                    <!-- Input Grande de Valor -->
+                    <div style="text-align: center; margin-bottom: 12px; position: relative;">
+                        <input type="text" id="cofrinho-detail-amount-input" value="R$ 0,00" inputmode="numeric" style="font-family: var(--font-title); font-size: 1.8rem; font-weight: 700; color: #f43f5e; border: none; background: transparent; text-align: center; width: 100%; outline: none; padding: 4px 0;">
+                    </div>
+
+                    <!-- Chips de Valores Rápidos -->
+                    <div style="display: flex; justify-content: center; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+                        <button class="cofrinho-chip-btn" data-value="50">+ R$ 50</button>
+                        <button class="cofrinho-chip-btn" data-value="100">+ R$ 100</button>
+                        <button class="cofrinho-chip-btn" data-value="200">+ R$ 200</button>
+                        <button class="cofrinho-chip-btn" id="btn-chip-outro" data-value="outro">Outro</button>
+                    </div>
+
+                    <!-- Caixa de Dica de Voz -->
+                    <div class="cofrinho-voice-tip" style="margin-bottom: 12px;">
+                        <i class="fa-solid fa-microphone" style="font-size: 0.85rem; color: #f43f5e; margin-right: 6px;"></i>
+                        <span id="cofrinho-voice-tip-text">Você também pode falar: "Guardar 50 reais no cofrinho férias"</span>
+                    </div>
+
+                    <!-- Ações -->
+                    <div style="display:grid; grid-template-columns: 1.2fr 1fr; gap: 10px;">
+                        <button class="btn-cofrinho-deposit" id="btn-detail-deposit" style="background: #f43f5e; color: white;">
+                            Guardar agora
+                        </button>
+                        <button class="btn-cofrinho-withdraw" id="btn-detail-withdraw" style="background: #fff0f3; color: #f43f5e; border-color: #fbcfe8;">
+                            Resgatar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: HISTÓRICO DE CONVERSAS (DIÁRIO) -->
+    <div class="modal-overlay" id="modal-chat-logs">
+        <div class="modal-card" style="max-height:85vh; display:flex; flex-direction:column; background:#FAF6EE;">
+            <h3 style="font-family: var(--font-title); font-weight: 700; margin-bottom: 8px;"><i class="fa-solid fa-comments"></i> Diário de Conversas</h3>
+            <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:12px;">Histórico completo de conversas arquivadas com o assistente.</p>
+            
+            <div id="chat-logs-archive-list" style="flex-grow:1; overflow-y:auto; display:flex; flex-direction:column; gap:12px; padding:5px 0;">
+                <!-- Populated dynamically -->
+            </div>
+            
+            <div class="modal-actions" style="margin-top:12px;">
+                <button class="btn-secondary" id="btn-close-chat-logs" style="width:100%;">Fechar Diário</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 📲 BANNER DE INSTALAÇÃO PWA -->
+    <div class="pwa-install-banner" id="pwa-install-banner">
+        <div class="pwa-install-content">
+            <div class="pwa-install-icon">
+                <img src="icons/icon-192.png" alt="App Icon" style="width:42px; height:42px; border-radius:10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+            </div>
+            <div class="pwa-install-text">
+                <h4 style="font-family: var(--font-normal); font-weight:700; margin:0; font-size:0.88rem; color:#4c3724;">Instalar DigaReal</h4>
+                <p id="pwa-install-instructions" style="margin:2px 0 0 0; font-size:0.72rem; color:var(--text-muted); line-height:1.25;"></p>
+            </div>
+            <div class="pwa-install-actions">
+                <button class="btn-primary" id="btn-pwa-install" style="background:#8C6239; border-color:#8C6239; color:white; font-size:0.75rem; padding:6px 12px; border-radius:6px; font-weight:600; cursor:pointer;">Instalar</button>
+                <button id="btn-pwa-close" style="background:none; border:none; font-size:1.2rem; color:var(--text-muted); cursor:pointer; padding: 4px 8px;">&times;</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS files -->
+    <script src="js/storage-v22.js"></script>
+    <script src="js/parser-v22.js"></script>
+    <script src="js/speech-v22.js"></script>
+    <script src="js/app-v25.js"></script>
+</body>
+</html>

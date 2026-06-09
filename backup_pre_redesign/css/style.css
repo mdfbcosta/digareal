@@ -1,0 +1,2372 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Kalam:wght@300;400;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
+
+:root {
+    --bg-color: #f7f4ee;
+    --paper-bg: #fcfbfa;
+    --text-primary: #2d3748;
+    --text-muted: #718096;
+    --line-color: #cbd5e1;
+    --margin-color: #f43f5e;
+    --blue-ink: #1e40af;
+    --red-ink: #b91c1c;
+    --accent-color: #3b82f6;
+    --font-handwriting: 'Kalam', cursive;
+    --font-normal: 'Inter', sans-serif;
+    --font-title: 'Lora', serif;
+    --shadow-notebook: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html {
+    height: 100%;
+    height: -webkit-fill-available;
+    overflow: hidden;
+}
+
+body {
+    font-family: var(--font-normal);
+    background: radial-gradient(circle, #25262e 0%, #0f1013 100%); /* Fundo escuro radial elegante para destacar o frame do celular */
+    color: var(--text-primary);
+    overflow: hidden; /* Evita rolagem da página inteira no celular */
+    height: 100%;
+    height: 100dvh; /* Altura exata da área visível */
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* App container */
+#app {
+    width: 100%;
+    height: 100%;
+    max-width: 480px; /* Mobile look on desktop */
+    background: var(--paper-bg);
+    box-shadow: var(--shadow-notebook);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border-radius: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 480px) {
+    #app {
+        border-radius: 0;
+        border: none;
+        height: 100%;
+        height: 100dvh; /* Força o app a ocupar exatamente a área visível do celular */
+    }
+}
+
+/* Swipe Navigation System */
+.slide-container {
+    display: flex;
+    width: 200%;
+    height: 100%;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.slide {
+    width: 50%;
+    height: 100%;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden; /* Evita que espirais e outros elementos vazem para outros slides */
+}
+
+/* Marca d'água em relevo sutil cunhada no papel */
+.slide::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240"><g transform="scale(1.5)"><g stroke="%23ffffff" stroke-width="0.6" stroke-opacity="0.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 21 h10 v6 a3 3 0 0 1-3 3 h-4 a3 3 0 0 1-3-3 z M31 23 h1.5 a1.5 1.5 0 0 1 1.5 1.5 v0 a1.5 1.5 0 0 1-1.5 1.5 h-1.5 M23 16 v2 M26 15 v3 M29 16 v2"/><path d="M96 21 h4 l3 10 h11 l2-7 h-15"/><circle cx="104" cy="34" r="1.5"/><circle cx="111" cy="34" r="1.5"/><circle cx="36" cy="101" r="7"/><path d="M36 97 v8 M34 99.5 h4 a1 1 0 0 0 0-2 h-2 a1 1 0 0 1 0-2 h4"/><rect x="111" y="86" width="18" height="12" rx="2"/><line x1="111" y1="90" x2="129" y2="90"/><ellipse cx="71" cy="61" rx="8" ry="6"/><path d="M79 59.5 h2.5 v3 h-2.5 M72 55.5 l-1.5-2.5 l-1.5 2.5 M67 67 v2.5 M73 67 v2.5 M63 61 q-2 0-1.5-2"/><path d="M131 126 l5-4.5 l5 4.5 M132.5 126 v7.5 h7 v-7.5"/></g><g stroke="%23000000" stroke-width="0.6" stroke-opacity="0.16" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20 h10 v6 a3 3 0 0 1-3 3 h-4 a3 3 0 0 1-3-3 z M30 22 h1.5 a1.5 1.5 0 0 1 1.5 1.5 v0 a1.5 1.5 0 0 1-1.5 1.5 h-1.5 M22 15 v2 M25 14 v3 M28 15 v2"/><path d="M95 20 h4 l3 10 h11 l2-7 h-15"/><circle cx="103" cy="33" r="1.5"/><circle cx="110" cy="33" r="1.5"/><circle cx="35" cy="100" r="7"/><path d="M35 96 v8 M33 98.5 h4 a1 1 0 0 0 0-2 h-2 a1 1 0 0 1 0-2 h4"/><rect x="110" y="85" width="18" height="12" rx="2"/><line x1="110" y1="89" x2="128" y2="89"/><ellipse cx="70" cy="60" rx="8" ry="6"/><path d="M78 58.5 h2.5 v3 h-2.5 M71 54.5 l-1.5-2.5 l-1.5 2.5 M66 66 v2.5 M72 66 v2.5 M62 60 q-2 0-1.5-2"/><path d="M130 125 l5-4.5 l5 4.5 M131.5 125 v7.5 h7 v-7.5"/></g></g></svg>');
+    background-repeat: repeat;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Screen 1: Home (Super Minimalist) */
+#screen-home {
+    background-color: #FAF6EE;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 24px;
+    position: relative;
+}
+
+/* Home Minimalist Container */
+.home-center-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    text-align: center;
+    width: 100%;
+}
+
+.home-mic-wrapper {
+    position: relative;
+    width: 135px;
+    height: 135px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.home-mic-pulse-ring {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: rgba(217, 119, 6, 0.12); /* Subtle Gold/Amber glow */
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.listening .home-mic-pulse-ring, .glowing .home-mic-pulse-ring {
+    animation: goldPulse 2s infinite ease-in-out;
+    opacity: 1;
+}
+
+.home-mic-btn {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.02);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-primary);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    z-index: 2;
+    font-size: 1.85rem; /* Aumentado em 50% */
+}
+
+.home-mic-btn:active {
+    transform: scale(0.95);
+}
+
+.listening .home-mic-btn {
+    background: var(--margin-color);
+    color: white;
+    box-shadow: 0 0 15px rgba(244, 63, 94, 0.3);
+    border-color: transparent;
+}
+
+/* Home Alert Red Dot */
+.home-alert-dot {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: var(--margin-color);
+    border: 2px solid #FAF6EE;
+    z-index: 10;
+    cursor: pointer;
+    display: none; /* Shown dynamically in JS */
+}
+
+.home-alert-dot::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 50%;
+    border: 2px solid var(--margin-color);
+    opacity: 0.8;
+    animation: homeDotRipple 1.6s infinite ease-out;
+}
+
+/* Home Typography */
+.home-instruction-text {
+    font-size: 1.35rem; /* Proporção ideal conforme a imagem do usuário */
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-top: 12px;
+    line-height: 1.3;
+}
+
+.home-examples-box {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.home-example-line {
+    font-size: 0.9rem; /* Proporção ideal conforme a imagem do usuário */
+    font-weight: 400;
+    line-height: 1.4;
+}
+
+.home-example-line.income {
+    color: var(--blue-ink);
+}
+
+.home-example-line.expense {
+    color: var(--red-ink);
+}
+
+/* Seta ">" centralizada verticalmente na borda direita */
+.swipe-arrow-right {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.85rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    opacity: 0.6;
+    animation: horizontalNudgeRight 2s infinite ease-in-out;
+    z-index: 10;
+}
+
+.swipe-arrow-right i {
+    display: block;
+}
+
+/* 💬 Chat Overlay/Screen Container */
+.chat-screen-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #FAF6EE;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.chat-screen-overlay.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.chat-header {
+    padding: 16px 20px;
+    border-bottom: 1px dashed var(--line-color);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(250, 246, 238, 0.9);
+}
+
+.btn-close-chat {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    color: var(--text-muted);
+    padding: 4px;
+}
+
+.chat-header-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.chat-messages-container {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.chat-bubble {
+    max-width: 80%;
+    padding: 10px 14px;
+    font-size: 0.88rem;
+    line-height: 1.35;
+    position: relative;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+}
+
+.chat-bubble.user-bubble {
+    align-self: flex-end;
+    background-color: #E6EEF8;
+    border: 1px solid #C5D7F0;
+    color: var(--blue-ink);
+    border-radius: 12px 12px 2px 12px;
+}
+
+.chat-bubble.app-bubble {
+    align-self: flex-start;
+    background-color: white;
+    border: 1px dashed var(--line-color);
+    color: var(--text-primary);
+    border-radius: 12px 12px 12px 2px;
+    font-family: var(--font-handwriting);
+    font-size: 0.98rem;
+}
+
+/* Chat Input Bar */
+.chat-input-bar {
+    padding: 12px 16px;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px)); /* Espaçamento para evitar corte em aparelhos sem borda física */
+    border-top: 1px dashed var(--line-color);
+    background: white;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.chat-input-field {
+    flex-grow: 1;
+    padding: 12px 16px;
+    border-radius: 24px;
+    border: 1px solid rgba(0,0,0,0.08);
+    outline: none;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    background: #FAF6EE;
+}
+
+.chat-input-field:focus {
+    border-color: var(--accent-color);
+}
+
+.chat-action-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: none;
+    background: #FAF6EE;
+    color: var(--text-primary);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.2s, color 0.2s;
+    font-size: 1.05rem;
+}
+
+.chat-action-btn:hover {
+    background-color: #f1f5f9;
+}
+
+.chat-action-btn.active-mic {
+    background-color: var(--margin-color);
+    color: white;
+}
+
+/* Keyframes for Gold Pulse and Arrow nudge */
+@keyframes goldPulse {
+    0% { transform: scale(0.95); opacity: 0.7; }
+    50% { transform: scale(1.3); opacity: 0.2; }
+    100% { transform: scale(1.6); opacity: 0; }
+}
+
+@keyframes homeDotRipple {
+    0% { transform: scale(0.9); opacity: 0.8; }
+    100% { transform: scale(2.4); opacity: 0; }
+}
+
+@keyframes horizontalNudgeRight {
+    0%, 100% { transform: translateY(-50%) translateX(0); }
+    50% { transform: translateY(-50%) translateX(6px); }
+}
+
+/* Screen 2: Notebook Details */
+#screen-details {
+    background-color: var(--paper-bg);
+}
+
+/* 📖 Capa de Couro / Papel Premium do Caderno */
+.welcome-cover-overlay {
+    background: radial-gradient(circle, #2e303d 0%, #121317 100%) !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 1000;
+}
+
+.leather-book-cover {
+    width: 100%;
+    height: 100%;
+    max-width: 420px;
+    background: linear-gradient(135deg, #1e2029 0%, #15161c 100%);
+    box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.6), 0 15px 35px rgba(0, 0, 0, 0.5);
+    border-radius: 12px;
+    border: 3px solid #1a1b24;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 30px 24px;
+    overflow-y: auto;
+}
+
+.cover-gold-border {
+    position: absolute;
+    top: 12px;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    border: 1px solid rgba(197, 160, 89, 0.35); /* Linha dourada discreta na capa */
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+.cover-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
+}
+
+.cover-title {
+    font-family: var(--font-title);
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #e5c17d; /* Foil gold emboss */
+    text-shadow: 0px 2px 4px rgba(0,0,0,0.4);
+    margin-top: 20px;
+    letter-spacing: 0.5px;
+}
+
+.cover-separator {
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(to right, transparent, #e5c17d, transparent);
+    margin: 12px 0;
+}
+
+.cover-subtitle {
+    font-size: 0.82rem;
+    color: #94a3b8;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.paper-label-container {
+    background: #FAF6EE;
+    width: 100%;
+    border-radius: 8px;
+    padding: 20px 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3), inset 0 0 10px rgba(0,0,0,0.05);
+    border: 1px solid #e2d8c9;
+    margin-bottom: auto;
+    position: relative;
+}
+
+/* Ruído sutil da etiqueta */
+.paper-label-container::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.45' numOctaves='1' result='noise'/><feColorMatrix type='matrix' values='0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.04 0'/></filter><rect width='100' height='100' filter='url(%23n)'/></svg>");
+    pointer-events: none;
+    border-radius: 8px;
+}
+
+.auth-toggle-bar {
+    display: flex;
+    background: rgba(0,0,0,0.05);
+    padding: 3px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 3;
+}
+
+.auth-toggle-btn {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 8px 10px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-radius: 18px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.auth-toggle-btn.active {
+    background: white;
+    color: var(--text-primary);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+}
+
+.cover-features-footer {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 16px;
+    margin-top: 20px;
+}
+
+.cover-features-footer span {
+    font-size: 0.78rem;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.cover-features-footer span i {
+    color: #e5c17d;
+}
+
+/* Notebook Header / Saldos */
+.notebook-header {
+    padding: 16px 16px 10px 16px;
+    border-bottom: 2px dashed var(--line-color);
+    position: relative;
+    background: rgba(252, 251, 250, 0.8);
+    backdrop-filter: blur(4px);
+    z-index: 5;
+}
+
+.notebook-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.btn-back-home {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    position: relative;
+    z-index: 10;
+    transition: transform 0.2s, color 0.2s;
+}
+
+.btn-back-home:hover {
+    color: var(--text-primary);
+    transform: scale(1.1);
+}
+
+.btn-back-home:active {
+    transform: scale(0.95);
+}
+
+.active-notebook-title {
+    font-family: var(--font-title);
+    font-size: 1.1rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-notebook-menu {
+    background: white;
+    border: 1px solid rgba(0,0,0,0.08);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-primary);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    font-size: 1rem;
+    transition: background-color 0.2s;
+}
+
+.btn-notebook-menu:hover {
+    background-color: #f7f6f5;
+}
+
+.notebook-menu-wrapper {
+    position: relative;
+}
+
+.notebook-dropdown-menu {
+    position: absolute;
+    top: 42px;
+    right: 0;
+    background: rgba(252, 251, 250, 0.96);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    width: 200px;
+    display: none;
+    flex-direction: column;
+    padding: 6px;
+    z-index: 100;
+}
+
+.notebook-dropdown-menu.active {
+    display: flex;
+}
+
+.dropdown-item {
+    background: transparent;
+    border: none;
+    padding: 10px 12px;
+    text-align: left;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    cursor: pointer;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.15s;
+    width: 100%;
+}
+
+.dropdown-item:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+}
+
+.dropdown-item.text-danger {
+    color: var(--red-ink);
+}
+
+.dropdown-item.text-danger:hover {
+    background-color: rgba(185, 28, 28, 0.06);
+}
+
+/* Fita Unificada de Saldos */
+.compact-balance-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    border: 1px dashed var(--line-color);
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-bottom: 12px;
+}
+
+.compact-balance-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.compact-balance-item span {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 1px;
+}
+
+.compact-balance-item strong {
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.compact-balance-item.income strong { color: var(--blue-ink); }
+.compact-balance-item.expense strong { color: var(--red-ink); }
+.compact-balance-item.total strong { color: #15803d; }
+
+.compact-balance-divider {
+    width: 1px;
+    height: 20px;
+    background-color: rgba(0,0,0,0.06);
+}
+
+/* Carrossel de Meses Horizontal */
+.months-carousel-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.months-carousel {
+    flex-grow: 1;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 6px 2px;
+    scrollbar-width: none;
+}
+
+.months-carousel::-webkit-scrollbar {
+    display: none;
+}
+
+.carousel-month-item {
+    flex-shrink: 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 6px 12px;
+    transition: all 0.2s;
+    border-radius: 14px;
+}
+
+.carousel-month-item.active {
+    color: var(--blue-ink);
+    border: 1px solid var(--blue-ink);
+    background-color: rgba(30, 64, 175, 0.05);
+}
+
+.btn-toggle-filters {
+    background: transparent;
+    border: 1px solid rgba(0,0,0,0.08);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    flex-shrink: 0;
+    transition: background-color 0.2s;
+}
+
+.btn-toggle-filters:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+/* Filtros Retráteis */
+.collapsible-filters-box {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 4px;
+}
+
+.collapsible-filters-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease-out, margin-bottom 0.3s ease-out;
+}
+
+.collapsible-filters-box.active .collapsible-filters-content {
+    max-height: 120px;
+    opacity: 1;
+    margin-bottom: 8px;
+}
+
+/* Collapsible Filters Toggle Arrow */
+.collapsible-filters-toggle-row {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 4px;
+}
+
+.btn-toggle-filters-arrow {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    padding: 2px 8px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+.btn-toggle-filters-arrow:hover {
+    color: var(--red-ink);
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+/* Page Paper Themes */
+.notebook-page {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 80px;
+    position: relative;
+}
+
+/* 1. Theme: Pautada Clássica Limpa */
+.theme-ruled {
+    background-color: var(--paper-bg);
+    background-image: 
+        linear-gradient(rgba(203, 213, 225, 0.45) 1px, transparent 1px);
+    background-size: 100% 32px;
+    background-position: 0 16px;
+}
+
+/* 2. Theme: Chamex Branco Texturizado */
+.theme-chamex {
+    background-color: #FAF8F6;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'><filter id='paper'><feTurbulence type='fractalNoise' baseFrequency='0.045' numOctaves='3' result='noise'/><feColorMatrix type='matrix' values='0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.05 0'/></filter><rect width='120' height='120' filter='url(%23paper)'/></svg>");
+    background-repeat: repeat;
+}
+
+/* 3. Theme: Quadriculada (legacy) */
+.theme-squared {
+    background-color: var(--paper-bg);
+    background-image: 
+        linear-gradient(rgba(203, 213, 225, 0.4) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(203, 213, 225, 0.4) 1px, transparent 1px);
+    background-size: 24px 24px;
+}
+
+/* 4. Theme: Pontilhada (legacy) */
+.theme-dotted {
+    background-color: var(--paper-bg);
+    background-image: radial-gradient(rgba(203, 213, 225, 0.6) 1px, transparent 1px);
+    background-size: 24px 24px;
+}
+
+/* Handwriting styles override */
+.handwriting-mode {
+    font-family: var(--font-handwriting) !important;
+}
+
+.handwriting-mode input, 
+.handwriting-mode button, 
+.handwriting-mode select,
+.handwriting-mode textarea {
+    font-family: var(--font-handwriting) !important;
+}
+
+/* Transaction List Elements */
+.transaction-list {
+    position: relative;
+    z-index: 2;
+    padding-top: 10px;
+}
+
+/* Extrato Estilo Banco do Brasil */
+.day-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-title);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin: 24px 0 14px 0;
+    text-transform: capitalize;
+}
+
+.day-divider::before,
+.day-divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1.5px dashed var(--line-color);
+}
+
+.day-divider::before {
+    margin-right: 12px;
+}
+
+.day-divider::after {
+    margin-left: 12px;
+}
+
+.day-divider-text {
+    background-color: var(--paper-bg);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+    padding: 4px 12px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-primary);
+}
+
+.transaction-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+    transition: background-color 0.1s ease;
+}
+
+.transaction-item:hover {
+    background-color: rgba(59, 130, 246, 0.02);
+}
+
+.item-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    overflow: hidden;
+    padding-left: 0;
+}
+
+.item-title {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.item-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+}
+
+.item-time {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+}
+
+.item-category {
+    font-size: 0.68rem;
+    padding: 1px 6px;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.04);
+    color: var(--text-muted);
+}
+
+.item-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-right: 0;
+}
+
+.item-value {
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.item-chevron {
+    font-size: 0.8rem;
+    color: #cbd5e1;
+    margin-left: 2px;
+}
+
+.transaction-item.income-item .item-value {
+    color: var(--blue-ink);
+}
+
+.transaction-item.expense-item .item-value {
+    color: var(--red-ink);
+}
+
+/* Red Dot Doubts Notification */
+.doubts-notification-badge {
+    display: none !important;
+}
+
+.doubts-notification-badge:hover {
+    transform: scale(1.05);
+}
+
+.doubts-red-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--margin-color);
+    position: relative;
+}
+
+.doubts-red-dot::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: var(--margin-color);
+    animation: ripple 1.5s infinite ease-out;
+}
+
+.doubts-text {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* Doubts Panel (Sticky Notes overlay) */
+.doubts-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 200;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.doubts-overlay.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.doubts-content {
+    width: 90%;
+    max-width: 380px;
+    background: #faf8f5;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    padding: 24px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.doubts-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    padding-bottom: 10px;
+}
+
+.doubts-title {
+    font-family: var(--font-title);
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.doubts-close {
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: var(--text-muted);
+}
+
+.doubts-list {
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex-grow: 1;
+    padding-bottom: 10px;
+}
+
+/* Doubt Item (Sticky Note look) */
+.doubt-item-card {
+    background: #fef08a; /* Sticky yellow */
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 2px 4px 10px rgba(0,0,0,0.05);
+    transform: rotate(-1deg);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.doubt-item-card:nth-child(even) {
+    background: #fed7aa; /* Orange sticky */
+    transform: rotate(1deg);
+}
+
+.doubt-text-question {
+    font-family: var(--font-handwriting);
+    font-size: 1.05rem;
+    color: #1e293b;
+    line-height: 1.3;
+}
+
+.doubt-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.doubt-row {
+    display: flex;
+    gap: 8px;
+}
+
+.doubt-input {
+    flex-grow: 1;
+    padding: 8px 12px;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    background: white;
+}
+
+.doubt-select {
+    padding: 8px 12px;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    background: white;
+}
+
+.doubt-submit-btn {
+    background: #1e293b;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.doubt-submit-btn:hover {
+    background: #0f172a;
+}
+
+/* Modals & Edit Popup */
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 150;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.modal-card {
+    background: white;
+    width: 90%;
+    max-width: 380px;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.modal-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.modal-field label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+}
+
+.modal-field input, .modal-field select {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    font-size: 0.9rem;
+    outline: none;
+}
+
+.modal-field input:focus, .modal-field select:focus {
+    border-color: var(--accent-color);
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.btn-secondary {
+    background: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-secondary:hover {
+    background: #f7f6f5;
+}
+
+.btn-primary {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    font-weight: 500;
+    transition: opacity 0.2s;
+}
+
+.btn-primary:hover {
+    opacity: 0.9;
+}
+
+.btn-danger {
+    background: var(--margin-color);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    font-weight: 500;
+    transition: opacity 0.2s;
+}
+
+.btn-danger:hover {
+    opacity: 0.9;
+}
+
+/* Page Indicator Dots */
+.page-indicator {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 0;
+}
+
+.indicator-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--line-color);
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+
+.indicator-dot.active {
+    background-color: var(--text-primary);
+    width: 12px;
+    border-radius: 3px;
+}
+
+/* Filters Component */
+.filter-bar {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 10px 0;
+    scrollbar-width: none;
+    margin-bottom: 8px;
+}
+
+.filter-bar::-webkit-scrollbar {
+    display: none;
+}
+
+.filter-pill {
+    flex-shrink: 0;
+    padding: 6px 14px;
+    border-radius: 15px;
+    background: rgba(0, 0, 0, 0.03);
+    border: 1px solid transparent;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filter-pill.active {
+    background: #1e293b;
+    color: white;
+}
+
+/* Search Box in details */
+.search-wrapper {
+    position: relative;
+    margin-bottom: 8px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 8px 12px;
+    padding-left: 32px;
+    border-radius: 8px;
+    border: 1px solid rgba(0,0,0,0.08);
+    font-size: 0.8rem;
+    outline: none;
+    background: white;
+}
+
+.search-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+}
+
+/* Doodle Charts */
+.doodle-chart-box {
+    margin-top: 15px;
+    border: 1px dashed var(--line-color);
+    border-radius: 8px;
+    padding: 16px;
+    background: white;
+}
+
+.doodle-chart-title {
+    font-family: var(--font-title);
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.doodle-bars-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.doodle-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.doodle-bar-label {
+    width: 80px;
+    font-size: 0.75rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.doodle-bar-track {
+    flex-grow: 1;
+    height: 14px;
+    background: transparent;
+    border: 1px dashed #9ca3af;
+    position: relative;
+    border-radius: 2px;
+}
+
+.doodle-bar-fill {
+    height: 100%;
+    background-color: #93c5fd; /* Soft Blue */
+    width: 0;
+    transition: width 0.5s ease-out;
+    border-right: 1px solid #3b82f6;
+    /* Scribble pattern look */
+    background-image: repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(59, 130, 246, 0.15) 2px, rgba(59, 130, 246, 0.15) 4px);
+}
+
+.doodle-bar-fill.expense {
+    background-color: #fca5a5; /* Soft Red */
+    border-right: 1px solid #ef4444;
+    background-image: repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(239, 68, 68, 0.15) 2px, rgba(239, 68, 68, 0.15) 4px);
+}
+
+.doodle-bar-val {
+    font-size: 0.75rem;
+    font-weight: 600;
+    width: 60px;
+    text-align: right;
+}
+
+/* Doodle Piggy Bank */
+.piggy-bank-doodle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 12px;
+    border: 1px dashed var(--line-color);
+    border-radius: 8px;
+    background: white;
+    margin-top: 12px;
+}
+
+.piggy-bank-svg {
+    width: 50px;
+    height: 50px;
+    stroke: #4b5563;
+    stroke-width: 1.5;
+    fill: none;
+    stroke-dasharray: 4;
+}
+
+.piggy-bank-text {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.piggy-bank-text strong {
+    color: var(--text-primary);
+}
+
+/* Animations */
+@keyframes pulse {
+    0% {
+        transform: scale(0.95);
+        opacity: 0.5;
+    }
+    50% {
+        transform: scale(1.15);
+        opacity: 0.2;
+    }
+    100% {
+        transform: scale(1.3);
+        opacity: 0;
+    }
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-6px); }
+    100% { transform: translateY(0px); }
+}
+
+@keyframes ripple {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(2.2); opacity: 0; }
+}
+
+/* Writing Line Anim (caneta) */
+.writing-line-anim {
+    animation: drawLine 0.5s ease-out forwards;
+    transform-origin: left;
+}
+
+@keyframes drawLine {
+    from {
+        clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
+    }
+    to {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+}
+
+/* Pencil Erasing Anim (borracha) */
+.erasing-line-anim {
+    animation: eraseLine 0.4s ease-in forwards;
+}
+
+@keyframes eraseLine {
+    0% { opacity: 1; transform: scaleY(1); }
+    50% { opacity: 0.5; transform: skewX(10deg) scaleY(0.5); }
+    100% { opacity: 0; transform: scaleY(0); display: none; }
+}
+
+/* Contas Fixas */
+.btn-open-fixed-accounts {
+    background: transparent;
+    border: 1px solid rgba(0,0,0,0.08);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    flex-shrink: 0;
+    transition: background-color 0.2s;
+}
+
+.btn-open-fixed-accounts:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+.fixed-account-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 10px;
+    padding: 10px 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    transition: all 0.2s ease;
+}
+
+.fixed-account-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
+}
+
+.fixed-acc-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.fixed-acc-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.fixed-acc-meta {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+}
+
+.fixed-acc-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-pay-fixed {
+    background: #15803d;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.btn-pay-fixed:hover {
+    background: #166534;
+}
+
+.btn-delete-fixed {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 4px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-delete-fixed:hover {
+    color: var(--red-ink);
+    background: rgba(185, 28, 28, 0.05);
+}
+
+/* Fullscreen Page: Dívidas Mensais */
+.fixed-accounts-fullscreen-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--paper-bg);
+    background-image: linear-gradient(rgba(203, 213, 225, 0.45) 1px, transparent 1px);
+    background-size: 100% 32px;
+    background-position: 0 16px;
+    z-index: 120;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+}
+
+.fixed-accounts-fullscreen-panel.active {
+    transform: translateY(0);
+}
+
+.fixed-accounts-page-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 16px;
+    overflow-y: auto;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'><g transform='scale(1.5)'><g stroke='%23000000' stroke-width='0.6' stroke-opacity='0.02' fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M20 20 h10 v6 a3 3 0 0 1-3 3 h-4 a3 3 0 0 1-3-3 z M30 22 h1.5 a1.5 1.5 0 0 1 1.5 1.5 v0 a1.5 1.5 0 0 1-1.5 1.5 h-1.5 M22 15 v2 M25 14 v3 M28 15 v2'/></g></g></svg>");
+    background-repeat: repeat;
+}
+
+.fixed-accounts-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px dashed var(--line-color);
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+    flex-shrink: 0;
+}
+.fixed-accounts-header .fixed-tabs-bar {
+    flex-grow: 1;
+    margin-bottom: 0;
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-left: 8px;
+}
+
+.btn-back-fixed-accounts {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 6px;
+    transition: transform 0.2s;
+}
+
+.btn-back-fixed-accounts:hover {
+    color: var(--text-primary);
+    transform: scale(1.1);
+}
+
+.fixed-accounts-title {
+    font-family: var(--font-title);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.btn-toggle-add-fixed {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: background-color 0.2s;
+}
+
+.btn-toggle-add-fixed:hover {
+    background-color: #f7f6f5;
+}
+
+.btn-toggle-add-fixed i {
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-toggle-add-fixed.active i {
+    transform: rotate(45deg);
+}
+
+/* Collapsible Form Animation */
+.fixed-add-button-row {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 12px;
+    flex-shrink: 0;
+}
+
+.fixed-accounts-page-content .months-carousel-wrapper {
+    flex-shrink: 0;
+}
+
+.fixed-form-collapsible {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease-out, margin-bottom 0.3s ease-out;
+    flex-shrink: 0;
+}
+
+.fixed-form-collapsible.active {
+    max-height: 500px;
+    opacity: 1;
+    margin-bottom: 16px;
+    border-bottom: 1px dashed var(--line-color);
+    padding-bottom: 12px;
+}
+
+.fixed-accounts-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.fixed-accounts-list-subtitle {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Floating Piggy Button */
+.btn-floating-piggy {
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ffccd5 0%, #ffafcc 100%); /* Pink sticker look */
+    border: 2px solid white;
+    box-shadow: 0 8px 20px rgba(255, 175, 204, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #d14d72;
+    font-size: 1.7rem;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s;
+    z-index: 90;
+    animation: float 3s ease-in-out infinite;
+}
+
+.btn-floating-piggy:hover {
+    transform: scale(1.1);
+    box-shadow: 0 10px 24px rgba(255, 175, 204, 0.5);
+}
+
+.btn-floating-piggy:active {
+    transform: scale(0.95);
+}
+
+.piggy-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: #d14d72;
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 3px 6px;
+    border-radius: 10px;
+    border: 1px solid white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    white-space: nowrap;
+}
+
+/* Modal Cofrinho Card styling */
+.cofrinho-card {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    max-width: 380px;
+    max-height: 85vh;
+}
+
+.cofrinho-balance-box {
+    background: #FFF0F3;
+    border: 1px dashed #FFCCD5;
+    border-radius: 10px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.cofrinho-balance-label {
+    font-size: 0.7rem;
+    color: #b07d8b;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+
+.cofrinho-balance-value {
+    font-size: 1.6rem;
+    color: #D14D72;
+    font-family: var(--font-title);
+    font-weight: 700;
+}
+
+.cofrinho-actions-box {
+    background: white;
+    border: 1px solid #FFCCD5;
+    border-radius: 10px;
+    padding: 12px;
+}
+
+.btn-cofrinho-deposit {
+    background: #D14D72;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.btn-cofrinho-deposit:hover {
+    background: #b5385a;
+}
+
+.btn-cofrinho-withdraw {
+    background: white;
+    color: #D14D72;
+    border: 1px solid #FFD1DC;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.btn-cofrinho-withdraw:hover {
+    background: #FFF5F7;
+    border-color: #FFCCD5;
+}
+
+/* Custom draggable cursors for cofrinho card */
+.cofrinho-card {
+    cursor: grab;
+    user-select: none;
+}
+
+.cofrinho-card.dragging {
+    cursor: grabbing !important;
+}
+
+/* Maintain normal pointer and text cursors for interactives inside cofrinho card */
+.cofrinho-card input,
+.cofrinho-card textarea {
+    cursor: text;
+    user-select: text;
+}
+
+.cofrinho-card button,
+.cofrinho-card a,
+.cofrinho-card select {
+    cursor: pointer;
+}
+
+#cofrinho-history-container,
+#cofrinho-history-list {
+    cursor: default;
+    user-select: text;
+}
+
+/* Premium Paid Badge for Dívidas Mensais */
+.paid-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #d1fae5; /* soft green */
+    color: #065f46; /* forest green */
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 1px solid #a7f3d0;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.paid-badge i {
+    font-size: 0.85rem;
+    color: #10b981; /* bright green check */
+}
+
+/* --- Phase 17 Premium Features --- */
+
+/* Saldo Livre Projetado Pencil Note */
+.projected-balance-note {
+    font-family: var(--font-handwriting), 'Comic Sans MS', cursive;
+    font-size: 0.88rem;
+    color: #52525b;
+    text-align: center;
+    margin-top: -6px;
+    margin-bottom: 12px;
+    transform: rotate(-1.2deg);
+    display: block;
+    text-shadow: 0.5px 0.5px 1px rgba(0,0,0,0.1);
+}
+.projected-balance-note strong {
+    color: var(--accent-color);
+    font-weight: 700;
+}
+
+/* Carousel Pins Container Layout */
+.carousel-pins-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+    margin-left: 8px;
+}
+.carousel-pins-container button {
+    background: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+.carousel-pins-container button:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+    transform: scale(1.08);
+}
+.carousel-pins-container button:active {
+    transform: scale(0.95);
+}
+
+/* Home Screen Red Pin Alert */
+.home-fixed-debts-alert {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 48px;
+    height: 48px;
+    background: white;
+    border: 1px solid rgba(185, 28, 28, 0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 100;
+    color: var(--red-ink);
+    font-size: 1.25rem;
+    box-shadow: 0 4px 12px rgba(185, 28, 28, 0.15);
+    transition: all 0.2s ease-in-out;
+    animation: pulse-ring-animation 2s infinite;
+}
+.home-fixed-debts-alert:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(185, 28, 28, 0.25);
+}
+.home-fixed-debts-alert-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 10px;
+    height: 10px;
+    background-color: var(--red-ink);
+    border-radius: 50%;
+    border: 1.5px solid white;
+}
+@keyframes pulse-ring-animation {
+    0% {
+        box-shadow: 0 0 0 0 rgba(185, 28, 28, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(185, 28, 28, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(185, 28, 28, 0);
+    }
+}
+
+/* Unified Agenda Mensal Tabs styling */
+.fixed-tabs-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    border-bottom: 1px dashed var(--line-color);
+    padding-bottom: 8px;
+}
+.fixed-tab-btn {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.02);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 10px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+.fixed-tab-btn.active {
+    background: white;
+    border-color: rgba(0, 0, 0, 0.1);
+    color: var(--text-primary);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+/* Red background paper theme for Fixed Debts */
+.fixed-accounts-page-content.theme-soft-red {
+    background-color: #fff8f9;
+    background-image: 
+        linear-gradient(rgba(209, 77, 114, 0.08) 1px, transparent 1px),
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'><g transform='scale(1.5)'><g stroke='%23d14d72' stroke-width='0.6' stroke-opacity='0.02' fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M20 20 h10 v6 a3 3 0 0 1-3 3 h-4 a3 3 0 0 1-3-3 z'/></g></g></svg>");
+    background-size: 100% 32px, repeat;
+    background-position: 0 16px, 0 0;
+}
+
+/* Fixed Debts Tab Specific Highlights */
+.fixed-accounts-page-content.theme-soft-red .fixed-accounts-list-subtitle {
+    color: #d14d72;
+}
+.fixed-accounts-page-content.theme-soft-red .fixed-budget-summary-card {
+    border-color: rgba(209, 77, 114, 0.15);
+}
+
+/* Teal background paper theme for Fixed Incomes */
+.fixed-accounts-page-content.theme-soft-teal {
+    background-color: #e6f4f1;
+    background-image: 
+        linear-gradient(rgba(13, 148, 136, 0.15) 1px, transparent 1px),
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'><g transform='scale(1.5)'><g stroke='%23008080' stroke-width='0.6' stroke-opacity='0.02' fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M20 20 h10 v6 a3 3 0 0 1-3 3 h-4 a3 3 0 0 1-3-3 z'/></g></g></svg>");
+    background-size: 100% 32px, repeat;
+    background-position: 0 16px, 0 0;
+}
+
+/* Fixed Incomes Tab Specific Highlights */
+.fixed-accounts-page-content.theme-soft-teal .fixed-accounts-list-subtitle {
+    color: #0d9488;
+}
+.fixed-accounts-page-content.theme-soft-teal .fixed-budget-summary-card {
+    border-color: rgba(13, 148, 136, 0.15);
+}
+
+/* Card KPI Premium Adaptativo */
+.fixed-budget-summary-card {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.02);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.fixed-budget-summary-card.theme-debts {
+    border-left: 4px solid #d14d72;
+    background: linear-gradient(135deg, #fffefe 0%, #fff5f6 100%);
+}
+
+.fixed-budget-summary-card.theme-incomes {
+    border-left: 4px solid #0d9488;
+    background: linear-gradient(135deg, #fcfefe 0%, #f0faf8 100%);
+}
+
+.kpi-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.kpi-card-title {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+}
+
+.theme-debts .kpi-card-title {
+    color: #b04b66;
+}
+
+.theme-incomes .kpi-card-title {
+    color: #0b766c;
+}
+
+.kpi-card-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.04);
+    color: var(--text-primary);
+}
+
+.theme-debts .kpi-card-badge {
+    background: rgba(209, 77, 114, 0.1);
+    color: #d14d72;
+}
+
+.theme-incomes .kpi-card-badge {
+    background: rgba(13, 148, 136, 0.1);
+    color: #0d9488;
+}
+
+.kpi-card-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 10px;
+}
+
+.kpi-main-val-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.kpi-label {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.kpi-val-big {
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    font-family: var(--font-normal);
+}
+
+/* Progress Bar */
+.kpi-progress-container {
+    margin-bottom: 12px;
+}
+
+.kpi-progress-bar {
+    height: 8px;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.theme-debts .kpi-progress-bar {
+    background: rgba(209, 77, 114, 0.08);
+}
+
+.theme-incomes .kpi-progress-bar {
+    background: rgba(13, 148, 136, 0.08);
+}
+
+.kpi-progress-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.theme-debts .kpi-progress-fill {
+    background: #d14d72;
+}
+
+.theme-incomes .kpi-progress-fill {
+    background: #0d9488;
+}
+
+/* Details row */
+.kpi-details-row {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px dashed rgba(0, 0, 0, 0.06);
+    padding-top: 10px;
+}
+
+.kpi-detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.kpi-detail-label {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+}
+
+.kpi-detail-val {
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.kpi-detail-val.pago {
+    color: #16a34a;
+}
+
+.kpi-detail-val.recebido {
+    color: #0d9488;
+}
+
+.kpi-detail-val.pendente {
+    color: #e11d48;
+}
+
+.theme-incomes .kpi-detail-val.pendente {
+    color: #d97706;
+}
+
+/* Doodle Progress Bar inside Piggy Bank */
+.doodle-progress-bar-wrapper {
+    position: relative;
+    height: 18px;
+    background: transparent;
+    border: 2px solid #D14D72;
+    border-radius: 18px 4px 15px 5px / 4px 18px 5px 15px; /* Hand-drawn scribble look */
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+}
+.doodle-progress-bar-fill {
+    height: 100%;
+    background-color: #ffccd5;
+    width: 0%;
+    transition: width 0.4s ease-out;
+    background-image: repeating-linear-gradient(45deg, #ffccd5, #ffccd5 4px, #ffafcc 4px, #ffafcc 8px);
+    border-right: 2px dashed #D14D72;
+}
+.doodle-progress-bar-pct {
+    position: absolute;
+    right: 10px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #D14D72;
+    text-shadow: 1px 1px 0 #fff;
+}
+.btn-cofrinho-meta-toggle {
+    background: transparent;
+    border: 1px dashed #D14D72;
+    color: #D14D72;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.btn-cofrinho-meta-toggle:hover {
+    background: #FFF5F7;
+}
+
+/* Overdue Accounts inside Agenda List */
+.fixed-account-item.overdue-item {
+    border: 2px dashed var(--red-ink) !important;
+    background-color: rgba(185, 28, 28, 0.02) !important;
+    position: relative;
+}
+.overdue-tag {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--red-ink);
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    background-color: rgba(185, 28, 28, 0.08);
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-top: 3px;
+    width: fit-content;
+}
+
+/* Custom value display for altered payments in Fixed Accounts */
+.val-planned-struck {
+    text-decoration: line-through;
+    text-decoration-color: var(--red-ink);
+    color: var(--text-muted);
+    margin-right: 4px;
+    opacity: 0.85;
+}
+
+.val-actual-paid {
+    font-weight: 700;
+}
+
+.val-actual-paid.val-diff-saving {
+    color: #16a34a; /* green */
+}
+
+.val-actual-paid.val-diff-spending {
+    color: #e11d48; /* red/coral */
+}
+
+.diff-badge {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.65rem;
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-weight: 700;
+    vertical-align: middle;
+    margin-left: 6px;
+}
+
+.diff-badge.val-diff-saving {
+    background-color: #dcfce7;
+    color: #15803d;
+    border: 1px solid #bbf7d0;
+}
+
+.diff-badge.val-diff-spending {
+    background-color: #ffe4e6;
+    color: #b91c1c;
+    border: 1px solid #fecdd3;
+}
+
+
+
+

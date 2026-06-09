@@ -1,0 +1,22 @@
+{
+  "name": "Minhas Contas - Diário Financeiro",
+  "short_name": "Minhas Contas",
+  "description": "Seu controle financeiro pessoal estilo folha de caderno com inserção rápida por voz.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f7f4ee",
+  "theme_color": "#f7f4ee",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
