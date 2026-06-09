@@ -94,10 +94,9 @@ body {
 #screen-home {
     background-color: #FAF6EE;
     background-image: 
-        linear-gradient(to right, transparent 51px, rgba(244, 63, 94, 0.22) 51px, rgba(244, 63, 94, 0.22) 53px, transparent 53px),
         linear-gradient(rgba(30, 64, 175, 0.04) 1.5px, transparent 1.5px);
-    background-size: 100% 100%, 100% 28px;
-    background-position: 0 0, 0 16px;
+    background-size: 100% 28px;
+    background-position: 0 16px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -186,23 +185,24 @@ body {
     width: 42px;
     height: 42px;
     border-radius: 12px; /* Squircle */
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
+    background: #FAF6EE;
+    border: 1px solid #EAD8C0;
     color: #1e3a8a;
     font-size: 1.15rem;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+    box-shadow: none;
     transition: all 0.2s ease-in-out;
     position: relative;
 }
 
 .btn-home-circle:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.04);
-    border-color: #cbd5e1;
+    background: #F5EFEB;
+    border-color: #d1b89c;
+    box-shadow: none;
 }
 
 .btn-home-circle:active {
