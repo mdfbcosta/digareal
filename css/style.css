@@ -290,7 +290,7 @@ body {
 
 .home-balance-val {
     font-family: var(--font-normal); /* Inter */
-    font-size: 1.85rem;
+    font-size: 1.48rem;
     font-weight: 700;
     color: #15803d; /* Verde padrão */
     margin-top: 4px;
@@ -319,6 +319,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 57px;
+    margin-bottom: -57px;
 }
 
 .home-mic-pulse-ring {
@@ -460,6 +462,7 @@ body {
     width: 100%;
     display: flex;
     flex-direction: column;
+    align-items: center;
     z-index: 5;
 }
 
@@ -469,7 +472,7 @@ body {
     color: #718096;
     font-style: italic;
     margin-bottom: 10px;
-    text-align: left;
+    text-align: center;
 }
 
 .home-examples-row {
@@ -478,6 +481,7 @@ body {
     overflow-x: auto;
     padding-bottom: 6px;
     width: 100%;
+    justify-content: center;
     scrollbar-width: none; /* Firefox */
 }
 
@@ -491,18 +495,13 @@ body {
     gap: 8px;
     padding: 8px 14px;
     border-radius: 20px;
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    cursor: pointer;
+    background: #FAF6EE;
+    border: 1px solid #EAD8C0;
+    cursor: default;
+    pointer-events: none;
     flex-shrink: 0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
-    transition: all 0.2s ease;
-}
-
-.btn-home-example-pill:hover {
-    border-color: #cbd5e1;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
+    box-shadow: none;
+    transition: none;
 }
 
 .btn-home-example-pill span {
@@ -520,16 +519,17 @@ body {
     justify-content: center;
     align-items: center;
     font-size: 0.72rem;
+    background: transparent;
+    border: 1.5px dashed currentColor;
+    transform: rotate(-6deg);
 }
 
 .income-pill .pill-arrow-circle {
-    background: #dbeafe; /* Azul claro */
-    color: #3b82f6;      /* Azul */
+    color: var(--blue-ink);
 }
 
 .expense-pill .pill-arrow-circle {
-    background: #fee2e2; /* Vermelho claro */
-    color: #ef4444;      /* Vermelho */
+    color: var(--red-ink);
 }
 
 /* Card de Última Movimentação na Base */

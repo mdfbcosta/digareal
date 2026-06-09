@@ -635,18 +635,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Vincular clique nas pills de exemplo da Home
-    document.querySelectorAll('.btn-home-example-pill').forEach(pill => {
-        pill.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const text = pill.getAttribute('data-text');
-            if (text) {
-                openChatOverlay();
-                sendChatText(text);
-            }
-        });
-    });
-
 
     // 5. Themes Selection
     document.querySelectorAll('.btn-theme-tab').forEach(tab => {
