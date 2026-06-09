@@ -223,8 +223,7 @@ body {
 /* Seletor de Caderno Pill */
 .home-notebook-selector-wrapper {
     display: flex;
-    justify-content: flex-start;
-    padding-left: 24px;
+    justify-content: center;
     width: 100%;
     margin-top: 20px;
     z-index: 5;
@@ -236,18 +235,18 @@ body {
     gap: 8px;
     padding: 8px 14px;
     border-radius: 24px;
-    background: #F4EAD3;
-    border: 1px solid #e7d8c2;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+    background: #FAF6EE;
+    border: 1px solid #EAD8C0;
+    box-shadow: none;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
 .btn-home-notebook-selector:hover {
     transform: scale(1.03);
-    background: #eddcb9;
-    border-color: #dcbfa2;
-    box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.12);
+    background: #F5EFEB;
+    border-color: #d1b89c;
+    box-shadow: none;
 }
 
 .btn-home-notebook-selector .icon-book-img {
@@ -448,7 +447,7 @@ body {
 }
 
 .home-voice-instruction-img {
-    width: 160px;
+    width: 208px;
     height: auto;
     mix-blend-mode: multiply; /* Mescla a imagem com o caderno off-white */
     pointer-events: none;
