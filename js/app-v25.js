@@ -689,7 +689,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!isVisible) {
                 // Popula a lista
                 homeNotebooksDropdownList.innerHTML = '';
-                const myNotebooks = storage.getUserNotebooks(storage.getCurrentUserContact());
+                const myNotebooks = storage.getNotebooks();
                 
                 myNotebooks.forEach(nb => {
                     const btn = document.createElement('button');
