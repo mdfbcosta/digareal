@@ -1235,8 +1235,21 @@ class WalletStorage {
     updateUserProfile(contact, updates) {
         if (!contact) return { success: false, message: 'Contato inválido' };
         const cleanContact = contact.toLowerCase().trim();
-        const user = this.data.users.find(u => u.contact === cleanContact);
-        if (!user) return { success: false, message: 'Usuário não encontrado' };
+        let user = this.data.users.find(u => u.contact === cleanContact);
+        
+        if (!user) {
+            // Se o usuário logou pela nuvem mas não existe localmente, cria-o agora
+            user = {
+                contact: cleanContact,
+                name: updates.name || cleanContact.split('@')[0],
+                fullName: updates.fullName || '',
+                password: '',
+                whatsapp: updates.whatsapp || '',
+                photo: updates.photo || '',
+                birthdate: updates.birthdate || ''
+            };
+            this.data.users.push(user);
+        }
         
         if (updates.name !== undefined) user.name = updates.name.trim();
         if (updates.fullName !== undefined) user.fullName = updates.fullName.trim();

@@ -48,9 +48,19 @@
                             <i class="fa-regular fa-bell"></i>
                             <span class="home-notification-badge" id="home-notification-badge" style="display: none;"></span>
                         </button>
-                        <button class="btn-home-circle" id="btn-home-profile" title="Meu Perfil">
-                            <i class="fa-regular fa-user"></i>
-                        </button>
+                        <div style="position: relative;" id="home-profile-dropdown-container">
+                            <button class="btn-home-circle" id="btn-home-profile" title="Meu Perfil">
+                                <i class="fa-regular fa-user"></i>
+                            </button>
+                            <div class="profile-dropdown-menu" id="home-profile-dropdown" style="display: none; position: absolute; top: calc(100% + 5px); right: 0; background: #fff; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); width: 170px; z-index: 1000; overflow: hidden; border: 1px solid rgba(0,0,0,0.05);">
+                                <button id="btn-home-edit-profile" style="width: 100%; display: flex; align-items: center; gap: 10px; padding: 14px 16px; border: none; background: transparent; text-align: left; cursor: pointer; color: #4a3b2c; font-size: 0.9rem; transition: background 0.2s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
+                                    <i class="fa-regular fa-user"></i> Editar Perfil
+                                </button>
+                                <button id="btn-home-logout" style="width: 100%; display: flex; align-items: center; gap: 10px; padding: 14px 16px; border: none; background: transparent; text-align: left; cursor: pointer; color: #e11d48; font-size: 0.9rem; border-top: 1px solid rgba(0,0,0,0.05); transition: background 0.2s;" onmouseover="this.style.background='#fff1f2'" onmouseout="this.style.background='transparent'">
+                                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Sair
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -1002,8 +1012,25 @@
     <script src="js/parser-v22.js"></script>
     <script src="js/speech-v22.js"></script>
     <script src="js/app-v25.js"></script>
+    <!-- PWA Install Banner -->
+    <div id="pwa-install-banner" class="pwa-premium-banner" style="display: none;">
+        <div class="pwa-banner-content">
+            <div class="pwa-icon-wrapper">
+                <i class="fa-solid fa-mobile-screen-button"></i>
+            </div>
+            <div class="pwa-text">
+                <strong>Instalar Aplicativo</strong>
+                <span>Adicione à tela inicial. Não ocupa memória!</span>
+            </div>
+            <button id="btn-pwa-install" class="pwa-install-btn">Instalar</button>
+            <button id="btn-pwa-close" class="pwa-close-btn"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+    </div>
+
 </body>
 </html>
+
+
 
 
 

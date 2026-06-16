@@ -603,11 +603,64 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Vinculos de Ação da Home (Premium Overhaul)
     const btnHomeProfile = document.getElementById('btn-home-profile');
-    if (btnHomeProfile) {
+    const homeProfileDropdown = document.getElementById('home-profile-dropdown');
+    if (btnHomeProfile && homeProfileDropdown) {
         btnHomeProfile.addEventListener('click', (e) => {
             e.stopPropagation();
+            const isVisible = homeProfileDropdown.style.display === 'block';
+            homeProfileDropdown.style.display = isVisible ? 'none' : 'block';
+        });
+
+        // Close when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!homeProfileDropdown.contains(e.target) && e.target !== btnHomeProfile && !btnHomeProfile.contains(e.target)) {
+                homeProfileDropdown.style.display = 'none';
+            }
+        });
+    }
+
+    const btnHomeEditProfile = document.getElementById('btn-home-edit-profile');
+    if (btnHomeEditProfile) {
+        btnHomeEditProfile.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (homeProfileDropdown) homeProfileDropdown.style.display = 'none';
             const modalEditProfile = document.getElementById('modal-edit-profile');
+            
+            // Popula os campos com os dados do usuário atual do localStorage
+            const contact = storage.getCurrentUserContact();
+            const profile = contact ? storage.getUserProfile(contact) : null;
+            if (profile) {
+                document.getElementById('profile-name').value = profile.fullName || '';
+                document.getElementById('profile-birthdate').value = profile.birthdate || '';
+                document.getElementById('profile-email').value = profile.contact || '';
+                document.getElementById('profile-whatsapp').value = profile.whatsapp || '';
+                document.getElementById('profile-password').value = profile.password || '';
+                
+                const profilePicPreview = document.getElementById('profile-pic-preview');
+                const profilePicPlaceholder = document.getElementById('profile-pic-placeholder');
+                if (profile.photo) {
+                    profilePicPreview.src = profile.photo;
+                    profilePicPreview.style.display = 'block';
+                    profilePicPlaceholder.style.display = 'none';
+                } else {
+                    profilePicPreview.style.display = 'none';
+                    profilePicPlaceholder.style.display = 'block';
+                }
+            }
             if (modalEditProfile) modalEditProfile.classList.add('active');
+        });
+    }
+
+    const btnHomeLogout = document.getElementById('btn-home-logout');
+    if (btnHomeLogout) {
+        btnHomeLogout.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            if (homeProfileDropdown) homeProfileDropdown.style.display = 'none';
+            if (confirm("Tem certeza que deseja sair?")) {
+                storage.logoutUser();
+                document.getElementById('modal-welcome').style.display = 'flex';
+                location.reload();
+            }
         });
     }
 
@@ -3901,6 +3954,15 @@ Instruções críticas:
     const profileBirthdate = document.getElementById('profile-birthdate');
     const profileEmail = document.getElementById('profile-email');
     const profileWhatsapp = document.getElementById('profile-whatsapp');
+    
+    // Máscara de telefone (99) 99999-9999
+    if (profileWhatsapp) {
+        profileWhatsapp.addEventListener('input', function (e) {
+            let x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
+            e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+        });
+    }
+
     const profilePassword = document.getElementById('profile-password');
     const btnToggleProfilePass = document.getElementById('btn-toggle-profile-pass');
     const profilePicInput = document.getElementById('profile-pic-input');
@@ -5090,4 +5152,7 @@ function updateStickyHeader() {
 }
 window.addEventListener('load', updateStickyHeader);
 window.addEventListener('resize', updateStickyHeader);
+
+
+
 
