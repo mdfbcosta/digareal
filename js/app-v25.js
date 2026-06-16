@@ -367,108 +367,115 @@ document.addEventListener('DOMContentLoaded', () => {
             const contactVal = authContact.value.trim().toLowerCase();
             const passwordVal = authPassword.value;
 
-            if (authMode === 'register') {
-                const nameVal = authName.value.trim();
-                if (!nameVal || !contactVal || !passwordVal) {
-                    alert('Por favor, preencha todos os campos!');
-                    return false;
-                }
-                // Desabilitar botão durante processamento
-                btnAuthSubmit.disabled = true;
-                btnAuthSubmit.innerText = 'Criando conta...';
+            try {
+                if (authMode === 'register') {
+                    const nameVal = authName.value.trim();
+                    if (!nameVal || !contactVal || !passwordVal) {
+                        alert('Por favor, preencha todos os campos!');
+                        return false;
+                    }
+                    // Desabilitar botão durante processamento
+                    btnAuthSubmit.disabled = true;
+                    btnAuthSubmit.innerText = 'Criando conta...';
 
-                const referredByTemp = localStorage.getItem('referred_by_temp') || '';
+                    const referredByTemp = localStorage.getItem('referred_by_temp') || '';
 
-                // 1) Cadastrar localmente (offline-first)
-                const localResult = storage.registerUser(nameVal, contactVal, passwordVal, referredByTemp);
-                if (!localResult.success) {
-                    alert(localResult.message || 'Erro ao realizar cadastro.');
-                    btnAuthSubmit.disabled = false;
-                    btnAuthSubmit.innerText = 'Começar Lançamentos';
-                    return false;
-                }
-
-                // 2) Cadastrar na nuvem (Supabase)
-                const cloudResult = await sync.signUp(contactVal, passwordVal, nameVal, referredByTemp);
-                if (!cloudResult.success) {
-                    // E-mail já existe no Supabase ou outro erro de nuvem
-                    // Não bloquear — funcionará offline
-                    console.warn('[Auth] Supabase signup falhou:', cloudResult.message);
-                }
-
-                // 3) Sincronizar caderno inicial para a nuvem
-                const activeNb = storage.getActiveNotebook();
-                if (activeNb && cloudResult.success) {
-                    await sync.createNotebook(activeNb);
-                }
-
-                localStorage.removeItem('referred_by_temp');
-                btnAuthSubmit.disabled = false;
-                checkLogin();
-
-            } else {
-                if (!contactVal || !passwordVal) {
-                    alert('Por favor, preencha todos os campos!');
-                    return false;
-                }
-                btnAuthSubmit.disabled = true;
-                btnAuthSubmit.innerText = 'Abrindo caderno...';
-
-                // 1) Tentar login na nuvem primeiro
-                const cloudLogin = await sync.signIn(contactVal, passwordVal);
-                if (cloudLogin.success) {
-                    // Login na nuvem OK — sincronizar para local
-                    const { data: profile } = await supabaseClient
-                        .from('profiles')
-                        .select('name, contact')
-                        .eq('id', sync.userId)
-                        .single();
-
-                    if (profile) {
-                        storage.data.currentUserContact = profile.contact;
-                        storage.setCurrentUser(profile.name);
-                        await sync.fullSyncFromCloud(storage);
-
-                        // Iniciar realtime
-                        const activeNbId = storage.getActiveNotebook()?.id;
-                        if (activeNbId) {
-                            sync.subscribeNotebook(activeNbId,
-                                (newTx) => {
-                                    const nb = storage.getActiveNotebook();
-                                    if (nb && !nb.transactions.find(t => t.id === newTx.id)) {
-                                        nb.transactions.push({
-                                            id: newTx.id, item: newTx.item,
-                                            value: parseFloat(newTx.value), type: newTx.type,
-                                            category: newTx.category || '', date: newTx.date,
-                                            time: newTx.time || '', author: newTx.author_name || ''
-                                        });
-                                        storage.save();
-                                        updateUI();
-                                    }
-                                },
-                                (txId) => {
-                                    const nb = storage.getActiveNotebook();
-                                    if (nb) { nb.transactions = nb.transactions.filter(t => t.id !== txId); storage.save(); updateUI(); }
-                                }
-                            );
-                        }
+                    // 1) Cadastrar localmente (offline-first)
+                    const localResult = storage.registerUser(nameVal, contactVal, passwordVal, referredByTemp);
+                    if (!localResult.success) {
+                        alert(localResult.message || 'Erro ao realizar cadastro.');
+                        btnAuthSubmit.disabled = false;
+                        btnAuthSubmit.innerText = 'Começar Lançamentos';
+                        return false;
                     }
 
+                    // 2) Cadastrar na nuvem (Supabase)
+                    const cloudResult = await sync.signUp(contactVal, passwordVal, nameVal, referredByTemp);
+                    if (!cloudResult.success) {
+                        // E-mail já existe no Supabase ou outro erro de nuvem
+                        // Não bloquear — funcionará offline
+                        console.warn('[Auth] Supabase signup falhou:', cloudResult.message);
+                    }
+
+                    // 3) Sincronizar caderno inicial para a nuvem
+                    const activeNb = storage.getActiveNotebook();
+                    if (activeNb && cloudResult.success) {
+                        await sync.createNotebook(activeNb);
+                    }
+
+                    localStorage.removeItem('referred_by_temp');
                     btnAuthSubmit.disabled = false;
                     checkLogin();
 
                 } else {
-                    // 2) Fallback: login local (offline)
-                    const localLogin = storage.loginUser(contactVal, passwordVal);
-                    if (localLogin.success) {
+                    if (!contactVal || !passwordVal) {
+                        alert('Por favor, preencha todos os campos!');
+                        return false;
+                    }
+                    btnAuthSubmit.disabled = true;
+                    btnAuthSubmit.innerText = 'Abrindo caderno...';
+
+                    // 1) Tentar login na nuvem primeiro
+                    const cloudLogin = await sync.signIn(contactVal, passwordVal);
+                    if (cloudLogin.success) {
+                        // Login na nuvem OK — sincronizar para local
+                        const { data: profile } = await supabaseClient
+                            .from('profiles')
+                            .select('name, contact')
+                            .eq('id', sync.userId)
+                            .single();
+
+                        if (profile) {
+                            storage.data.currentUserContact = profile.contact;
+                            storage.setCurrentUser(profile.name);
+                            await sync.fullSyncFromCloud(storage);
+
+                            // Iniciar realtime
+                            const activeNbId = storage.getActiveNotebook()?.id;
+                            if (activeNbId) {
+                                sync.subscribeNotebook(activeNbId,
+                                    (newTx) => {
+                                        const nb = storage.getActiveNotebook();
+                                        if (nb && !nb.transactions.find(t => t.id === newTx.id)) {
+                                            nb.transactions.push({
+                                                id: newTx.id, item: newTx.item,
+                                                value: parseFloat(newTx.value), type: newTx.type,
+                                                category: newTx.category || '', date: newTx.date,
+                                                time: newTx.time || '', author: newTx.author_name || ''
+                                            });
+                                            storage.save();
+                                            updateUI();
+                                        }
+                                    },
+                                    (txId) => {
+                                        const nb = storage.getActiveNotebook();
+                                        if (nb) { nb.transactions = nb.transactions.filter(t => t.id !== txId); storage.save(); updateUI(); }
+                                    }
+                                );
+                            }
+                        }
+
                         btnAuthSubmit.disabled = false;
                         checkLogin();
+
                     } else {
-                        alert('E-mail/Celular ou Senha incorretos.');
-                        btnAuthSubmit.disabled = false;
-                        btnAuthSubmit.innerText = 'Abrir Caderno';
+                        // 2) Fallback: login local (offline)
+                        const localLogin = storage.loginUser(contactVal, passwordVal);
+                        if (localLogin.success) {
+                            btnAuthSubmit.disabled = false;
+                            checkLogin();
+                        } else {
+                            alert('E-mail/Celular ou Senha incorretos.');
+                            btnAuthSubmit.disabled = false;
+                            btnAuthSubmit.innerText = 'Abrir Caderno';
+                        }
                     }
                 }
+            } catch (err) {
+                console.error("Erro inesperado no login/cadastro:", err);
+                alert("Erro de conexão com o servidor: " + err.message + "\nPor favor, verifique se a URL do Supabase está correta.");
+                btnAuthSubmit.disabled = false;
+                btnAuthSubmit.innerText = authMode === 'register' ? 'Começar Lançamentos' : 'Abrir Caderno';
             }
             return false;
         };
