@@ -163,7 +163,7 @@
                             
                             <div class="active-notebook-title">
                                 <span id="notebook-name-display">Caderno Padrão</span>
-                                <button style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size: 0.8rem; margin-left: 2px;" id="btn-switch-notebook" title="Trocar de Caderno">
+                                <button style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size: 0.8rem; margin-left: 1px;" id="btn-switch-notebook" title="Trocar de Caderno">
                                     <i class="fa-solid fa-caret-down"></i>
                                 </button>
                             </div>
@@ -221,15 +221,15 @@
                     </div>
 
                     <!-- Novo Quadro de Resumo Financeiro Premium (Compacto) -->
-                    <div class="kpi-summary-card" style="padding: 12px 20px; align-items: center;">
+                    <div class="kpi-summary-card" style="padding: 12px 10px; align-items: center;">
                         <div class="kpi-left-section" style="flex: 1; justify-content: center;">
                             <div class="kpi-mini-item">
                                 <span class="kpi-mini-label">Saldo</span>
                                 <strong class="kpi-mini-val" id="val-balance">R$ 0,00</strong>
                             </div>
                         </div>
-                        <div class="kpi-divider" style="width: 1px; height: 35px; background: rgba(0,0,0,0.06); margin: 0 10px;"></div>
-                        <div class="kpi-right-section" style="flex: 1; padding-left: 10px; border-left: none; justify-content: center; align-items: flex-end;">
+                        <div class="kpi-divider" style="width: 1px; height: 35px; background: rgba(0,0,0,0.06); margin: 0 5px;"></div>
+                        <div class="kpi-right-section" style="flex: 1; padding-left: 5px; border-left: none; justify-content: center; align-items: flex-end;">
                             <div class="kpi-mini-item expense" style="align-items: flex-end; text-align: right;">
                                 <span class="kpi-mini-label" id="agendado-label">Agendado</span>
                                 <strong class="kpi-mini-val" id="val-agendado">- R$ 0,00</strong>
@@ -245,7 +245,7 @@
                         <div class="carousel-pins-container">
                             <button class="btn-months-picker" id="btn-months-picker" title="Selecionar Mês">
                                 <i class="fa-regular fa-calendar-days" style="color: var(--text-muted); font-size: 1.15rem;"></i>
-                                <i class="fa-solid fa-chevron-down" style="color: var(--text-muted); font-size: 0.65rem; margin-left: 2px;"></i>
+                                <i class="fa-solid fa-chevron-down" style="color: var(--text-muted); font-size: 0.65rem; margin-left: 1px;"></i>
                             </button>
                             <input type="month" id="months-carousel-picker" style="position: absolute; opacity: 0; pointer-events: none; width: 0; height: 0;">
                         </div>
@@ -322,10 +322,10 @@
                     <!-- Abas de Navegação (Dívidas vs Receitas) na primeira linha -->
                     <div class="fixed-tabs-bar">
                         <button class="fixed-tab-btn active" id="fixed-tab-debts" data-tab="debts">
-                            <i class="fa-solid fa-thumbtack" style="color: var(--red-ink); margin-right: 4px;"></i> Dívidas Mensais
+                            <i class="fa-solid fa-thumbtack" style="color: var(--red-ink); margin-right: 2px;"></i> Dívidas Mensais
                         </button>
                         <button class="fixed-tab-btn" id="fixed-tab-incomes" data-tab="incomes">
-                            <i class="fa-solid fa-thumbtack" style="color: var(--blue-ink); margin-right: 4px;"></i> Receitas Mensais
+                            <i class="fa-solid fa-thumbtack" style="color: var(--blue-ink); margin-right: 2px;"></i> Receitas Mensais
                         </button>
                     </div>
                 </div>
@@ -374,10 +374,10 @@
                             </div>
                         </div>
                         <div style="display:flex; justify-content:flex-end; gap: 8px;">
-                            <button type="button" class="btn-secondary" id="btn-cancel-fixed-account" style="padding:10px 16px; height: 38px; display:flex; align-items:center; gap:6px;">
+                            <button type="button" class="btn-secondary" id="btn-cancel-fixed-account" style="padding: 10px 8px; height: 38px; display:flex; align-items:center; gap:6px;">
                                 Cancelar
                             </button>
-                            <button class="btn-primary" id="btn-save-fixed-account" style="padding:10px 16px; height: 38px; display:flex; align-items:center; gap:6px;">
+                            <button class="btn-primary" id="btn-save-fixed-account" style="padding: 10px 8px; height: 38px; display:flex; align-items:center; gap:6px;">
                                 <i class="fa-solid fa-plus"></i> <span id="btn-save-fixed-text">Cadastrar</span>
                             </button>
                         </div>
@@ -397,7 +397,7 @@
         <!-- SCREEN 4: ESTANTE DE CADERNOS -->
         <section class="slide shelf-fullscreen-panel" id="screen-shelf">
             <!-- Header -->
-            <div style="display:flex; justify-content:space-between; align-items:center; padding: 18px 20px 10px 20px; border-bottom: 1px solid rgba(0,0,0,0.06); background: var(--paper-bg); z-index:10;">
+            <div style="display:flex; justify-content:space-between; align-items:center; padding: 18px 10px 10px 10px; border-bottom: 1px solid rgba(0,0,0,0.06); background: var(--paper-bg); z-index:10;">
                 <div style="display:flex; align-items:center; gap:12px;">
                     <button id="btn-close-shelf" style="background:none; border:none; font-size:1.3rem; color: #8C6239; cursor:pointer; padding: 4px;"><i class="fa-solid fa-arrow-left"></i></button>
                     <div>
@@ -419,8 +419,8 @@
                 <div class="shelf-create-box" style="margin-top: 15px; padding: 16px; border-top:1px solid rgba(0,0,0,0.06); background:rgba(140, 98, 57, 0.02); border-radius:12px;">
                     <h4 style="font-family: var(--font-title); color: #8C6239; margin: 0 0 8px 0; font-size: 0.95rem; font-weight:700;">Novo Caderno</h4>
                     <div style="display:flex; gap:8px;">
-                        <input type="text" id="new-notebook-name" placeholder="Ex: Finanças Casa, Empresa..." style="flex-grow:1; padding:10px 12px; border-radius:8px; border:1px solid #EAD8C0; outline:none; font-size:0.9rem; background:white;">
-                        <button class="btn-primary" id="btn-create-notebook" style="padding:10px 16px; border-radius:8px; background: #8C6239; border-color:#8C6239; color:white; font-weight:600; cursor:pointer;"><i class="fa-solid fa-plus"></i> Criar</button>
+                        <input type="text" id="new-notebook-name" placeholder="Ex: Finanças Casa, Empresa..." style="flex-grow:1; padding: 10px 6px; border-radius:8px; border:1px solid #EAD8C0; outline:none; font-size:0.9rem; background:white;">
+                        <button class="btn-primary" id="btn-create-notebook" style="padding: 10px 8px; border-radius:8px; background: #8C6239; border-color:#8C6239; color:white; font-weight:600; cursor:pointer;"><i class="fa-solid fa-plus"></i> Criar</button>
                     </div>
                 </div>
             </div>
@@ -636,7 +636,7 @@
                 <div class="modal-field">
                     <label for="profile-password">Alterar Senha do Caderno</label>
                     <div style="position:relative; display:flex; align-items:center;">
-                        <input type="password" id="profile-password" placeholder="Digite a nova senha" style="flex-grow:1; padding-right:36px; width: 100%; box-sizing: border-box;">
+                        <input type="password" id="profile-password" placeholder="Digite a nova senha" style="flex-grow:1; padding-right: 18px; width: 100%; box-sizing: border-box;">
                         <button type="button" id="btn-toggle-profile-pass" style="position:absolute; right:10px; background:none; border:none; color:var(--text-muted); cursor:pointer; padding: 4px;">
                             <i class="fa-regular fa-eye-slash"></i>
                         </button>
@@ -689,7 +689,7 @@
                     <h3 style="font-family: var(--font-title); font-weight: 700; margin:0; color: #8C6239; font-size:1.25rem;" id="sharing-notebook-title">Compartilhar Acesso</h3>
                     <p style="font-size:0.78rem; color:var(--text-muted); margin:4px 0 0 0;">Insira o e-mail ou celular do convidado (estilo Google Docs).</p>
                 </div>
-                <button id="btn-close-sharing" style="background:none; border:none; font-size:1.6rem; color: #8C6239; cursor:pointer; padding: 0 4px; line-height:1;">&times;</button>
+                <button id="btn-close-sharing" style="background:none; border:none; font-size:1.6rem; color: #8C6239; cursor:pointer; padding: 0 2px; line-height:1;">&times;</button>
             </div>
 
             <!-- Adicionar Nova Pessoa -->
@@ -699,7 +699,7 @@
                     <input type="text" id="share-guest-contact" placeholder="E-mail ou Celular do Convidado" style="padding: 10px; border-radius: 8px; border: 1px solid #EAD8C0; font-size: 0.9rem; outline:none; background:white;">
                     <div style="display:flex; gap:8px;">
                         <input type="text" id="share-guest-role" placeholder="Papel (Ex: Cônjuge, Sócio)" style="flex-grow:1; padding: 10px; border-radius: 8px; border: 1px solid #EAD8C0; font-size: 0.9rem; outline:none; background:white;">
-                        <button class="btn-primary" id="btn-add-share-access" style="background: #8C6239; border-color:#8C6239; color:white; font-weight:600; padding: 10px 16px; border-radius: 8px; cursor:pointer;">Adicionar Acesso</button>
+                        <button class="btn-primary" id="btn-add-share-access" style="background: #8C6239; border-color:#8C6239; color:white; font-weight:600; padding: 10px 8px; border-radius: 8px; cursor:pointer;">Adicionar Acesso</button>
                     </div>
                 </div>
             </div>
@@ -707,7 +707,7 @@
             <!-- Pessoas com Acesso -->
             <div class="modal-field">
                 <label style="color: #8C6239; font-size: 0.82rem; font-weight: 600; display:block; margin-bottom: 6px;">Pessoas com Acesso</label>
-                <div id="sharing-members-list-docs" style="display:flex; flex-direction:column; gap:8px; max-height: 180px; overflow-y:auto; padding-right:4px;">
+                <div id="sharing-members-list-docs" style="display:flex; flex-direction:column; gap:8px; max-height: 180px; overflow-y:auto; padding-right: 2px;">
                     <!-- Membros e Convites pendentes preenchidos por JS -->
                 </div>
             </div>
@@ -725,11 +725,11 @@
                         <h3 style="font-family: var(--font-title); font-weight: 700; margin:0; color: #8C6239; font-size: 1.35rem;">Meus Cofrinhos</h3>
                         <p style="font-size: 0.8rem; color: #A08060; margin: 4px 0 0 0; font-family: var(--font-handwriting);">Organize seus objetivos e acompanhe cada conquista.</p>
                     </div>
-                    <button id="btn-close-cofrinho" style="background:none; border:none; font-size:1.6rem; color: #8C6239; cursor:pointer; line-height: 1; padding: 0 4px;">&times;</button>
+                    <button id="btn-close-cofrinho" style="background:none; border:none; font-size:1.6rem; color: #8C6239; cursor:pointer; line-height: 1; padding: 0 2px;">&times;</button>
                 </div>
 
                 <!-- Lista de cofrinhos com scroll -->
-                <div id="cofrinhos-list-container" style="max-height: 48vh; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px; padding-right: 4px;">
+                <div id="cofrinhos-list-container" style="max-height: 48vh; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px; padding-right: 2px;">
                     <!-- Preenchido dinamicamente via JS -->
                 </div>
 
@@ -827,7 +827,7 @@
                 <div class="cofrinho-detail-action-box">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                         <span id="cofrinho-action-box-title" style="font-size:0.85rem; font-weight:700; color:#8c6239;">Guardar dinheiro</span>
-                        <button id="btn-close-cofrinho-detail" style="background:none; border:none; font-size:1.2rem; color: #8c6239; cursor:pointer; padding: 0 4px;">&times;</button>
+                        <button id="btn-close-cofrinho-detail" style="background:none; border:none; font-size:1.2rem; color: #8c6239; cursor:pointer; padding: 0 2px;">&times;</button>
                     </div>
 
                     <!-- Input Grande de Valor -->
@@ -845,7 +845,7 @@
 
                     <!-- Caixa de Dica de Voz -->
                     <div class="cofrinho-voice-tip" style="margin-bottom: 12px;">
-                        <i class="fa-solid fa-microphone" style="font-size: 0.85rem; color: #f43f5e; margin-right: 6px;"></i>
+                        <i class="fa-solid fa-microphone" style="font-size: 0.85rem; color: #f43f5e; margin-right: 3px;"></i>
                         <span id="cofrinho-voice-tip-text">Você também pode falar: "Guardar 50 reais no cofrinho férias"</span>
                     </div>
 
@@ -890,18 +890,18 @@
                 <p id="pwa-install-instructions" style="margin:2px 0 0 0; font-size:0.72rem; color:var(--text-muted); line-height:1.25;"></p>
             </div>
             <div class="pwa-install-actions">
-                <button class="btn-primary" id="btn-pwa-install" style="background:#8C6239; border-color:#8C6239; color:white; font-size:0.75rem; padding:6px 12px; border-radius:6px; font-weight:600; cursor:pointer;">Instalar</button>
-                <button id="btn-pwa-close" style="background:none; border:none; font-size:1.2rem; color:var(--text-muted); cursor:pointer; padding: 4px 8px;">&times;</button>
+                <button class="btn-primary" id="btn-pwa-install" style="background:#8C6239; border-color:#8C6239; color:white; font-size:0.75rem; padding: 6px 6px; border-radius:6px; font-weight:600; cursor:pointer;">Instalar</button>
+                <button id="btn-pwa-close" style="background:none; border:none; font-size:1.2rem; color:var(--text-muted); cursor:pointer; padding: 4px 4px;">&times;</button>
             </div>
         </div>
     </div>
 
     <!-- MODAL: QR CODE PIX -->
     <div class="modal-overlay" id="modal-pix-qrcode">
-        <div class="modal-card" style="text-align:center; padding: 28px 24px;">
+        <div class="modal-card" style="text-align:center; padding: 28px 12px;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
                 <h3 style="font-family:var(--font-title); font-weight:700; color:#1a365d; margin:0; font-size:1.1rem;">
-                    <i class="fa-brands fa-pix" style="color:#32bcad; margin-right:6px;"></i> QR Code PIX
+                    <i class="fa-brands fa-pix" style="color:#32bcad; margin-right: 3px;"></i> QR Code PIX
                 </h3>
                 <button id="btn-close-pix-modal" style="background:none;border:none;font-size:1.4rem;cursor:pointer;color:#94a3b8;">&times;</button>
             </div>
@@ -958,3 +958,4 @@
     <script src="js/app-v25.js"></script>
 </body>
 </html>
+
