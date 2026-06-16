@@ -138,7 +138,7 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 16px 12px 8px 12px;
-    z-index: 5;
+    z-index: 100; position: relative;
     background: transparent;
 }
 
@@ -4683,3 +4683,4 @@ body {
 .pwa-close-btn:hover {
     color: #4a3b2c;
 }
+

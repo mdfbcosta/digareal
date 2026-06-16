@@ -674,10 +674,58 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const btnHomeNotebookSelector = document.getElementById('btn-home-notebook-selector');
-    if (btnHomeNotebookSelector) {
+    const homeNotebooksDropdown = document.getElementById('home-notebooks-dropdown');
+    const homeNotebooksDropdownList = document.getElementById('home-notebooks-dropdown-list');
+    const btnHomeCreateNotebook = document.getElementById('btn-home-create-notebook');
+
+    if (btnHomeNotebookSelector && homeNotebooksDropdown && homeNotebooksDropdownList) {
         btnHomeNotebookSelector.addEventListener('click', (e) => {
             e.stopPropagation();
-            switchTab('shelf');
+            if (homeProfileDropdown && homeProfileDropdown.style.display === 'block') {
+                homeProfileDropdown.style.display = 'none';
+            }
+            
+            const isVisible = homeNotebooksDropdown.style.display === 'block';
+            if (!isVisible) {
+                // Popula a lista
+                homeNotebooksDropdownList.innerHTML = '';
+                const myNotebooks = storage.getUserNotebooks(storage.getCurrentUserContact());
+                
+                myNotebooks.forEach(nb => {
+                    const btn = document.createElement('button');
+                    btn.style.cssText = 'width: 100%; display: flex; align-items: center; gap: 10px; padding: 12px 16px; border: none; background: transparent; text-align: left; cursor: pointer; color: #4a3b2c; font-size: 0.9rem; border-bottom: 1px solid rgba(0,0,0,0.03);';
+                    btn.innerHTML = `<img src="caderno.png" style="height: 16px; width: auto; object-fit: contain;"> <span>${nb.name}</span>`;
+                    
+                    // Hover effect
+                    btn.onmouseover = () => btn.style.background = '#f8fafc';
+                    btn.onmouseout = () => btn.style.background = 'transparent';
+                    
+                    btn.addEventListener('click', () => {
+                        storage.setActiveNotebook(nb.id);
+                        homeNotebooksDropdown.style.display = 'none';
+                        updateUI();
+                    });
+                    homeNotebooksDropdownList.appendChild(btn);
+                });
+                
+                homeNotebooksDropdown.style.display = 'block';
+            } else {
+                homeNotebooksDropdown.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!homeNotebooksDropdown.contains(e.target) && e.target !== btnHomeNotebookSelector && !btnHomeNotebookSelector.contains(e.target)) {
+                homeNotebooksDropdown.style.display = 'none';
+            }
+        });
+    }
+
+    if (btnHomeCreateNotebook) {
+        btnHomeCreateNotebook.addEventListener('click', (e) => {
+            e.stopPropagation();
+            homeNotebooksDropdown.style.display = 'none';
+            document.getElementById('modal-new-notebook').classList.add('active');
         });
     }
 
@@ -5139,6 +5187,36 @@ Instruções críticas:
                 .catch(err => console.warn('Falha ao registrar Service Worker:', err));
         });
     }
+
+    // Navegação por Swipe (Home <-> Extrato)
+    let touchstartX = 0;
+    let touchstartY = 0;
+    
+    document.addEventListener('touchstart', e => {
+        touchstartX = e.changedTouches[0].screenX;
+        touchstartY = e.changedTouches[0].screenY;
+    }, {passive: true});
+
+    document.addEventListener('touchend', e => {
+        const touchendX = e.changedTouches[0].screenX;
+        const touchendY = e.changedTouches[0].screenY;
+        
+        const diffX = touchendX - touchstartX;
+        const diffY = touchendY - touchstartY;
+        
+        // Verifica se o movimento horizontal é dominante e considerável
+        if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 60) {
+            // Se swipe para a esquerda e na home -> Extrato
+            if (diffX < -60 && activeTab === 'home') {
+                switchTab('extract');
+            }
+            // Se swipe para a direita e no extrato -> Home
+            else if (diffX > 60 && activeTab === 'extract') {
+                switchTab('home');
+            }
+        }
+    }, {passive: true});
+
 });
 
 
