@@ -387,13 +387,6 @@
                     </div>
                 </div>
 
-                <div style="padding: 18px 10px 10px 10px; border-bottom: 1px solid rgba(0,0,0,0.04); z-index:10;">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <h3 style="font-family: var(--font-title); font-weight: 700; margin:0; color: #8C6239; font-size: 1.35rem;">Meus Cofrinhos</h3>
-                        <p style="font-size: 0.8rem; color: #A08060; margin: 0; font-family: var(--font-handwriting);">Objetivos e conquistas.</p>
-                    </div>
-                </div>
-                
                 <div class="cofrinho-page-content" style="padding: 10px;">
                     <!-- VISTA 1: LISTA DE COFRINHOS -->
                     <div id="cofrinho-list-view" style="display: block; width: 100%;">
@@ -427,9 +420,9 @@
                         </div>
 
                         <div class="modal-field" style="margin-bottom: 15px;">
-                            <label style="color: #8C6239; font-size: 0.85rem; font-weight: 600;">Chave PIX do Banco (Onde o dinheiro ficará guardado)</label>
+                            <label style="color: #8C6239; font-size: 0.85rem; font-weight: 600;">Chave PIX do Banco</label>
                             <input type="text" id="cofrinho-form-pix" placeholder="Sua Chave PIX" style="border: 1px solid #EAD8C0; padding: 10px; border-radius: 8px; font-size: 0.95rem; width: 100%; box-sizing: border-box; outline: none; background: white;">
-                            <p style="font-size: 0.75rem; color: #A08060; margin: 4px 0 0 0; line-height: 1.2;">Todo dinheiro deste cofrinho ficará guardado nesta conta bancária. O Diga Real ajudará você a separar visualmente o saldo.</p>
+                            <p style="font-size: 0.75rem; color: #A08060; margin: 4px 0 0 0; line-height: 1.2;">Todo dinheiro dos cofrinhos criados ficará guardado nesta conta bancária de sua escolha. O Diga Real não tem acesso ao seu dinheiro, apenas te ajuda a reservá-lo para seus objetivos e a separar visualmente o saldo.</p>
                         </div>
 
                         <div class="modal-field" style="margin-bottom: 20px;">
@@ -455,64 +448,64 @@
                         <div style="display:grid; grid-template-columns: 40px 1fr 40px; align-items: start; margin-bottom: 8px; position: relative;">
                             <button id="btn-back-to-list" style="background:none; border:none; font-size:1.4rem; color: #8c7355; cursor:pointer; padding: 4px 0; text-align: left;"><i class="fa-solid fa-arrow-left"></i></button>
                             <div style="display:flex; flex-direction:column; align-items:center;">
-                                <div id="cofrinho-detail-icon-container" class="cofrinho-detail-icon-circle" style="background: #e0f2fe; color: #0284c7; width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin-bottom: 8px;">
+                                <div id="cofrinho-detail-icon-container" class="cofrinho-detail-icon-circle" style="background: #e0f2fe; color: #0284c7; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 6px;">
                                     <i class="fa-solid fa-child"></i>
                                 </div>
-                                <h3 id="cofrinho-detail-name" style="font-family: var(--font-title); font-weight: 700; margin: 0; color: #222; font-size: 1.4rem;">Bebê</h3>
-                                <span id="cofrinho-detail-meta" style="font-size: 0.85rem; color: #777; font-weight: 500; margin-top: 4px;">Meta: R$ 2.000,00</span>
+                                <h3 id="cofrinho-detail-name" style="font-family: var(--font-title); font-weight: 700; margin: 0; color: #222; font-size: 1.2rem;">Bebê</h3>
+                                <span id="cofrinho-detail-meta" style="font-size: 0.8rem; color: #777; font-weight: 500; margin-top: 2px;">Meta: R$ 2.000,00</span>
                             </div>
                             <div style="display:flex; justify-content:flex-end; gap: 8px;">
-                                <button id="btn-edit-cofrinho-meta" style="background:none; border:none; color:#8c7355; cursor:pointer; font-size: 1.2rem; padding: 4px;" title="Editar"><i class="fa-solid fa-pencil"></i></button>
-                                <button id="btn-delete-cofrinho" style="background:none; border:none; color:#d32f2f; cursor:pointer; font-size: 1.2rem; padding: 4px;" title="Excluir"><i class="fa-solid fa-trash"></i></button>
+                                <button id="btn-edit-cofrinho-meta" style="background:none; border:none; color:#8c7355; cursor:pointer; font-size: 1.1rem; padding: 4px;" title="Editar"><i class="fa-solid fa-pencil"></i></button>
+                                <button id="btn-delete-cofrinho" style="background:none; border:none; color:#d32f2f; cursor:pointer; font-size: 1.1rem; padding: 4px;" title="Excluir"><i class="fa-solid fa-trash"></i></button>
                             </div>
                         </div>
 
                         <!-- Card de Saldo -->
-                        <div class="piggy-premium-card cofrinho-detail-balance-card" style="margin-bottom: 15px; padding: 20px;">
-                            <span style="font-size: 0.85rem; color: #777; font-weight: 600;">Saldo atual</span>
-                            <strong id="cofrinho-detail-balance-val" style="font-size: 2.8rem; font-family: var(--font-title); font-weight: 700; display: block; margin: 0px 0 15px 0; color: #0284c7;">R$ 50,00</strong>
+                        <div class="piggy-premium-card cofrinho-detail-balance-card" style="margin-bottom: 12px; padding: 15px;">
+                            <span style="font-size: 0.8rem; color: #777; font-weight: 600;">Saldo atual</span>
+                            <strong id="cofrinho-detail-balance-val" style="font-size: 2.2rem; font-family: var(--font-title); font-weight: 700; display: block; margin: 0px 0 10px 0; color: #0284c7;">R$ 50,00</strong>
                             
-                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
                                 <div class="doodle-progress-bar-wrapper" id="cofrinho-detail-progress-wrapper" style="height: 10px; flex-grow: 1; margin: 0; background-color: #e5e5e5; overflow: hidden;">
                                     <div class="doodle-progress-bar-fill" id="cofrinho-detail-progress-fill" style="width: 3%; background-color: #0284c7; border-radius: 5px;"></div>
                                 </div>
                                 <span id="cofrinho-detail-progress-pct" style="font-size: 0.85rem; font-weight: 700; color: #0284c7;">3%</span>
                             </div>
                             
-                            <span id="cofrinho-detail-remaining-desc" style="font-size: 0.85rem; color: #777;">Faltam R$ 1.950,00</span>
+                            <span id="cofrinho-detail-remaining-desc" style="font-size: 0.8rem; color: #777;">Faltam R$ 1.950,00</span>
                         </div>
 
                         <!-- Card de Guardar dinheiro -->
-                        <div class="cofrinho-detail-action-box piggy-premium-card" style="padding: 20px;">
-                            <h4 style="margin: 0 0 15px 0; font-size: 0.95rem; font-weight: 700; color: #666;">Guardar dinheiro</h4>
+                        <div class="cofrinho-detail-action-box piggy-premium-card" style="padding: 15px;">
+                            <h4 style="margin: 0 0 10px 0; font-size: 0.9rem; font-weight: 700; color: #666;">Guardar dinheiro</h4>
 
-                            <div style="display: flex; border: 1px solid #ddd; border-radius: 12px; padding: 12px 16px; align-items: center; margin-bottom: 12px; background: white;">
-                                <span style="font-weight: 700; color: #8c7355; font-size: 1.1rem; margin-right: 8px;">R$</span>
-                                <input type="number" id="cofrinho-action-val" placeholder="0,00" step="0.01" style="flex-grow: 1; border: none; font-size: 1.8rem; font-weight: 700; color: #222; outline: none; background: transparent; padding: 0;">
-                                <i class="fa-regular fa-keyboard" style="color: #aaa; font-size: 1.4rem;"></i>
+                            <div style="display: flex; border: 1px solid #ddd; border-radius: 12px; padding: 8px 12px; align-items: center; margin-bottom: 10px; background: white;">
+                                <span style="font-weight: 700; color: #8c7355; font-size: 1rem; margin-right: 8px;">R$</span>
+                                <input type="number" id="cofrinho-action-val" placeholder="0,00" step="0.01" style="flex-grow: 1; border: none; font-size: 1.4rem; font-weight: 700; color: #222; outline: none; background: transparent; padding: 0;">
+                                <i class="fa-regular fa-keyboard" style="color: #aaa; font-size: 1.2rem;"></i>
                             </div>
 
-                            <div class="cofrinho-quick-add-buttons" style="display: flex; gap: 10px; margin-bottom: 20px;">
-                                <button type="button" class="btn-quick-add" data-val="10" style="flex:1; padding: 8px; border: 1px solid #ddd; background: white; border-radius: 8px; color: #777; font-weight: 600; cursor: pointer; font-size: 1rem;">+10</button>
-                                <button type="button" class="btn-quick-add" data-val="50" style="flex:1; padding: 8px; border: 1px solid #ddd; background: white; border-radius: 8px; color: #777; font-weight: 600; cursor: pointer; font-size: 1rem;">+50</button>
-                                <button type="button" class="btn-quick-add" data-val="100" style="flex:1; padding: 8px; border: 1px solid #ddd; background: white; border-radius: 8px; color: #777; font-weight: 600; cursor: pointer; font-size: 1rem;">+100</button>
+                            <div class="cofrinho-quick-add-buttons" style="display: flex; gap: 8px; margin-bottom: 12px;">
+                                <button type="button" class="btn-quick-add" data-val="10" style="flex:1; padding: 6px; border: 1px solid #ddd; background: white; border-radius: 8px; color: #777; font-weight: 600; cursor: pointer; font-size: 0.9rem;">+10</button>
+                                <button type="button" class="btn-quick-add" data-val="50" style="flex:1; padding: 6px; border: 1px solid #ddd; background: white; border-radius: 8px; color: #777; font-weight: 600; cursor: pointer; font-size: 0.9rem;">+50</button>
+                                <button type="button" class="btn-quick-add" data-val="100" style="flex:1; padding: 6px; border: 1px solid #ddd; background: white; border-radius: 8px; color: #777; font-weight: 600; cursor: pointer; font-size: 0.9rem;">+100</button>
                             </div>
 
-                            <div style="display: flex; gap: 10px;">
-                                <button id="btn-confirm-guardar" style="flex: 1; background: #22c55e; color: white; border: none; padding: 14px; border-radius: 12px; font-size: 1.05rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
-                                    <i class="fa-solid fa-plus" style="font-size: 1.2rem; font-weight: 300;"></i> Guardar
+                            <div style="display: flex; gap: 8px;">
+                                <button id="btn-confirm-guardar" style="flex: 1; background: #22c55e; color: white; border: none; padding: 10px; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                                    <i class="fa-solid fa-plus" style="font-size: 1.1rem; font-weight: 300;"></i> Guardar
                                 </button>
-                                <button id="btn-confirm-resgatar" style="flex: 1; background: #ef4444; color: white; border: none; padding: 14px; border-radius: 12px; font-size: 1.05rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
-                                    <i class="fa-solid fa-minus" style="font-size: 1.2rem; font-weight: 300;"></i> Resgatar
+                                <button id="btn-confirm-resgatar" style="flex: 1; background: #ef4444; color: white; border: none; padding: 10px; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                                    <i class="fa-solid fa-minus" style="font-size: 1.1rem; font-weight: 300;"></i> Resgatar
                                 </button>
                             </div>
                         </div>
 
                         <!-- Histórico -->
-                        <div class="piggy-premium-card" style="padding: 20px 20px 10px 20px;">
-                            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 15px;">
-                                <h4 style="margin: 0; font-size: 0.95rem; font-weight: 700; color: #666;">Últimas movimentações</h4>
-                                <button style="background: none; border: none; color: #0284c7; font-size: 0.85rem; font-weight: 500; cursor: pointer; padding: 0;">Ver todas</button>
+                        <div class="piggy-premium-card" style="padding: 15px 15px 10px 15px;">
+                            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px;">
+                                <h4 style="margin: 0; font-size: 0.9rem; font-weight: 700; color: #666;">Últimas movimentações</h4>
+                                <button style="background: none; border: none; color: #0284c7; font-size: 0.8rem; font-weight: 500; cursor: pointer; padding: 0;">Ver todas</button>
                             </div>
 
                             <div id="cofrinho-detail-history-list" style="display:flex; flex-direction:column; gap:12px;">
