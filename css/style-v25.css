@@ -4233,3 +4233,356 @@ body {
 
 
 
+
+
+
+/* --- PREMIUM LOGIN OVERHAUL --- */
+.welcome-cover-overlay {
+    background: radial-gradient(circle at top left, #fdfbf7 0%, #f4eee1 100%) !important;
+}
+
+.leather-book-cover {
+    background: #ffffff !important;
+    box-shadow: 0 24px 60px rgba(140, 98, 57, 0.15), 0 4px 12px rgba(0,0,0,0.03) !important;
+    border-radius: 24px !important;
+    border: none !important;
+    padding: 35px 25px !important;
+    max-width: 440px !important;
+}
+
+.login-logo-img {
+    width: 140px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.login-slogan {
+    font-family: var(--font-title);
+    font-size: 1.15rem;
+    color: #8c6239;
+    margin: 5px 0 25px 0;
+    text-align: center;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.paper-label-container {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+}
+
+.auth-toggle-bar {
+    background: #f5f0e6 !important;
+    border-radius: 30px !important;
+    padding: 5px !important;
+    margin-bottom: 25px !important;
+}
+
+.auth-toggle-btn {
+    border-radius: 26px !important;
+    font-weight: 700 !important;
+    padding: 10px 5px !important;
+    color: #a38c75 !important;
+    font-size: 0.85rem !important;
+}
+
+.auth-toggle-btn.active {
+    background: #ffffff !important;
+    color: #8c6239 !important;
+    box-shadow: 0 4px 12px rgba(140, 98, 57, 0.1) !important;
+}
+
+.premium-input {
+    background: #fcfbfa !important;
+    border: 1px solid #ead8c0 !important;
+    border-radius: 14px !important;
+    padding: 14px 16px !important;
+    font-size: 0.95rem !important;
+    color: #4a3b2c !important;
+    transition: all 0.2s ease !important;
+}
+
+.premium-input:focus {
+    background: #ffffff !important;
+    border-color: #8c6239 !important;
+    box-shadow: 0 0 0 4px rgba(140, 98, 57, 0.15) !important;
+    outline: none !important;
+}
+
+#modal-welcome .modal-field label {
+    font-size: 0.8rem !important;
+    color: #8c6239 !important;
+    font-weight: 700 !important;
+    margin-bottom: 6px !important;
+    text-transform: none !important;
+}
+
+.premium-btn {
+    background: linear-gradient(135deg, #8c6239 0%, #6b4725 100%) !important;
+    color: white !important;
+    border-radius: 14px !important;
+    padding: 16px !important;
+    font-size: 1.05rem !important;
+    font-weight: 700 !important;
+    box-shadow: 0 8px 20px rgba(140, 98, 57, 0.3) !important;
+    transition: transform 0.2s, box-shadow 0.2s !important;
+    margin-top: 25px !important;
+    width: 100% !important;
+}
+
+.premium-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(140, 98, 57, 0.4) !important;
+    opacity: 1 !important;
+}
+
+.premium-features {
+    border-top: 1px dashed #ead8c0 !important;
+    padding-top: 25px !important;
+    margin-top: 30px !important;
+    gap: 12px !important;
+}
+
+.feature-item {
+    gap: 15px !important;
+    background: #fdfbf7 !important;
+    padding: 10px 14px !important;
+    border-radius: 12px !important;
+    border: 1px solid rgba(140, 98, 57, 0.05) !important;
+    transition: transform 0.2s !important;
+}
+
+.feature-item:hover {
+    transform: translateX(4px) !important;
+    background: #fcf6eb !important;
+}
+
+.feature-item .feature-icon {
+    width: 36px !important;
+    height: 36px !important;
+    background: rgba(140, 98, 57, 0.1) !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+}
+
+.feature-item .feature-icon i {
+    color: #8c6239 !important;
+    font-size: 1rem !important;
+    width: auto !important;
+}
+
+.feature-item span {
+    font-size: 0.88rem !important;
+    color: #5c4d3c !important;
+    font-weight: 600 !important;
+    line-height: 1.3 !important;
+}
+
+/* --- REVISED PREMIUM LANDING PAGE CSS --- */
+.welcome-cover-overlay {
+    background: #ffffff !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: stretch !important;
+    justify-content: stretch !important;
+    overflow: hidden;
+}
+
+.landing-split-layout {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: row;
+}
+
+@media (max-width: 768px) {
+    .landing-split-layout {
+        flex-direction: column;
+        overflow-y: auto;
+    }
+}
+
+.landing-hero-pane {
+    flex: 1;
+    background: radial-gradient(circle at top left, #fdfaf7 0%, #f4eee1 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px;
+    position: relative;
+    overflow: hidden;
+}
+
+.landing-hero-content {
+    max-width: 550px;
+    margin: 0 auto;
+    z-index: 2;
+}
+
+/* Formas modernas ao fundo da Landing Page */
+.landing-hero-pane::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 450px;
+    height: 450px;
+    background: radial-gradient(circle, rgba(140, 98, 57, 0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.landing-hero-pane::after {
+    content: '';
+    position: absolute;
+    bottom: -150px;
+    left: -50px;
+    width: 550px;
+    height: 550px;
+    background: radial-gradient(circle, rgba(234, 216, 192, 0.4) 0%, transparent 70%);
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.landing-logo {
+    width: 200px;
+    margin-bottom: 25px;
+}
+
+.landing-title {
+    font-family: var(--font-title);
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1.1;
+    color: #4a3b2c;
+    margin-bottom: 20px;
+    letter-spacing: -0.5px;
+}
+
+.landing-title span {
+    color: #8c6239;
+}
+
+.landing-subtitle {
+    font-size: 1.15rem;
+    color: #6b5c4d;
+    line-height: 1.5;
+    margin-bottom: 45px;
+    font-weight: 400;
+}
+
+.landing-features-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+@media (max-width: 600px) {
+    .landing-features-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.landing-feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+}
+
+.landing-feature-item:hover {
+    transform: translateY(-2px) !important;
+    background: transparent !important;
+}
+
+.landing-feature-icon {
+    width: 48px;
+    height: 48px;
+    background: #ffffff;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 20px rgba(140, 98, 57, 0.12);
+    color: #8c6239;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+}
+
+.landing-feature-text {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.landing-feature-text strong {
+    color: #4a3b2c;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.landing-feature-text span {
+    color: #7a6a5a;
+    font-size: 0.9rem;
+    line-height: 1.3;
+}
+
+/* Painel da Direita (Login) */
+.landing-auth-pane {
+    flex: 0 0 500px;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    box-shadow: -15px 0 40px rgba(0,0,0,0.04);
+    z-index: 10;
+}
+
+@media (max-width: 900px) {
+    .landing-auth-pane {
+        flex: 0 0 400px;
+    }
+}
+
+@media (max-width: 768px) {
+    .landing-auth-pane {
+        flex: none;
+        width: 100%;
+        padding: 40px 20px;
+    }
+}
+
+/* Ajustes no Card para se adequar à Landing Page */
+.landing-auth-pane .leather-book-cover {
+    width: 100%;
+    max-width: 100% !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+}
+
+.auth-card-title {
+    font-family: var(--font-title);
+    font-size: 2rem;
+    font-weight: 800;
+    color: #4a3b2c;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.auth-card-subtitle {
+    font-size: 1rem;
+    color: #8c7355;
+    margin-bottom: 35px;
+    text-align: center;
+}

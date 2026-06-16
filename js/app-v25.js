@@ -237,7 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnCloseSharing = document.getElementById('btn-close-sharing');
 
     // 3. User Login Check
-    let authMode = 'register';
+    let authMode = 'login';
 
     // ─── Supabase: verificar sessão ao iniciar ───────────────────────
     (async () => {
@@ -346,7 +346,7 @@ document.addEventListener('DOMContentLoaded', () => {
             toggleAuthLogin.classList.remove('active');
             authNameField.style.display = 'flex';
             authName.setAttribute('required', 'true');
-            btnAuthSubmit.innerText = 'Começar Lançamentos';
+            btnAuthSubmit.innerText = 'Criar conta';
         });
     }
 
@@ -357,7 +357,7 @@ document.addEventListener('DOMContentLoaded', () => {
             toggleAuthRegister.classList.remove('active');
             authNameField.style.display = 'none';
             authName.removeAttribute('required');
-            btnAuthSubmit.innerText = 'Abrir Caderno';
+            btnAuthSubmit.innerText = 'Entrar';
         });
     }
 
@@ -467,7 +467,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         } else {
                             alert('E-mail/Celular ou Senha incorretos.');
                             btnAuthSubmit.disabled = false;
-                            btnAuthSubmit.innerText = 'Abrir Caderno';
+                            btnAuthSubmit.innerText = 'Entrar';
                         }
                     }
                 }
@@ -475,7 +475,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error("Erro inesperado no login/cadastro:", err);
                 alert("Erro de conexão com o servidor: " + err.message + "\nPor favor, verifique se a URL do Supabase está correta.");
                 btnAuthSubmit.disabled = false;
-                btnAuthSubmit.innerText = authMode === 'register' ? 'Começar Lançamentos' : 'Abrir Caderno';
+                btnAuthSubmit.innerText = authMode === 'register' ? 'Criar conta' : 'Entrar';
             }
             return false;
         };

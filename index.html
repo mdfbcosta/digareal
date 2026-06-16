@@ -590,52 +590,87 @@
 
     <!-- 📖 CAPA DO CADERNO: TELA DE LOGIN / CADASTRO -->
     <div class="modal-overlay welcome-cover-overlay" id="modal-welcome">
-        <div class="leather-book-cover">
-            <!-- Book Gold Line border -->
-            <div class="cover-gold-border"></div>
+        
+        <div class="landing-split-layout">
             
-            <div class="cover-content">
-                <h1 class="cover-title">DigaReal</h1>
-                <div class="cover-separator"></div>
-                <p class="cover-subtitle">Seu assistente de finanças pessoal</p>
-                
-                <!-- Etiqueta de papel clássica para inputs -->
-                <div class="paper-label-container">
-                    <!-- Toggle Switch elegante para alternar entre cadastro e login -->
-                    <div class="auth-toggle-bar">
-                        <button class="auth-toggle-btn active" id="toggle-auth-register">Escrever na Capa</button>
-                        <button class="auth-toggle-btn" id="toggle-auth-login">Abrir Caderno</button>
+            <!-- Painel Esquerdo: Landing Page Hero -->
+            <div class="landing-hero-pane">
+                <div class="landing-hero-content">
+                    <img src="diga_real.png" alt="DigaReal Logo" class="landing-logo">
+                    <h1 class="landing-title">Diga, o resto<br>a gente faz!</h1>
+                    <p class="landing-subtitle">O seu assistente financeiro inteligente. Controle gastos por voz, divida contas e alcance seus objetivos.</p>
+                    
+                    <div class="landing-features-grid">
+                        <div class="landing-feature-item">
+                            <div class="landing-feature-icon"><i class="fa-solid fa-microphone"></i></div>
+                            <div class="landing-feature-text">
+                                <strong>Comando de Voz</strong>
+                                <span>Diga o que gastou e nós registramos.</span>
+                            </div>
+                        </div>
+                        <div class="landing-feature-item">
+                            <div class="landing-feature-icon"><i class="fa-solid fa-wifi"></i></div>
+                            <div class="landing-feature-text">
+                                <strong>Offline First</strong>
+                                <span>Registre mesmo sem internet.</span>
+                            </div>
+                        </div>
+                        <div class="landing-feature-item">
+                            <div class="landing-feature-icon"><i class="fa-solid fa-users"></i></div>
+                            <div class="landing-feature-text">
+                                <strong>Colaborativo</strong>
+                                <span>Movimente o caderno junto com alguém.</span>
+                            </div>
+                        </div>
+                        <div class="landing-feature-item">
+                            <div class="landing-feature-icon"><i class="fa-solid fa-piggy-bank"></i></div>
+                            <div class="landing-feature-text">
+                                <strong>Cofrinhos Inteligentes</strong>
+                                <span>Proteja o dinheiro dos seus objetivos de verdade.</span>
+                            </div>
+                        </div>
                     </div>
-
-                    <form id="auth-form" onsubmit="return false;">
-                        <div class="modal-field" id="field-auth-name">
-                            <label for="auth-name">Como quer ser chamado?</label>
-                            <input type="text" id="auth-name" placeholder="Seu nome (Ex: Rosil)" required>
-                        </div>
-                        
-                        <div class="modal-field">
-                            <label for="auth-contact">E-mail ou Celular</label>
-                            <input type="text" id="auth-contact" placeholder="Digite seu e-mail ou celular" required>
-                        </div>
-                        
-                        <div class="modal-field">
-                            <label for="auth-password">Senha do Caderno</label>
-                            <input type="password" id="auth-password" placeholder="Crie uma senha de acesso" required>
-                        </div>
-                        
-                        <button class="btn-primary" id="btn-auth-submit" style="width:100%; margin-top: 15px;">
-                            Começar Lançamentos
-                        </button>
-                    </form>
-                </div>
-
-                <!-- Benefícios discretos no rodapé -->
-                <div class="cover-features-footer">
-                    <span><i class="fa-solid fa-microphone"></i> Voz</span>
-                    <span><i class="fa-solid fa-plane-slash"></i> Offline</span>
-                    <span><i class="fa-solid fa-users"></i> Família</span>
                 </div>
             </div>
+
+            <!-- Painel Direito: Auth Card -->
+            <div class="landing-auth-pane">
+                <div class="leather-book-cover">
+                    <div class="cover-content">
+                        <h2 class="auth-card-title">Bem-vindo(a)</h2>
+                        <p class="auth-card-subtitle">Acesse ou crie seu caderno financeiro.</p>
+                        
+                        <div class="paper-label-container">
+                            <div class="auth-toggle-bar">
+                                <button class="auth-toggle-btn" id="toggle-auth-register">Criar conta</button>
+                                <button class="auth-toggle-btn active" id="toggle-auth-login">Entrar</button>
+                            </div>
+
+                            <form id="auth-form" onsubmit="return false;">
+                                <div class="modal-field" id="field-auth-name" style="display: none;">
+                                    <label for="auth-name">Como quer ser chamado?</label>
+                                    <input type="text" id="auth-name" placeholder="Seu nome (Ex: Rosil)" class="premium-input">
+                                </div>
+                                
+                                <div class="modal-field">
+                                    <label for="auth-contact">E-mail ou Celular</label>
+                                    <input type="text" id="auth-contact" placeholder="Digite seu e-mail ou celular" required class="premium-input">
+                                </div>
+                                
+                                <div class="modal-field">
+                                    <label for="auth-password">Senha do Caderno</label>
+                                    <input type="password" id="auth-password" placeholder="Digite a senha" required class="premium-input">
+                                </div>
+                                
+                                <button class="btn-primary premium-btn" id="btn-auth-submit">
+                                    Entrar
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
         </div>
     </div>
 
@@ -969,4 +1004,6 @@
     <script src="js/app-v25.js"></script>
 </body>
 </html>
+
+
 
