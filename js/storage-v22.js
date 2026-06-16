@@ -932,7 +932,7 @@ class WalletStorage {
         return cofrinhos.find(c => c.id === id) || null;
     }
 
-    createCofrinho(name, value, icon) {
+    createCofrinho(name, value, icon, pixKey) {
         const nb = this.getActiveNotebook();
         if (nb) {
             if (!nb.cofrinhos) {
@@ -942,7 +942,8 @@ class WalletStorage {
                 id: 'cof_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
                 name: name.trim(),
                 value: parseFloat(value) || 0,
-                icon: icon || 'piggy'
+                icon: icon || 'piggy',
+                pixKey: pixKey ? pixKey.trim() : ''
             };
             nb.cofrinhos.push(newCof);
             this.save();
@@ -951,7 +952,7 @@ class WalletStorage {
         return null;
     }
 
-    updateCofrinho(id, name, value, icon) {
+    updateCofrinho(id, name, value, icon, pixKey) {
         const nb = this.getActiveNotebook();
         if (nb && nb.cofrinhos) {
             const cof = nb.cofrinhos.find(c => c.id === id);
@@ -959,6 +960,7 @@ class WalletStorage {
                 cof.name = name.trim();
                 cof.value = parseFloat(value) || 0;
                 cof.icon = icon || 'piggy';
+                if (pixKey !== undefined) cof.pixKey = pixKey.trim();
                 this.save();
                 return cof;
             }

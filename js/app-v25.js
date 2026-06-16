@@ -3099,16 +3099,29 @@ Instruções críticas:
     // Elementos de Ação do Detalhe
     const cofrinhoActionBoxTitle = document.getElementById('cofrinho-action-box-title');
     const btnCloseCofrinhoDetail = document.getElementById('btn-close-cofrinho-detail');
-    const cofrinhoDetailAmountInput = document.getElementById('cofrinho-detail-amount-input');
-    const btnDetailDeposit = document.getElementById('btn-detail-deposit');
-    const btnDetailWithdraw = document.getElementById('btn-detail-withdraw');
-    const cofrinhoVoiceTipText = document.getElementById('cofrinho-voice-tip-text');
+    const cofrinhoActionVal = document.getElementById('cofrinho-action-val');
+    const btnConfirmGuardar = document.getElementById('btn-confirm-guardar');
+    const btnConfirmResgatar = document.getElementById('btn-confirm-resgatar');
+    const btnQuickAdds = document.querySelectorAll('.btn-quick-add');
+    const cofrinhoFormPix = document.getElementById('cofrinho-form-pix');
+
+    // Elementos Modal PIX e Pendência
+    const modalPixQr = document.getElementById('modal-pix-qr');
+    const btnClosePixModal = document.getElementById('btn-close-pix-modal');
+    const btnCopyPix = document.getElementById('btn-copy-pix');
+    const pixModalAmount = document.getElementById('pix-modal-amount');
+
+    const cofrinhoPendingBanner = document.getElementById('cofrinho-pending-banner');
+    const cofrinhoPendingText = document.getElementById('cofrinho-pending-text');
+    const btnPendingConfirm = document.getElementById('btn-pending-confirm');
+    const btnPendingCancel = document.getElementById('btn-pending-cancel');
 
     // Estados locais do modal
     let activeCofrinhoId = null;
     let editingCofrinhoId = null;
     let selectedIcon = 'piggy';
     let showAllHistory = false;
+    let pendingPixTransaction = null; // { amount, cofrinhoId }
 
     // Temas por Ícone
     const COFRINHO_THEMES = {
@@ -3155,6 +3168,7 @@ Instruções críticas:
             if (cof) {
                 if (cofrinhoFormName) cofrinhoFormName.value = cof.name;
                 if (cofrinhoFormTarget) cofrinhoFormTarget.value = cof.value;
+                if (cofrinhoFormPix) cofrinhoFormPix.value = cof.pixKey || '';
                 selectedIcon = cof.icon || 'piggy';
             }
         } else {
@@ -3162,6 +3176,7 @@ Instruções críticas:
             if (cofrinhoFormTitle) cofrinhoFormTitle.innerText = "Novo cofrinho";
             if (cofrinhoFormName) cofrinhoFormName.value = '';
             if (cofrinhoFormTarget) cofrinhoFormTarget.value = '';
+            if (cofrinhoFormPix) cofrinhoFormPix.value = '';
             selectedIcon = 'piggy';
         }
 
@@ -3191,6 +3206,21 @@ Instruções críticas:
                 btn.style.borderColor = 'transparent';
             }
         });
+    }
+
+    // Pendências
+    function checkPendingTransaction() {
+        if (!cofrinhoPendingBanner) return;
+        if (pendingPixTransaction) {
+            const cof = storage.getCofrinho(pendingPixTransaction.cofrinhoId);
+            const name = cof ? cof.name : 'Cofrinho';
+            if (cofrinhoPendingText) {
+                cofrinhoPendingText.innerText = `Você tem um depósito de R$ ${pendingPixTransaction.amount.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} aguardando pagamento via PIX para o cofrinho ${name}.`;
+            }
+            cofrinhoPendingBanner.style.display = 'block';
+        } else {
+            cofrinhoPendingBanner.style.display = 'none';
+        }
     }
 
     // Renderização
@@ -3237,6 +3267,8 @@ Instruções críticas:
             `;
             cofrinhosListContainer.appendChild(div);
         });
+        
+        checkPendingTransaction();
     }
 
     function renderCofrinhoDetail(id) {
@@ -3251,40 +3283,36 @@ Instruções críticas:
         const pct = cof.value > 0 ? Math.round((balance / cof.value) * 100) : 0;
         const remaining = Math.max(0, cof.value - balance);
         
-        cofrinhoDetailName.innerText = cof.name;
-        cofrinhoDetailMeta.innerText = `Meta: R$ ${cof.value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        if (cofrinhoDetailName) cofrinhoDetailName.innerText = cof.name;
+        if (cofrinhoDetailMeta) cofrinhoDetailMeta.innerText = `Meta: R$ ${cof.value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
         
-        cofrinhoDetailIconContainer.innerHTML = `<i class="fa-solid ${theme.icon}"></i>`;
-        cofrinhoDetailIconContainer.style.backgroundColor = theme.bg;
-        cofrinhoDetailIconContainer.style.color = theme.color;
+        if (cofrinhoDetailIconContainer) {
+            cofrinhoDetailIconContainer.innerHTML = `<i class="fa-solid ${theme.icon}"></i>`;
+            cofrinhoDetailIconContainer.style.backgroundColor = theme.bg;
+            cofrinhoDetailIconContainer.style.color = theme.color;
+        }
         
-        cofrinhoDetailBalanceVal.innerText = formatCurrency(balance);
-        cofrinhoDetailBalanceVal.style.color = theme.color;
+        if (cofrinhoDetailBalanceVal) {
+            cofrinhoDetailBalanceVal.innerText = balance.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            cofrinhoDetailBalanceVal.style.color = theme.color;
+        }
         
-        cofrinhoDetailProgressFill.style.width = `${Math.min(100, pct)}%`;
-        cofrinhoDetailProgressFill.style.backgroundColor = theme.color;
-        cofrinhoDetailProgressPct.innerText = `${pct}%`;
+        if (cofrinhoDetailProgressFill) {
+            cofrinhoDetailProgressFill.style.width = `${Math.min(100, pct)}%`;
+            cofrinhoDetailProgressFill.style.backgroundColor = theme.color;
+        }
+        if (cofrinhoDetailProgressPct) cofrinhoDetailProgressPct.innerText = `${pct}%`;
         
         const wrapper = document.getElementById('cofrinho-detail-progress-wrapper');
         if (wrapper) wrapper.style.backgroundColor = theme.track;
         
-        cofrinhoDetailProgressDesc.innerText = `${pct}% da meta`;
-        cofrinhoDetailRemainingDesc.innerText = remaining > 0 ? `Faltam R$ ${remaining.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : 'Meta batida! 🎉';
-        
-        cofrinhoActionBoxTitle.innerText = `Guardar dinheiro em ${cof.name}`;
-        cofrinhoDetailAmountInput.style.color = theme.color;
-        btnDetailDeposit.style.backgroundColor = theme.color;
-        btnDetailWithdraw.style.color = theme.color;
-        btnDetailWithdraw.style.borderColor = theme.track;
-        btnDetailWithdraw.style.backgroundColor = theme.bg;
-        
-        cofrinhoVoiceTipText.innerText = `Você também pode falar: "Guardar 50 reais no cofrinho ${cof.name.split(' ')[0]}"`;
+        const cofrinhoDetailRemainingDesc = document.getElementById('cofrinho-detail-remaining-desc');
+        if (cofrinhoDetailRemainingDesc) cofrinhoDetailRemainingDesc.innerText = remaining > 0 ? `Faltam R$ ${remaining.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : 'Meta batida! 🎉';
         
         renderDetailHistory(id);
 
-        const chips = document.querySelectorAll('.cofrinho-chip-btn');
-        chips.forEach(c => c.classList.remove('active'));
-        cofrinhoDetailAmountInput.value = (0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        if (cofrinhoActionVal) cofrinhoActionVal.value = '';
+        checkPendingTransaction();
     }
 
     function renderDetailHistory(id) {
@@ -3361,17 +3389,15 @@ Instruções críticas:
     }
 
     function getNumericAmount() {
-        if (!cofrinhoDetailAmountInput) return 0;
-        let valStr = cofrinhoDetailAmountInput.value.replace(/[^\d.,]/g, '');
-        if (valStr.includes('.') && valStr.includes(',')) {
-            valStr = valStr.replace(/\./g, '').replace(',', '.');
-        } else if (valStr.includes(',')) {
-            valStr = valStr.replace(',', '.');
-        }
-        return parseFloat(valStr) || 0;
+        if (!cofrinhoActionVal) return 0;
+        return parseFloat(cofrinhoActionVal.value) || 0;
     }
 
     // Eventos de Abertura / Fechamento
+    const btnFloatingPiggy = document.getElementById('btn-floating-piggy');
+    const modalCofrinho = document.getElementById('modal-cofrinho');
+    const cofrinhoCard = modalCofrinho ? modalCofrinho.querySelector('.cofrinho-card') : null;
+
     if (btnFloatingPiggy) {
         btnFloatingPiggy.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -3383,6 +3409,7 @@ Instruções críticas:
         });
     }
 
+    const btnCloseCofrinho = document.getElementById('btn-close-cofrinho');
     if (btnCloseCofrinho) {
         btnCloseCofrinho.addEventListener('click', () => {
             if (modalCofrinho) {
@@ -3402,18 +3429,21 @@ Instruções críticas:
     }
 
     // Eventos de Ação e Criação
+    const btnNewCofrinho = document.getElementById('btn-new-cofrinho');
     if (btnNewCofrinho) {
         btnNewCofrinho.addEventListener('click', () => {
             showCofrinhoForm();
         });
     }
 
+    const btnCancelCofrinho = document.getElementById('btn-cancel-cofrinho');
     if (btnCancelCofrinho) {
         btnCancelCofrinho.addEventListener('click', () => {
             showCofrinhoList();
         });
     }
 
+    const btnBackToList = document.getElementById('btn-back-to-list');
     if (btnBackToList) {
         btnBackToList.addEventListener('click', () => {
             showCofrinhoList();
@@ -3421,6 +3451,7 @@ Instruções críticas:
     }
 
     // Picker de Ícone do Form
+    const cofrinhoFormIcons = document.getElementById('cofrinho-form-icons');
     if (cofrinhoFormIcons) {
         cofrinhoFormIcons.querySelectorAll('.icon-picker-btn').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -3431,10 +3462,16 @@ Instruções críticas:
     }
 
     // Salvar Cofrinho
+    const btnSaveCofrinho = document.getElementById('btn-save-cofrinho');
+    const cofrinhoFormName = document.getElementById('cofrinho-form-name');
+    const cofrinhoFormTarget = document.getElementById('cofrinho-form-target');
+    const cofrinhoFormTitle = document.getElementById('cofrinho-form-title');
+
     if (btnSaveCofrinho) {
         btnSaveCofrinho.addEventListener('click', () => {
             const name = cofrinhoFormName ? cofrinhoFormName.value.trim() : '';
             const target = cofrinhoFormTarget ? parseFloat(cofrinhoFormTarget.value) : 0;
+            const pixKey = cofrinhoFormPix ? cofrinhoFormPix.value.trim() : '';
             
             if (!name) {
                 alert("Por favor, digite o nome do cofrinho!");
@@ -3446,9 +3483,9 @@ Instruções críticas:
             }
 
             if (editingCofrinhoId) {
-                storage.updateCofrinho(editingCofrinhoId, name, target, selectedIcon);
+                storage.updateCofrinho(editingCofrinhoId, name, target, selectedIcon, pixKey);
             } else {
-                storage.createCofrinho(name, target, selectedIcon);
+                storage.createCofrinho(name, target, selectedIcon, pixKey);
             }
 
             showCofrinhoList();
@@ -3457,6 +3494,7 @@ Instruções críticas:
     }
 
     // Editar Cofrinho
+    const btnEditCofrinhoMeta = document.getElementById('btn-edit-cofrinho-meta');
     if (btnEditCofrinhoMeta) {
         btnEditCofrinhoMeta.addEventListener('click', () => {
             if (activeCofrinhoId) {
@@ -3466,6 +3504,7 @@ Instruções críticas:
     }
 
     // Excluir Cofrinho
+    const btnDeleteCofrinho = document.getElementById('btn-delete-cofrinho');
     if (btnDeleteCofrinho) {
         btnDeleteCofrinho.addEventListener('click', () => {
             if (activeCofrinhoId) {
@@ -3481,6 +3520,7 @@ Instruções críticas:
     }
 
     // Toggle Histórico Completo
+    const btnToggleDetailHistory = document.getElementById('btn-toggle-detail-history');
     if (btnToggleDetailHistory) {
         btnToggleDetailHistory.addEventListener('click', () => {
             showAllHistory = !showAllHistory;
@@ -3488,68 +3528,72 @@ Instruções críticas:
         });
     }
 
-    // Chips Rápidos de Valor
-    document.querySelectorAll('.cofrinho-chip-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.cofrinho-chip-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            
-            const val = btn.getAttribute('data-value');
-            if (val === 'outro') {
-                if (cofrinhoDetailAmountInput) {
-                    cofrinhoDetailAmountInput.value = (0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-                    cofrinhoDetailAmountInput.focus();
+    // Chips Rápidos de Valor (+10, +50, +100)
+    if (btnQuickAdds) {
+        btnQuickAdds.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const val = parseFloat(btn.getAttribute('data-val')) || 0;
+                let current = getNumericAmount();
+                if (cofrinhoActionVal) {
+                    cofrinhoActionVal.value = (current + val).toFixed(2);
                 }
-            } else {
-                const numericVal = parseFloat(val);
-                if (cofrinhoDetailAmountInput) {
-                    cofrinhoDetailAmountInput.value = numericVal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-                }
-            }
+            });
         });
-    });
+    }
 
-    // Formatação em Tempo Real do Input Monetário
-    if (cofrinhoDetailAmountInput) {
-        cofrinhoDetailAmountInput.addEventListener('input', (e) => {
-            document.querySelectorAll('.cofrinho-chip-btn').forEach(btn => btn.classList.remove('active'));
-            const btnOutro = document.getElementById('btn-chip-outro');
-            if (btnOutro) btnOutro.classList.add('active');
-            
-            let value = e.target.value.replace(/\D/g, '');
-            if (!value) {
-                e.target.value = 'R$ 0,00';
-                return;
-            }
-            let cents = parseInt(value, 10);
-            let numberValue = cents / 100;
-            e.target.value = numberValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    // Modal PIX Close
+    if (btnClosePixModal) {
+        btnClosePixModal.addEventListener('click', () => {
+            if (modalPixQr) modalPixQr.classList.remove('active');
         });
-        
-        cofrinhoDetailAmountInput.addEventListener('focus', (e) => {
-            setTimeout(() => {
-                e.target.setSelectionRange(0, e.target.value.length);
-            }, 50);
+    }
+
+    if (btnCopyPix) {
+        btnCopyPix.addEventListener('click', () => {
+            if (activeCofrinhoId) {
+                const cof = storage.getCofrinho(activeCofrinhoId);
+                const key = cof && cof.pixKey ? cof.pixKey : 'Sua Chave PIX';
+                navigator.clipboard.writeText(key).then(() => {
+                    alert("Chave PIX copiada!");
+                }).catch(err => {
+                    console.error("Falha ao copiar:", err);
+                });
+            }
         });
     }
 
     // Depósito (Guardar)
-    if (btnDetailDeposit) {
-        btnDetailDeposit.addEventListener('click', () => {
+    if (btnConfirmGuardar) {
+        btnConfirmGuardar.addEventListener('click', () => {
             if (!activeCofrinhoId) return;
             const amount = getNumericAmount();
             if (isNaN(amount) || amount <= 0) {
                 alert("Por favor, digite um valor válido para guardar!");
                 return;
             }
-            storage.depositToCofrinho(activeCofrinhoId, amount);
-            updateUI();
+            
+            const cof = storage.getCofrinho(activeCofrinhoId);
+            if (!cof.pixKey) {
+                alert("Você precisa configurar uma chave PIX para este cofrinho editando-o primeiro.");
+                return;
+            }
+            
+            // Marca como pendente e abre modal
+            pendingPixTransaction = { amount, cofrinhoId: activeCofrinhoId };
+            
+            if (pixModalAmount) {
+                pixModalAmount.innerText = `R$ ${amount.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            }
+            if (modalPixQr) modalPixQr.classList.add('active');
+            
+            if (cofrinhoActionVal) cofrinhoActionVal.value = '';
+            checkPendingTransaction();
         });
     }
 
     // Saque (Resgatar)
-    if (btnDetailWithdraw) {
-        btnDetailWithdraw.addEventListener('click', () => {
+    if (btnConfirmResgatar) {
+        btnConfirmResgatar.addEventListener('click', () => {
             if (!activeCofrinhoId) return;
             const amount = getNumericAmount();
             if (isNaN(amount) || amount <= 0) {
@@ -3561,8 +3605,33 @@ Instruções críticas:
                 alert("Você não tem saldo suficiente neste cofrinho!");
                 return;
             }
+            
+            alert(`O valor de R$ ${amount.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} resgatado ficará pendente até você confirmar que fez a transferência manual da conta onde guarda o dinheiro dos cofrinhos.`);
+            
             storage.withdrawFromCofrinho(activeCofrinhoId, amount);
+            if (cofrinhoActionVal) cofrinhoActionVal.value = '';
             updateUI();
+        });
+    }
+
+    // Confirmação de PIX Pendente (Banner)
+    if (btnPendingConfirm) {
+        btnPendingConfirm.addEventListener('click', () => {
+            if (pendingPixTransaction) {
+                storage.depositToCofrinho(pendingPixTransaction.cofrinhoId, pendingPixTransaction.amount);
+                pendingPixTransaction = null;
+                updateUI();
+                alert("Pix confirmado e valor guardado no cofrinho!");
+            }
+        });
+    }
+
+    if (btnPendingCancel) {
+        btnPendingCancel.addEventListener('click', () => {
+            if (confirm("Deseja cancelar esta transação pendente?")) {
+                pendingPixTransaction = null;
+                updateUI();
+            }
         });
     }
 
