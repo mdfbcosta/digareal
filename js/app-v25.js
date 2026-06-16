@@ -3107,8 +3107,8 @@ Instruções críticas:
 
     // Elementos Modal PIX e Pendência
     const modalPixQr = document.getElementById('modal-pix-qr');
-    const btnClosePixModal = document.getElementById('btn-close-pix-modal');
-    const btnCopyPix = document.getElementById('btn-copy-pix');
+    const btnCloseCofrinhoPix = document.getElementById('btn-close-cofrinho-pix');
+    const btnCopyCofrinhoPix = document.getElementById('btn-copy-cofrinho-pix');
     const pixModalAmount = document.getElementById('pix-modal-amount');
 
     const cofrinhoPendingBanner = document.getElementById('cofrinho-pending-banner');
@@ -3525,14 +3525,14 @@ Instruções críticas:
     }
 
     // Modal PIX Close
-    if (btnClosePixModal) {
-        btnClosePixModal.addEventListener('click', () => {
+    if (btnCloseCofrinhoPix) {
+        btnCloseCofrinhoPix.addEventListener('click', () => {
             if (modalPixQr) modalPixQr.classList.remove('active');
         });
     }
 
-    if (btnCopyPix) {
-        btnCopyPix.addEventListener('click', () => {
+    if (btnCopyCofrinhoPix) {
+        btnCopyCofrinhoPix.addEventListener('click', () => {
             if (activeCofrinhoId) {
                 const cof = storage.getCofrinho(activeCofrinhoId);
                 const key = cof && cof.pixKey ? cof.pixKey : 'Sua Chave PIX';
