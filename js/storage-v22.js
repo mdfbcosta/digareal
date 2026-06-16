@@ -525,6 +525,7 @@ class WalletStorage {
             };
             nb.transactions.push(newTx);
             this.save();
+            if (window.sync) window.sync.insertTransaction(newTx, nb.id);
             return newTx;
         }
         return null;
@@ -553,7 +554,10 @@ class WalletStorage {
             const initialLen = nb.transactions.length;
             nb.transactions = nb.transactions.filter(t => t.id !== txId);
             const deleted = nb.transactions.length < initialLen;
-            if (deleted) this.save();
+            if (deleted) {
+                this.save();
+                if (window.sync) window.sync.deleteTransaction(txId);
+            }
             return deleted;
         }
         return false;
@@ -960,6 +964,7 @@ class WalletStorage {
             };
             nb.cofrinhos.push(newCof);
             this.save();
+            if (window.sync) window.sync.upsertCofrinho(newCof, nb.id);
             return newCof;
         }
         return null;
@@ -975,6 +980,7 @@ class WalletStorage {
                 cof.icon = icon || 'piggy';
                 if (pixKey !== undefined) cof.pixKey = pixKey.trim();
                 this.save();
+                if (window.sync) window.sync.upsertCofrinho(cof, nb.id);
                 return cof;
             }
         }
@@ -999,6 +1005,7 @@ class WalletStorage {
                     });
                 }
                 this.save();
+                if (window.sync) window.sync.deleteCofrinho(id);
                 return true;
             }
         }
