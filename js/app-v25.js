@@ -2482,9 +2482,9 @@ Instruções críticas:
             
             if (mainKpi) mainKpi.style.display = 'flex';
             if (fixedKpi) fixedKpi.style.display = 'none';
-            if (txList) txList.style.display = 'flex';
+            if (txList) txList.style.display = 'block';
             if (fixedWrapper) fixedWrapper.style.display = 'none';
-            if (doodleBox && !document.getElementById('search-transactions').value) doodleBox.style.display = 'flex';
+            if (doodleBox && !document.getElementById('search-transactions').value) doodleBox.style.display = 'block';
         } else if (mode === 'a-pagar') {
             const pillPagar = document.getElementById('pill-a-pagar');
             if (pillPagar) pillPagar.classList.add('active');
