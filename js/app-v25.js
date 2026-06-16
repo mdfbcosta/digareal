@@ -2756,7 +2756,7 @@ Instruções críticas:
                             <span class="kpi-label">Total Planejado</span>
                             <span class="kpi-val-big">${formatCurrency(totalIncomesVal)}</span>
                         </div>
-                        <div style="font-size: 0.95rem; font-weight: 700; color: #0d9488;">
+                        <div style="font-size: 0.95rem; font-weight: 700; color: var(--blue-ink);">
                             ${pct}% recebido
                         </div>
                     </div>
@@ -2966,7 +2966,7 @@ Instruções críticas:
                     const dateFormatted = parts.length === 3 ? `${parts[2]}/${parts[1]}` : '';
                     actionHtml = `<span class="paid-badge" style="background-color: #e0f2fe; color: #0369a1; border-color: #bae6fd;" title="Valor Recebido: R$ ${receiveTx.value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}"><i class="fa-solid fa-circle-check" style="color: #0284c7;"></i> Recebido (${dateFormatted})</span>`;
                 } else {
-                    actionHtml = `<button class="btn-pay-fixed" style="background: #0d9488; border-color: #0d9488; color: white;" data-id="${inc.id}">Recebi</button>`;
+                    actionHtml = `<button class="btn-pay-fixed" style="background: var(--blue-ink); border-color: var(--blue-ink); color: white;" data-id="${inc.id}">Recebi</button>`;
                 }
                 
                 let valueHtml = `R$ ${inc.value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
@@ -5088,3 +5088,4 @@ function updateStickyHeader() {
 }
 window.addEventListener('load', updateStickyHeader);
 window.addEventListener('resize', updateStickyHeader);
+

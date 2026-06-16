@@ -2560,8 +2560,8 @@ body {
 }
 
 .fixed-budget-summary-card.theme-incomes {
-    border-left: 4px solid #0d9488;
-    background: linear-gradient(135deg, #fcfefe 0%, #f0faf8 100%);
+    border-left: 4px solid var(--blue-ink);
+    background: linear-gradient(135deg, #fcfefe 0%, #f0f6fa 100%);
 }
 
 .kpi-card-header {
@@ -2584,7 +2584,7 @@ body {
 }
 
 .theme-incomes .kpi-card-title {
-    color: #0b766c;
+    color: var(--blue-ink);
 }
 
 .kpi-card-badge {
@@ -2602,8 +2602,8 @@ body {
 }
 
 .theme-incomes .kpi-card-badge {
-    background: rgba(13, 148, 136, 0.1);
-    color: #0d9488;
+    background: rgba(30, 64, 175, 0.1);
+    color: var(--blue-ink);
 }
 
 .kpi-card-body {
@@ -2651,7 +2651,7 @@ body {
 }
 
 .theme-incomes .kpi-progress-bar {
-    background: rgba(13, 148, 136, 0.08);
+    background: rgba(30, 64, 175, 0.08);
 }
 
 .kpi-progress-fill {
@@ -2665,7 +2665,7 @@ body {
 }
 
 .theme-incomes .kpi-progress-fill {
-    background: #0d9488;
+    background: var(--blue-ink);
 }
 
 /* Details row */
@@ -2697,7 +2697,7 @@ body {
 }
 
 .kpi-detail-val.recebido {
-    color: #0d9488;
+    color: var(--blue-ink);
 }
 
 .kpi-detail-val.pendente {
@@ -4226,6 +4226,8 @@ body {
     padding: 20px;
     margin-bottom: 15px;
 }
+
+
 
 
 
