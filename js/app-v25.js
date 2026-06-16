@@ -404,9 +404,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 localStorage.removeItem('referred_by_temp');
                 btnAuthSubmit.disabled = false;
-                modalWelcome.classList.remove('active');
-                updateUserGreeting();
-                updateUI();
+                checkLogin();
 
             } else {
                 if (!contactVal || !passwordVal) {
@@ -457,18 +455,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
 
                     btnAuthSubmit.disabled = false;
-                    modalWelcome.classList.remove('active');
-                    updateUserGreeting();
-                    updateUI();
+                    checkLogin();
 
                 } else {
                     // 2) Fallback: login local (offline)
                     const localLogin = storage.loginUser(contactVal, passwordVal);
                     if (localLogin.success) {
                         btnAuthSubmit.disabled = false;
-                        modalWelcome.classList.remove('active');
-                        updateUserGreeting();
-                        updateUI();
+                        checkLogin();
                     } else {
                         alert('E-mail/Celular ou Senha incorretos.');
                         btnAuthSubmit.disabled = false;
