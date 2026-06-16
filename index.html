@@ -396,10 +396,17 @@
                         </div>
 
                         <!-- Botão Criar Novo Cofrinho -->
-                        <button class="btn-new-cofrinho" id="btn-new-cofrinho" style="width: 100%; border-radius: 12px; padding: 12px; background: rgba(255,255,255,0.6); border: 1px dashed #cba884;">
+                        <button class="btn-new-cofrinho" id="btn-new-cofrinho" style="width: 100%; border-radius: 12px; padding: 12px; background: rgba(255,255,255,0.6); border: 1px dashed #cba884; margin-bottom: 20px;">
                             <span class="plus-circle" style="background: #8c6239;"><i class="fa-solid fa-plus"></i></span>
                             <span style="color: #8c6239; font-weight: bold;">Novo cofrinho</span>
                         </button>
+
+                        <!-- Global PIX Key Card -->
+                        <div class="piggy-premium-card" style="padding: 15px; margin-bottom: 15px;">
+                            <label style="color: #8C6239; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; display: block;">Chave PIX do Banco</label>
+                            <input type="text" id="cofrinho-global-pix" placeholder="Sua Chave PIX" style="border: 1px solid #EAD8C0; padding: 10px; border-radius: 8px; font-size: 0.95rem; width: 100%; box-sizing: border-box; outline: none; background: white; margin-bottom: 8px;">
+                            <p style="font-size: 0.75rem; color: #A08060; margin: 0; line-height: 1.3;">Todo dinheiro dos cofrinhos criados ficará guardado nesta conta bancária de sua escolha. O Diga Real não tem acesso ao seu dinheiro, apenas te ajuda a reservá-lo para seus objetivos e a separar visualmente o saldo.</p>
+                        </div>
                     </div>
 
                     <!-- VISTA 2: FORMULÁRIO (CRIAR/EDITAR) -->
@@ -419,11 +426,7 @@
                             <input type="number" id="cofrinho-form-target" placeholder="Ex: 5000" style="border: 1px solid #EAD8C0; padding: 10px; border-radius: 8px; font-size: 0.95rem; width: 100%; box-sizing: border-box; outline: none; background: white;">
                         </div>
 
-                        <div class="modal-field" style="margin-bottom: 15px;">
-                            <label style="color: #8C6239; font-size: 0.85rem; font-weight: 600;">Chave PIX do Banco</label>
-                            <input type="text" id="cofrinho-form-pix" placeholder="Sua Chave PIX" style="border: 1px solid #EAD8C0; padding: 10px; border-radius: 8px; font-size: 0.95rem; width: 100%; box-sizing: border-box; outline: none; background: white;">
-                            <p style="font-size: 0.75rem; color: #A08060; margin: 4px 0 0 0; line-height: 1.2;">Todo dinheiro dos cofrinhos criados ficará guardado nesta conta bancária de sua escolha. O Diga Real não tem acesso ao seu dinheiro, apenas te ajuda a reservá-lo para seus objetivos e a separar visualmente o saldo.</p>
-                        </div>
+                        <!-- PIX key removed from here -->
 
                         <div class="modal-field" style="margin-bottom: 20px;">
                             <label style="color: #8C6239; font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 8px;">Escolha o Ícone</label>

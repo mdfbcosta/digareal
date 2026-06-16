@@ -3103,7 +3103,13 @@ Instruções críticas:
     const btnConfirmGuardar = document.getElementById('btn-confirm-guardar');
     const btnConfirmResgatar = document.getElementById('btn-confirm-resgatar');
     const btnQuickAdds = document.querySelectorAll('.btn-quick-add');
-    const cofrinhoFormPix = document.getElementById('cofrinho-form-pix');
+    const cofrinhoGlobalPix = document.getElementById('cofrinho-global-pix');
+
+    if (cofrinhoGlobalPix) {
+        cofrinhoGlobalPix.addEventListener('blur', () => {
+            storage.setCofrinhoPixKey(cofrinhoGlobalPix.value);
+        });
+    }
 
     // Elementos Modal PIX e Pendência
     const modalPixQr = document.getElementById('modal-pix-qr');
@@ -3168,7 +3174,6 @@ Instruções críticas:
             if (cof) {
                 if (cofrinhoFormName) cofrinhoFormName.value = cof.name;
                 if (cofrinhoFormTarget) cofrinhoFormTarget.value = cof.value;
-                if (cofrinhoFormPix) cofrinhoFormPix.value = cof.pixKey || '';
                 selectedIcon = cof.icon || 'piggy';
             }
         } else {
@@ -3176,7 +3181,6 @@ Instruções críticas:
             if (cofrinhoFormTitle) cofrinhoFormTitle.innerText = "Novo cofrinho";
             if (cofrinhoFormName) cofrinhoFormName.value = '';
             if (cofrinhoFormTarget) cofrinhoFormTarget.value = '';
-            if (cofrinhoFormPix) cofrinhoFormPix.value = '';
             selectedIcon = 'piggy';
         }
 
@@ -3457,7 +3461,7 @@ Instruções críticas:
         btnSaveCofrinho.addEventListener('click', () => {
             const name = cofrinhoFormName ? cofrinhoFormName.value.trim() : '';
             const target = cofrinhoFormTarget ? parseFloat(cofrinhoFormTarget.value) : 0;
-            const pixKey = cofrinhoFormPix ? cofrinhoFormPix.value.trim() : '';
+            const pixKey = '';
             
             if (!name) {
                 alert("Por favor, digite o nome do cofrinho!");
@@ -3534,8 +3538,8 @@ Instruções críticas:
     if (btnCopyCofrinhoPix) {
         btnCopyCofrinhoPix.addEventListener('click', () => {
             if (activeCofrinhoId) {
-                const cof = storage.getCofrinho(activeCofrinhoId);
-                const key = cof && cof.pixKey ? cof.pixKey : 'Sua Chave PIX';
+                const globalPix = storage.getCofrinhoPixKey();
+                const key = globalPix ? globalPix : 'Sua Chave PIX';
                 navigator.clipboard.writeText(key).then(() => {
                     alert("Chave PIX copiada!");
                 }).catch(err => {
@@ -3555,9 +3559,9 @@ Instruções críticas:
                 return;
             }
             
-            const cof = storage.getCofrinho(activeCofrinhoId);
-            if (!cof.pixKey) {
-                alert("Você precisa configurar uma chave PIX para este cofrinho editando-o primeiro.");
+            const globalPix = storage.getCofrinhoPixKey();
+            if (!globalPix) {
+                alert("Você precisa configurar a Chave PIX do Banco na tela de Cofrinhos primeiro.");
                 return;
             }
             
@@ -3620,6 +3624,10 @@ Instruções críticas:
 
     // Atualização Geral da UI do Cofrinho
     function updateCofrinhoUI() {
+        if (cofrinhoGlobalPix) {
+            cofrinhoGlobalPix.value = storage.getCofrinhoPixKey();
+        }
+
         const balance = storage.getTotalCofrinhoBalance();
         const badge = document.getElementById('piggy-balance-badge');
         if (badge) {

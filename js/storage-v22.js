@@ -932,6 +932,19 @@ class WalletStorage {
         return cofrinhos.find(c => c.id === id) || null;
     }
 
+    getCofrinhoPixKey() {
+        const nb = this.getActiveNotebook();
+        return nb ? (nb.cofrinhoPixKey || '') : '';
+    }
+
+    setCofrinhoPixKey(key) {
+        const nb = this.getActiveNotebook();
+        if (nb) {
+            nb.cofrinhoPixKey = key.trim();
+            this.save();
+        }
+    }
+
     createCofrinho(name, value, icon, pixKey) {
         const nb = this.getActiveNotebook();
         if (nb) {
