@@ -1,4 +1,4 @@
-﻿document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
     // Reset any native horizontal scroll offset caused by scrollIntoView bugs
     const appEl = document.getElementById('app');
     if (appEl) appEl.scrollLeft = 0;
@@ -721,11 +721,8 @@
         });
     }
 
-    );
-    }
 
-
-    // ðŸ’¬ 6. Conversational Assistant (Chat Overlay Screen)
+    // 🤖 6. Conversational Assistant (Chat Overlay Screen)
     function openChatOverlay() {
         const overlay = document.getElementById('chat-screen-overlay');
         overlay.classList.add('active');
