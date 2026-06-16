@@ -3394,10 +3394,6 @@ Instruções críticas:
     }
 
     // Eventos de Abertura / Fechamento
-    const btnFloatingPiggy = document.getElementById('btn-floating-piggy');
-    const modalCofrinho = document.getElementById('modal-cofrinho');
-    const cofrinhoCard = modalCofrinho ? modalCofrinho.querySelector('.cofrinho-card') : null;
-
     if (btnFloatingPiggy) {
         btnFloatingPiggy.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -3409,7 +3405,6 @@ Instruções críticas:
         });
     }
 
-    const btnCloseCofrinho = document.getElementById('btn-close-cofrinho');
     if (btnCloseCofrinho) {
         btnCloseCofrinho.addEventListener('click', () => {
             if (modalCofrinho) {
@@ -3429,21 +3424,18 @@ Instruções críticas:
     }
 
     // Eventos de Ação e Criação
-    const btnNewCofrinho = document.getElementById('btn-new-cofrinho');
     if (btnNewCofrinho) {
         btnNewCofrinho.addEventListener('click', () => {
             showCofrinhoForm();
         });
     }
 
-    const btnCancelCofrinho = document.getElementById('btn-cancel-cofrinho');
     if (btnCancelCofrinho) {
         btnCancelCofrinho.addEventListener('click', () => {
             showCofrinhoList();
         });
     }
 
-    const btnBackToList = document.getElementById('btn-back-to-list');
     if (btnBackToList) {
         btnBackToList.addEventListener('click', () => {
             showCofrinhoList();
@@ -3451,7 +3443,6 @@ Instruções críticas:
     }
 
     // Picker de Ícone do Form
-    const cofrinhoFormIcons = document.getElementById('cofrinho-form-icons');
     if (cofrinhoFormIcons) {
         cofrinhoFormIcons.querySelectorAll('.icon-picker-btn').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -3462,11 +3453,6 @@ Instruções críticas:
     }
 
     // Salvar Cofrinho
-    const btnSaveCofrinho = document.getElementById('btn-save-cofrinho');
-    const cofrinhoFormName = document.getElementById('cofrinho-form-name');
-    const cofrinhoFormTarget = document.getElementById('cofrinho-form-target');
-    const cofrinhoFormTitle = document.getElementById('cofrinho-form-title');
-
     if (btnSaveCofrinho) {
         btnSaveCofrinho.addEventListener('click', () => {
             const name = cofrinhoFormName ? cofrinhoFormName.value.trim() : '';
@@ -3494,7 +3480,6 @@ Instruções críticas:
     }
 
     // Editar Cofrinho
-    const btnEditCofrinhoMeta = document.getElementById('btn-edit-cofrinho-meta');
     if (btnEditCofrinhoMeta) {
         btnEditCofrinhoMeta.addEventListener('click', () => {
             if (activeCofrinhoId) {
@@ -3504,7 +3489,6 @@ Instruções críticas:
     }
 
     // Excluir Cofrinho
-    const btnDeleteCofrinho = document.getElementById('btn-delete-cofrinho');
     if (btnDeleteCofrinho) {
         btnDeleteCofrinho.addEventListener('click', () => {
             if (activeCofrinhoId) {
@@ -3520,7 +3504,6 @@ Instruções críticas:
     }
 
     // Toggle Histórico Completo
-    const btnToggleDetailHistory = document.getElementById('btn-toggle-detail-history');
     if (btnToggleDetailHistory) {
         btnToggleDetailHistory.addEventListener('click', () => {
             showAllHistory = !showAllHistory;
