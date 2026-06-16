@@ -4221,20 +4221,23 @@ Instruções críticas:
         
         const balance = income - expense;
         
-        const valIncomeEl = document.getElementById('val-income');
-        const valExpenseEl = document.getElementById('val-expense');
         const valBalanceEl = document.getElementById('val-balance');
-        
-        if (valIncomeEl) valIncomeEl.innerText = formatCurrency(income);
-        if (valExpenseEl) valExpenseEl.innerText = formatCurrency(expense);
-        if (valBalanceEl) valBalanceEl.innerText = formatCurrency(balance);
+        if (valBalanceEl) {
+            valBalanceEl.innerText = formatCurrency(balance);
+            if (balance < 0) {
+                valBalanceEl.style.color = 'var(--red-ink)';
+            } else {
+                valBalanceEl.style.color = 'var(--blue-ink)';
+            }
+        }
 
-        // Calculate Saldo Livre Projetado
+        // Calculate Unpaid Debts (Agendado até)
         const selectedMonth = currentFilters.selectedMonthYear;
         const accounts = storage.getFixedAccounts();
         const activeDebts = accounts.filter(acc => !acc.expiration || selectedMonth <= acc.expiration);
         
         let totalUnpaidDebts = 0;
+        let maxDayUnpaid = 0;
         activeDebts.forEach(acc => {
             const isPaid = txs.some(t => 
                 t.item === acc.name && 
@@ -4243,13 +4246,25 @@ Instruções críticas:
             );
             if (!isPaid) {
                 totalUnpaidDebts += acc.value;
+                if (acc.day > maxDayUnpaid) maxDayUnpaid = acc.day;
             }
         });
+
+        const valAgendadoEl = document.getElementById('val-agendado');
+        const agendadoLabelEl = document.getElementById('agendado-label');
         
-        const projectedBalance = balance - totalUnpaidDebts;
-        const valProjectedBalanceEl = document.getElementById('val-projected-balance');
-        if (valProjectedBalanceEl) {
-            valProjectedBalanceEl.innerText = formatCurrency(projectedBalance);
+        if (valAgendadoEl) {
+            valAgendadoEl.innerText = '- ' + formatCurrency(totalUnpaidDebts);
+        }
+        if (agendadoLabelEl) {
+            if (maxDayUnpaid > 0) {
+                const parts = selectedMonth.split('-');
+                const monthStr = parts.length === 2 ? parts[1] : '';
+                const dayStr = String(maxDayUnpaid).padStart(2, '0');
+                agendadoLabelEl.innerText = `Agendado até ${dayStr}/${monthStr}`;
+            } else {
+                agendadoLabelEl.innerText = 'Agendado';
+            }
         }
     }
 

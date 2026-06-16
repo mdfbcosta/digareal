@@ -220,24 +220,17 @@
                         </div>
                     </div>
 
-                    <!-- Novo Quadro de Resumo Financeiro Premium -->
-                    <div class="kpi-summary-card">
-                        <div class="kpi-left-section">
-                            <span class="kpi-label">Saldo disponível</span>
+                    <!-- Novo Quadro de Resumo Financeiro Premium (Compacto) -->
+                    <div class="kpi-summary-card" style="padding: 12px 20px; align-items: center;">
+                        <div class="kpi-left-section" style="flex: 1.5;">
+                            <span class="kpi-label">Saldo</span>
                             <strong class="kpi-main-balance" id="val-balance">R$ 0,00</strong>
-                            <div class="kpi-projected-note" id="projected-balance-note">
-                                <span>✏️ Saldo livre para gastar: <strong id="val-projected-balance">R$ 0,00</strong></span>
-                                <span class="kpi-subtext">(após dívidas pendentes)</span>
-                            </div>
                         </div>
-                        <div class="kpi-right-section">
-                            <div class="kpi-mini-item income">
-                                <span class="kpi-mini-label">Entradas</span>
-                                <strong class="kpi-mini-val" id="val-income">R$ 0,00</strong>
-                            </div>
+                        <div class="kpi-divider" style="width: 1px; height: 40px; background: rgba(0,0,0,0.06); margin: 0 10px;"></div>
+                        <div class="kpi-right-section" style="flex: 1; padding-left: 10px; border-left: none; justify-content: center;">
                             <div class="kpi-mini-item expense">
-                                <span class="kpi-mini-label">Saídas</span>
-                                <strong class="kpi-mini-val" id="val-expense">R$ 0,00</strong>
+                                <span class="kpi-mini-label" id="agendado-label">Agendado</span>
+                                <strong class="kpi-mini-val" id="val-agendado">- R$ 0,00</strong>
                             </div>
                         </div>
                     </div>
