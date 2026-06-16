@@ -4115,8 +4115,9 @@ Instruções críticas:
 
     const btnLogout = document.getElementById('btn-logout');
     if (btnLogout) {
-        btnLogout.addEventListener('click', () => {
+        btnLogout.addEventListener('click', async () => {
             if (confirm("Deseja mesmo sair do caderno?")) {
+                if (window.sync) await sync.signOut();
                 storage.logoutUser();
                 checkLogin();
                 if (notebookDropdown) notebookDropdown.classList.remove('active');
