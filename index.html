@@ -154,78 +154,80 @@
 
 
                 <!-- Notebook Header (Fixed Summary) -->
-                <div class="notebook-header">
-                    <div class="notebook-top-row">
-                        <div style="display: flex; align-items: center; gap: 8px;">
-                            <button class="btn-back-home" id="btn-back-home" title="Voltar ao início">
-                                <i class="fa-solid fa-chevron-left"></i>
-                            </button>
-                            
-                            <div class="active-notebook-title">
-                                <span id="notebook-name-display">Caderno Padrão</span>
-                                <button style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size: 0.8rem; margin-left: 1px;" id="btn-switch-notebook" title="Trocar de Caderno">
-                                    <i class="fa-solid fa-caret-down"></i>
+                <div class="notebook-header" style="display: contents;">
+                    <div id="sticky-top-group" style="position: sticky; top: 0; z-index: 30; background: rgba(252, 251, 250, 0.95); backdrop-filter: blur(4px); padding: 16px 8px 10px 8px; margin: 0 -8px; padding-left: 16px; padding-right: 16px;">
+                        <div class="notebook-top-row">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <button class="btn-back-home" id="btn-back-home" title="Voltar ao início">
+                                    <i class="fa-solid fa-chevron-left"></i>
                                 </button>
-                            </div>
-                        </div>
-
-                        <!-- Menu de 3 pontinhos horizontais -->
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <button class="header-voice-toggle-btn" id="btn-toggle-voice-header" title="Silenciar assistente">
-                                <i class="fa-solid fa-volume-high"></i>
-                            </button>
-                            <div class="notebook-menu-wrapper">
-                                <button class="btn-notebook-menu" id="btn-notebook-menu" title="Opções do Caderno">
-                                    <i class="fa-solid fa-ellipsis"></i>
-                                </button>
-                                <!-- Dropdown menu flutuante -->
-                                <div class="notebook-dropdown-menu" id="notebook-dropdown">
-                                    <div class="menu-branding-header">
-                                        <img src="logo.png" alt="Logo DigaReal" class="menu-branding-logo">
-                                        <div class="menu-branding-text">
-                                            <span class="menu-app-name">DigaReal</span>
-                                            <span class="menu-user-greeting" id="menu-user-greeting">Olá!</span>
-                                        </div>
-                                    </div>
-                                    <button class="dropdown-item" id="btn-edit-profile" style="border-top: 1px solid rgba(0,0,0,0.06);">
-                                        <i class="fa-regular fa-user"></i>
-                                        <span>Editar Perfil</span>
-                                    </button>
-                                    <button class="dropdown-item" id="btn-gemini-settings">
-                                        <i class="fa-solid fa-brain" style="color: #4f46e5;"></i>
-                                        <span>Configurar Gemini</span>
-                                    </button>
-                                    <button class="dropdown-item" id="btn-show-chat-logs">
-                                        <i class="fa-solid fa-comments"></i>
-                                        <span>Diário de Conversas</span>
-                                    </button>
-                                    <button class="dropdown-item" id="btn-export-csv">
-                                        <i class="fa-solid fa-file-csv" style="color: #2e7d32;"></i>
-                                        <span>Exportar Caderno (CSV)</span>
-                                    </button>
-                                    <button class="dropdown-item" id="btn-dev-simulate-billing" style="border-top: 1px dashed rgba(0,0,0,0.06); color: #16a34a;">
-                                        <i class="fa-solid fa-flask" style="color: #16a34a;"></i>
-                                        <span>Simular Cobrança (Teste)</span>
-                                    </button>
-                                    <button class="dropdown-item" id="btn-dev-add-referral" style="border-top: 1px dashed rgba(0,0,0,0.06); color: #25d366;">
-                                        <i class="fa-solid fa-user-plus" style="color: #25d366;"></i>
-                                        <span>Simular Indicação (+1 Amigo)</span>
-                                    </button>
-                                    <button class="dropdown-item text-danger" id="btn-logout" style="border-top: 1px dashed rgba(0,0,0,0.06);">
-                                        <i class="fa-solid fa-right-from-bracket"></i>
-                                        <span>Sair do Caderno</span>
+                                
+                                <div class="active-notebook-title">
+                                    <span id="notebook-name-display">Caderno Padrão</span>
+                                    <button style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size: 0.8rem; margin-left: 1px;" id="btn-switch-notebook" title="Trocar de Caderno">
+                                        <i class="fa-solid fa-caret-down"></i>
                                     </button>
                                 </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <!-- Top Segmented Control (Pills) -->
-                    <div class="top-segmented-control" style="padding: 10px 10px 0 10px;">
-                        <div class="segmented-pills-container">
-                            <button class="segmented-pill active" id="pill-dia-a-dia" data-target="dia-a-dia">Dia a Dia</button>
-                            <button class="segmented-pill" id="pill-a-pagar" data-target="a-pagar">A Pagar</button>
-                            <button class="segmented-pill" id="pill-a-receber" data-target="a-receber">A Receber</button>
+                            <!-- Menu de 3 pontinhos horizontais -->
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <button class="header-voice-toggle-btn" id="btn-toggle-voice-header" title="Silenciar assistente">
+                                    <i class="fa-solid fa-volume-high"></i>
+                                </button>
+                                <div class="notebook-menu-wrapper">
+                                    <button class="btn-notebook-menu" id="btn-notebook-menu" title="Opções do Caderno">
+                                        <i class="fa-solid fa-ellipsis"></i>
+                                    </button>
+                                    <!-- Dropdown menu flutuante -->
+                                    <div class="notebook-dropdown-menu" id="notebook-dropdown">
+                                        <div class="menu-branding-header">
+                                            <img src="logo.png" alt="Logo DigaReal" class="menu-branding-logo">
+                                            <div class="menu-branding-text">
+                                                <span class="menu-app-name">DigaReal</span>
+                                                <span class="menu-user-greeting" id="menu-user-greeting">Olá!</span>
+                                            </div>
+                                        </div>
+                                        <button class="dropdown-item" id="btn-edit-profile" style="border-top: 1px solid rgba(0,0,0,0.06);">
+                                            <i class="fa-regular fa-user"></i>
+                                            <span>Editar Perfil</span>
+                                        </button>
+                                        <button class="dropdown-item" id="btn-gemini-settings">
+                                            <i class="fa-solid fa-brain" style="color: #4f46e5;"></i>
+                                            <span>Configurar Gemini</span>
+                                        </button>
+                                        <button class="dropdown-item" id="btn-show-chat-logs">
+                                            <i class="fa-solid fa-comments"></i>
+                                            <span>Diário de Conversas</span>
+                                        </button>
+                                        <button class="dropdown-item" id="btn-export-csv">
+                                            <i class="fa-solid fa-file-csv" style="color: #2e7d32;"></i>
+                                            <span>Exportar Caderno (CSV)</span>
+                                        </button>
+                                        <button class="dropdown-item" id="btn-dev-simulate-billing" style="border-top: 1px dashed rgba(0,0,0,0.06); color: #16a34a;">
+                                            <i class="fa-solid fa-flask" style="color: #16a34a;"></i>
+                                            <span>Simular Cobrança (Teste)</span>
+                                        </button>
+                                        <button class="dropdown-item" id="btn-dev-add-referral" style="border-top: 1px dashed rgba(0,0,0,0.06); color: #25d366;">
+                                            <i class="fa-solid fa-user-plus" style="color: #25d366;"></i>
+                                            <span>Simular Indicação (+1 Amigo)</span>
+                                        </button>
+                                        <button class="dropdown-item text-danger" id="btn-logout" style="border-top: 1px dashed rgba(0,0,0,0.06);">
+                                            <i class="fa-solid fa-right-from-bracket"></i>
+                                            <span>Sair do Caderno</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Top Segmented Control (Pills) -->
+                        <div class="top-segmented-control" style="padding: 10px 0 0 0;">
+                            <div class="segmented-pills-container">
+                                <button class="segmented-pill active" id="pill-dia-a-dia" data-target="dia-a-dia">Dia a Dia</button>
+                                <button class="segmented-pill" id="pill-a-pagar" data-target="a-pagar">A Pagar</button>
+                                <button class="segmented-pill" id="pill-a-receber" data-target="a-receber">A Receber</button>
+                            </div>
                         </div>
                     </div>
 
@@ -252,16 +254,18 @@
                     </div>
 
                     <!-- Carrossel de Meses Horizontal -->
-                    <div class="months-carousel-wrapper">
-                        <div class="months-carousel" id="months-carousel">
-                            <!-- Populated dynamically via JS like: OUT | NOV | DEZ/25 | JAN | FEV -->
-                        </div>
-                        <div class="carousel-pins-container">
-                            <button class="btn-months-picker" id="btn-months-picker" title="Selecionar Mês">
-                                <i class="fa-regular fa-calendar-days" style="color: var(--text-muted); font-size: 1.15rem;"></i>
-                                <i class="fa-solid fa-chevron-down" style="color: var(--text-muted); font-size: 0.65rem; margin-left: 1px;"></i>
-                            </button>
-                            <input type="month" id="months-carousel-picker" style="position: absolute; opacity: 0; pointer-events: none; width: 0; height: 0;">
+                    <div id="sticky-carousel-group" style="position: sticky; top: 102px; z-index: 20; background: rgba(252, 251, 250, 0.95); backdrop-filter: blur(4px); padding: 5px 8px; margin: 0 -8px; padding-left: 16px; padding-right: 16px; box-shadow: 0 4px 10px rgba(0,0,0,0.02);">
+                        <div class="months-carousel-wrapper" style="margin-top: 0; margin-bottom: 0;">
+                            <div class="months-carousel" id="months-carousel">
+                                <!-- Populated dynamically via JS like: OUT | NOV | DEZ/25 | JAN | FEV -->
+                            </div>
+                            <div class="carousel-pins-container">
+                                <button class="btn-months-picker" id="btn-months-picker" title="Selecionar Mês">
+                                    <i class="fa-regular fa-calendar-days" style="color: var(--text-muted); font-size: 1.15rem;"></i>
+                                    <i class="fa-solid fa-chevron-down" style="color: var(--text-muted); font-size: 0.65rem; margin-left: 1px;"></i>
+                                </button>
+                                <input type="month" id="months-carousel-picker" style="position: absolute; opacity: 0; pointer-events: none; width: 0; height: 0;">
+                            </div>
                         </div>
                     </div>
 
