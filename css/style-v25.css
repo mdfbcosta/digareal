@@ -4073,14 +4073,14 @@ body {
 }
 
 .transaction-title {
-    font-family: var(--font-handwriting);
+    font-family: var(--font-normal);
     font-size: 1.05rem;
     font-weight: 600;
     color: var(--text-primary);
 }
 
 .transaction-meta {
-    font-family: var(--font-handwriting);
+    font-family: var(--font-normal);
     display: flex;
     align-items: center;
     gap: 4px;
@@ -4094,7 +4094,7 @@ body {
 }
 
 .transaction-amount {
-    font-family: var(--font-handwriting);
+    font-family: var(--font-normal);
     font-size: 1.05rem;
     font-weight: 700;
     text-align: right;
@@ -4226,3 +4226,5 @@ body {
     padding: 20px;
     margin-bottom: 15px;
 }
+
+
