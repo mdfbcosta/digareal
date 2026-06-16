@@ -220,8 +220,17 @@
                         </div>
                     </div>
 
+                    <!-- Top Segmented Control (Pills) -->
+                    <div class="top-segmented-control" style="padding: 10px 10px 0 10px;">
+                        <div class="segmented-pills-container">
+                            <button class="segmented-pill active" id="pill-dia-a-dia" data-target="dia-a-dia">Dia a Dia</button>
+                            <button class="segmented-pill" id="pill-a-pagar" data-target="a-pagar">A Pagar</button>
+                            <button class="segmented-pill" id="pill-a-receber" data-target="a-receber">A Receber</button>
+                        </div>
+                    </div>
+
                     <!-- Novo Quadro de Resumo Financeiro Premium (Compacto) -->
-                    <div class="kpi-summary-card" style="padding: 12px 10px; align-items: center;">
+                    <div class="kpi-summary-card" id="main-kpi-card" style="padding: 12px 10px; align-items: center;">
                         <div class="kpi-left-section" style="flex: 1; justify-content: center;">
                             <div class="kpi-mini-item">
                                 <span class="kpi-mini-label">Saldo</span>
@@ -235,6 +244,11 @@
                                 <strong class="kpi-mini-val" id="val-agendado">- R$ 0,00</strong>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Resumo do Orçamento Fixo (Card KPI Premium Adaptativo) -->
+                    <div class="fixed-budget-summary-card" id="fixed-budget-summary-card" style="display: none; margin: 10px;">
+                        <!-- Populado dinamicamente via JS -->
                     </div>
 
                     <!-- Carrossel de Meses Horizontal -->
@@ -288,6 +302,56 @@
                         <!-- Populated dynamically -->
                     </div>
 
+                    <!-- Fixed Accounts Container -->
+                    <div class="fixed-content-wrapper" id="fixed-content-wrapper" style="display: none; padding: 10px;">
+                        <div class="fixed-add-button-row" id="fixed-add-button-row">
+                            <button class="btn-toggle-add-fixed" id="btn-toggle-add-fixed" title="Cadastrar Novo Item">
+                                <i class="fa-solid fa-plus"></i> Dívida
+                            </button>
+                        </div>
+                        
+                        <!-- Collapsible Form for Insertion -->
+                        <div class="fixed-form-collapsible" id="fixed-form-collapsible">
+                            <form id="form-fixed-account" onsubmit="return false;">
+                                <div style="display:grid; grid-template-columns: 2fr 1fr; gap: 8px; margin-bottom: 8px;">
+                                    <div class="modal-field" style="margin:0;">
+                                        <label for="fixed-name" id="label-fixed-name">Nome da Dívida</label>
+                                        <input type="text" id="fixed-name" placeholder="Ex: Colégio José" required>
+                                    </div>
+                                    <div class="modal-field" style="margin:0;">
+                                        <label for="fixed-value">Valor (R$)</label>
+                                        <input type="number" id="fixed-value" placeholder="300" step="0.01" required>
+                                    </div>
+                                </div>
+                                <div style="display:grid; grid-template-columns: 1fr 1.2fr; gap: 8px; margin-bottom: 12px;">
+                                    <div class="modal-field" style="margin:0;">
+                                        <label for="fixed-day" id="label-fixed-day">Dia do Vencimento</label>
+                                        <input type="number" id="fixed-day" placeholder="Ex: 5" min="1" max="31" required>
+                                    </div>
+                                    <div class="modal-field" style="margin:0;">
+                                        <label for="fixed-expiration">Válido até (Opcional)</label>
+                                        <input type="month" id="fixed-expiration" style="width: 100%; box-sizing: border-box;">
+                                    </div>
+                                </div>
+                                <div style="display:flex; justify-content:flex-end; gap: 8px;">
+                                    <button type="button" class="btn-secondary" id="btn-cancel-fixed-account" style="padding: 10px 8px; height: 38px; display:flex; align-items:center; gap:6px;">
+                                        Cancelar
+                                    </button>
+                                    <button class="btn-primary" id="btn-save-fixed-account" style="padding: 10px 8px; height: 38px; display:flex; align-items:center; gap:6px;">
+                                        <i class="fa-solid fa-plus"></i> <span id="btn-save-fixed-text">Cadastrar</span>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <div class="fixed-accounts-list-container" id="fixed-accounts-list-container">
+                            <span class="fixed-accounts-list-subtitle" id="fixed-list-subtitle">Minhas Dívidas Mensais</span>
+                            <div id="fixed-accounts-list" style="display:flex; flex-direction:column; gap:10px;">
+                                <!-- List of fixed accounts will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Doodle Report Section -->
                     <div class="doodle-chart-box" id="doodle-chart-box" style="display: none;">
                         <div class="doodle-chart-title">Resumo por Categoria</div>
@@ -311,88 +375,7 @@
                 </button>
             </section>
 
-            <!-- SCREEN 3: AGENDA MENSAL (DÍVIDAS & RECEITAS) -->
-            <section class="slide fixed-accounts-fullscreen-panel" id="modal-fixed-accounts">
-            <div class="fixed-accounts-page-content theme-soft-ruled">
-                <!-- Header Row -->
-                <div class="fixed-accounts-header">
-                    <button class="btn-back-fixed-accounts" id="btn-back-fixed-accounts" title="Voltar">
-                        <i class="fa-solid fa-chevron-left"></i>
-                    </button>
-                    <!-- Abas de Navegação (Dívidas vs Receitas) na primeira linha -->
-                    <div class="fixed-tabs-bar">
-                        <button class="fixed-tab-btn active" id="fixed-tab-debts" data-tab="debts">
-                            <i class="fa-solid fa-thumbtack" style="color: var(--red-ink); margin-right: 2px;"></i> Dívidas Mensais
-                        </button>
-                        <button class="fixed-tab-btn" id="fixed-tab-incomes" data-tab="incomes">
-                            <i class="fa-solid fa-thumbtack" style="color: var(--blue-ink); margin-right: 2px;"></i> Receitas Mensais
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Resumo do Orçamento Fixo -->
-                <!-- Resumo do Orçamento Fixo (Card KPI Premium Adaptativo) -->
-                <div class="fixed-budget-summary-card" id="fixed-budget-summary-card">
-                    <!-- Populado dinamicamente via JS -->
-                </div>
-                
-                <!-- Carrossel de Meses Horizontal na tela de Dívidas Mensais -->
-                <div class="months-carousel-wrapper" style="margin-bottom: 15px; margin-top: 4px;">
-                    <div class="months-carousel" id="fixed-months-carousel">
-                        <!-- Populated dynamically via JS -->
-                    </div>
-                </div>
-
-                <!-- Botão de inclusão de Dívida / Receita alinhado à esquerda -->
-                <div class="fixed-add-button-row" id="fixed-add-button-row">
-                    <button class="btn-toggle-add-fixed" id="btn-toggle-add-fixed" title="Cadastrar Novo Item">
-                        <i class="fa-solid fa-plus"></i> Dívida
-                    </button>
-                </div>
-                
-                <!-- Collapsible Form for Insertion -->
-                <div class="fixed-form-collapsible" id="fixed-form-collapsible">
-                    <form id="form-fixed-account" onsubmit="return false;">
-                        <div style="display:grid; grid-template-columns: 2fr 1fr; gap: 8px; margin-bottom: 8px;">
-                            <div class="modal-field" style="margin:0;">
-                                <label for="fixed-name" id="label-fixed-name">Nome da Dívida</label>
-                                <input type="text" id="fixed-name" placeholder="Ex: Colégio José" required>
-                            </div>
-                            <div class="modal-field" style="margin:0;">
-                                <label for="fixed-value">Valor (R$)</label>
-                                <input type="number" id="fixed-value" placeholder="300" step="0.01" required>
-                            </div>
-                        </div>
-                        <div style="display:grid; grid-template-columns: 1fr 1.2fr; gap: 8px; margin-bottom: 12px;">
-                            <div class="modal-field" style="margin:0;">
-                                <label for="fixed-day" id="label-fixed-day">Dia do Vencimento</label>
-                                <input type="number" id="fixed-day" placeholder="Ex: 5" min="1" max="31" required>
-                            </div>
-                            <div class="modal-field" style="margin:0;">
-                                <label for="fixed-expiration">Válido até (Opcional)</label>
-                                <input type="month" id="fixed-expiration" style="width: 100%; box-sizing: border-box;">
-                            </div>
-                        </div>
-                        <div style="display:flex; justify-content:flex-end; gap: 8px;">
-                            <button type="button" class="btn-secondary" id="btn-cancel-fixed-account" style="padding: 10px 8px; height: 38px; display:flex; align-items:center; gap:6px;">
-                                Cancelar
-                            </button>
-                            <button class="btn-primary" id="btn-save-fixed-account" style="padding: 10px 8px; height: 38px; display:flex; align-items:center; gap:6px;">
-                                <i class="fa-solid fa-plus"></i> <span id="btn-save-fixed-text">Cadastrar</span>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- List Container -->
-                <div class="fixed-accounts-list-container" id="fixed-accounts-list-container">
-                    <span class="fixed-accounts-list-subtitle" id="fixed-list-subtitle">Minhas Dívidas Mensais</span>
-                    <div id="fixed-accounts-list" style="display:flex; flex-direction:column; gap:10px;">
-                        <!-- List of fixed accounts will be populated here -->
-                    </div>
-                </div>
-            </div>
-        </section>
+            <!-- SCREEN 3: AGENDA MENSAL (DÍVIDAS & RECEITAS) (REMOVED) -->
 
         <!-- SCREEN 4: ESTANTE DE CADERNOS -->
         <section class="slide shelf-fullscreen-panel" id="screen-shelf">
@@ -444,10 +427,9 @@
                 </button>
                 <span class="nav-mic-label">Falar</span>
             </div>
-            <button class="nav-tab-btn" data-tab="mensal" id="tab-mensal">
-                <i class="fa-solid fa-calendar-days"></i>
-                <span>Mensal</span>
-            </button>
+            <div class="nav-tab-btn empty-slot" style="visibility: hidden;">
+                <!-- Espaço vazio reservado -->
+            </div>
             <button class="nav-tab-btn" data-tab="shelf" id="tab-shelf">
                 <i class="fa-solid fa-book"></i>
                 <span>Cadernos</span>

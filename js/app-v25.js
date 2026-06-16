@@ -2456,54 +2456,87 @@ Instruções críticas:
         }
     }
 
-    function openFixedAccountsModal(tab = 'debts') {
-        if (notebookDropdown) notebookDropdown.classList.remove('active');
-        switchTab('mensal');
+    function switchSegmentedMode(mode) {
+        // Reset all pills
+        const pills = document.querySelectorAll('.segmented-pill');
+        pills.forEach(p => p.classList.remove('active'));
+        
+        // Hide both main KPI and fixed KPI by default
+        const mainKpi = document.getElementById('main-kpi-card');
+        const fixedKpi = document.getElementById('fixed-budget-summary-card');
+        const txList = document.getElementById('transaction-list');
+        const fixedWrapper = document.getElementById('fixed-content-wrapper');
+        const doodleBox = document.getElementById('doodle-chart-box');
 
-        
-        const debtsTabBtn = document.getElementById('fixed-tab-debts');
-        const incomesTabBtn = document.getElementById('fixed-tab-incomes');
-        const contentPanel = modalFixedAccounts.querySelector('.fixed-accounts-page-content');
-        
-        currentFixedTab = tab;
-        
         const fixedNameLabel = document.getElementById('label-fixed-name');
         const fixedNameInput = document.getElementById('fixed-name');
         const fixedDayLabel = document.getElementById('label-fixed-day');
         const fixedListSubtitle = document.getElementById('fixed-list-subtitle');
         const btnToggleAdd = document.getElementById('btn-toggle-add-fixed');
-        
+
         showFixedForm(false);
-        
-        if (tab === 'incomes') {
-            if (debtsTabBtn) debtsTabBtn.classList.remove('active');
-            if (incomesTabBtn) incomesTabBtn.classList.add('active');
-            if (contentPanel) {
-                contentPanel.classList.add('theme-soft-teal');
-                contentPanel.classList.remove('theme-soft-red');
-            }
+
+        if (mode === 'dia-a-dia') {
+            const pillDia = document.getElementById('pill-dia-a-dia');
+            if (pillDia) pillDia.classList.add('active');
             
-            if (btnToggleAdd) btnToggleAdd.innerHTML = '<i class="fa-solid fa-plus"></i> Receita';
-            if (fixedNameLabel) fixedNameLabel.innerText = 'Nome da Receita';
-            if (fixedNameInput) fixedNameInput.placeholder = 'Ex: Salário Mensal';
-            if (fixedDayLabel) fixedDayLabel.innerText = 'Dia do Recebimento';
-            if (fixedListSubtitle) fixedListSubtitle.innerText = 'Minhas Receitas Mensais';
-        } else {
-            if (debtsTabBtn) debtsTabBtn.classList.add('active');
-            if (incomesTabBtn) incomesTabBtn.classList.remove('active');
-            if (contentPanel) {
-                contentPanel.classList.add('theme-soft-red');
-                contentPanel.classList.remove('theme-soft-teal');
-            }
+            if (mainKpi) mainKpi.style.display = 'flex';
+            if (fixedKpi) fixedKpi.style.display = 'none';
+            if (txList) txList.style.display = 'flex';
+            if (fixedWrapper) fixedWrapper.style.display = 'none';
+            if (doodleBox && !document.getElementById('search-transactions').value) doodleBox.style.display = 'flex';
+        } else if (mode === 'a-pagar') {
+            const pillPagar = document.getElementById('pill-a-pagar');
+            if (pillPagar) pillPagar.classList.add('active');
             
+            currentFixedTab = 'debts';
+            if (mainKpi) mainKpi.style.display = 'none';
+            if (fixedKpi) fixedKpi.style.display = 'flex';
+            if (txList) txList.style.display = 'none';
+            if (fixedWrapper) fixedWrapper.style.display = 'block';
+            if (doodleBox) doodleBox.style.display = 'none';
+
             if (btnToggleAdd) btnToggleAdd.innerHTML = '<i class="fa-solid fa-plus"></i> Dívida';
             if (fixedNameLabel) fixedNameLabel.innerText = 'Nome da Dívida';
             if (fixedNameInput) fixedNameInput.placeholder = 'Ex: Colégio José';
             if (fixedDayLabel) fixedDayLabel.innerText = 'Dia do Vencimento';
             if (fixedListSubtitle) fixedListSubtitle.innerText = 'Minhas Dívidas Mensais';
+            
+            renderFixedAccountsList();
+        } else if (mode === 'a-receber') {
+            const pillReceber = document.getElementById('pill-a-receber');
+            if (pillReceber) pillReceber.classList.add('active');
+            
+            currentFixedTab = 'incomes';
+            if (mainKpi) mainKpi.style.display = 'none';
+            if (fixedKpi) fixedKpi.style.display = 'flex';
+            if (txList) txList.style.display = 'none';
+            if (fixedWrapper) fixedWrapper.style.display = 'block';
+            if (doodleBox) doodleBox.style.display = 'none';
+
+            if (btnToggleAdd) btnToggleAdd.innerHTML = '<i class="fa-solid fa-plus"></i> Receita';
+            if (fixedNameLabel) fixedNameLabel.innerText = 'Nome da Receita';
+            if (fixedNameInput) fixedNameInput.placeholder = 'Ex: Salário Mensal';
+            if (fixedDayLabel) fixedDayLabel.innerText = 'Dia do Recebimento';
+            if (fixedListSubtitle) fixedListSubtitle.innerText = 'Minhas Receitas Mensais';
+
+            renderFixedAccountsList();
         }
-        
-        renderFixedAccountsList();
+    }
+
+    // Event listeners for segmented pills
+    document.querySelectorAll('.segmented-pill').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const target = btn.getAttribute('data-target');
+            if (target) switchSegmentedMode(target);
+        });
+    });
+
+    // Replace openFixedAccountsModal for legacy buttons
+    function openFixedAccountsModal(tab = 'debts') {
+        if (notebookDropdown) notebookDropdown.classList.remove('active');
+        switchTab('details');
+        switchSegmentedMode(tab === 'incomes' ? 'a-receber' : 'a-pagar');
     }
 
     if (btnOpenFixedAccounts) {
@@ -2531,25 +2564,6 @@ Instruções críticas:
         btnMenuFixedIncomes.addEventListener('click', (e) => {
             e.stopPropagation();
             openFixedAccountsModal('incomes');
-        });
-    }
-
-    const debtsTabBtn = document.getElementById('fixed-tab-debts');
-    const incomesTabBtn = document.getElementById('fixed-tab-incomes');
-    if (debtsTabBtn) {
-        debtsTabBtn.addEventListener('click', () => {
-            openFixedAccountsModal('debts');
-        });
-    }
-    if (incomesTabBtn) {
-        incomesTabBtn.addEventListener('click', () => {
-            openFixedAccountsModal('incomes');
-        });
-    }
-
-    if (btnBackFixedAccounts) {
-        btnBackFixedAccounts.addEventListener('click', () => {
-            switchTab('details');
         });
     }
 

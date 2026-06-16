@@ -4159,3 +4159,45 @@ body {
 
 
 
+
+/* --- SEGMENTED CONTROL --- */
+.top-segmented-control {
+    width: 100%;
+}
+.segmented-pills-container {
+    display: flex;
+    background-color: transparent;
+    border-radius: 20px;
+    padding: 2px;
+    gap: 6px;
+    justify-content: space-between;
+}
+.segmented-pill {
+    flex: 1;
+    background-color: transparent;
+    border: 1px solid rgba(0,0,0,0.08);
+    color: var(--text-muted);
+    padding: 6px 4px;
+    border-radius: 20px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+.segmented-pill.active {
+    border-color: transparent;
+    color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+/* Cores por contexto */
+.segmented-pill#pill-dia-a-dia.active {
+    background-color: #8C6239;
+}
+.segmented-pill#pill-a-pagar.active {
+    background-color: var(--red-ink, #d32f2f);
+}
+.segmented-pill#pill-a-receber.active {
+    background-color: var(--blue-ink, #1976d2);
+}
