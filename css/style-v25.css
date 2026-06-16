@@ -4210,3 +4210,19 @@ body {
 #screen-details .notebook-page {
     overflow-y: visible;
 }
+
+/* --- COFRINHO PREMIUM FULL SCREEN --- */
+.piggy-fullscreen-panel {
+    background: linear-gradient(135deg, #FAF6EE 0%, #F5EAE0 100%);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.piggy-premium-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(140, 98, 57, 0.15);
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.03);
+    padding: 20px;
+    margin-bottom: 15px;
+}

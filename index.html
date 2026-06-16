@@ -372,15 +372,148 @@
                     <span class="doubts-text" id="doubts-badge-text">Tenho algumas perguntas, Rosil!</span>
                 </div>
 
-                <!-- STICKER FLOATING PIGGY BANK BUTTON -->
-                <button class="btn-floating-piggy" id="btn-floating-piggy" title="Meu Cofrinho">
-                    <span class="piggy-badge" id="piggy-balance-badge">R$ 0</span>
-                    <i class="fa-solid fa-piggy-bank"></i>
-                </button>
+                <!-- STICKER FLOATING PIGGY BANK BUTTON REMOVED -->
             </section>
 
-            <!-- SCREEN 3: AGENDA MENSAL (DÍVIDAS & RECEITAS) (REMOVED) -->
+            <!-- SCREEN 3: COFRINHO PREMIUM -->
+            <section class="slide piggy-fullscreen-panel" id="screen-cofrinho">
+                <div style="padding: 18px 10px 10px 10px; border-bottom: 1px solid rgba(0,0,0,0.04); z-index:10;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <h3 style="font-family: var(--font-title); font-weight: 700; margin:0; color: #8C6239; font-size: 1.35rem;">Meus Cofrinhos</h3>
+                        <p style="font-size: 0.8rem; color: #A08060; margin: 0; font-family: var(--font-handwriting);">Objetivos e conquistas.</p>
+                    </div>
+                </div>
+                
+                <div class="cofrinho-page-content" style="padding: 10px;">
+                    <!-- VISTA 1: LISTA DE COFRINHOS -->
+                    <div id="cofrinho-list-view" style="display: block; width: 100%;">
+                        <!-- Lista de cofrinhos com scroll -->
+                        <div id="cofrinhos-list-container" style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px;">
+                            <!-- Preenchido dinamicamente via JS -->
+                        </div>
 
+                        <!-- Botão Criar Novo Cofrinho -->
+                        <button class="btn-new-cofrinho" id="btn-new-cofrinho" style="width: 100%; border-radius: 12px; padding: 12px; background: rgba(255,255,255,0.6); border: 1px dashed #cba884;">
+                            <span class="plus-circle" style="background: #8c6239;"><i class="fa-solid fa-plus"></i></span>
+                            <span style="color: #8c6239; font-weight: bold;">Novo cofrinho</span>
+                        </button>
+                    </div>
+
+                    <!-- VISTA 2: FORMULÁRIO (CRIAR/EDITAR) -->
+                    <div id="cofrinho-form-view" class="piggy-premium-card" style="display: none; width: 100%; box-sizing: border-box;">
+                        <div style="display:flex; align-items:center; gap: 10px; margin-bottom:15px;">
+                            <button id="btn-cancel-cofrinho" style="background:none; border:none; font-size:1.1rem; color: #8C6239; cursor:pointer; padding: 4px;"><i class="fa-solid fa-arrow-left"></i></button>
+                            <h3 id="cofrinho-form-title" style="font-family: var(--font-title); font-weight: 700; margin:0; color: #8C6239; font-size: 1.25rem;">Novo cofrinho</h3>
+                        </div>
+
+                        <div class="modal-field" style="margin-bottom: 12px;">
+                            <label style="color: #8C6239; font-size: 0.85rem; font-weight: 600;">Objetivo / Nome do Cofrinho</label>
+                            <input type="text" id="cofrinho-form-name" placeholder="Ex: Viagem Férias 2026" style="border: 1px solid #EAD8C0; padding: 10px; border-radius: 8px; font-size: 0.95rem; width: 100%; box-sizing: border-box; outline: none; background: white;">
+                        </div>
+
+                        <div class="modal-field" style="margin-bottom: 15px;">
+                            <label style="color: #8C6239; font-size: 0.85rem; font-weight: 600;">Meta (R$)</label>
+                            <input type="number" id="cofrinho-form-target" placeholder="Ex: 5000" style="border: 1px solid #EAD8C0; padding: 10px; border-radius: 8px; font-size: 0.95rem; width: 100%; box-sizing: border-box; outline: none; background: white;">
+                        </div>
+
+                        <div class="modal-field" style="margin-bottom: 20px;">
+                            <label style="color: #8C6239; font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 8px;">Escolha o Ícone</label>
+                            <div class="icon-picker-grid" id="cofrinho-form-icons">
+                                <button type="button" class="icon-picker-btn active" data-icon="piggy" style="background-color: #fdf2f8; color: #db2777; border-color: #db2777;" title="Porquinho"><i class="fa-solid fa-piggy-bank"></i></button>
+                                <button type="button" class="icon-picker-btn" data-icon="plane" style="background-color: #ffe4e6; color: #f43f5e;" title="Férias"><i class="fa-solid fa-plane"></i></button>
+                                <button type="button" class="icon-picker-btn" data-icon="child" style="background-color: #e0f2fe; color: #0284c7;" title="Filhos"><i class="fa-solid fa-child"></i></button>
+                                <button type="button" class="icon-picker-btn" data-icon="shield" style="background-color: #dcfce7; color: #15803d;" title="Emergência"><i class="fa-solid fa-shield-halved"></i></button>
+                                <button type="button" class="icon-picker-btn" data-icon="home" style="background-color: #ffedd5; color: #ea580c;" title="Reforma"><i class="fa-solid fa-house"></i></button>
+                                <button type="button" class="icon-picker-btn" data-icon="gift" style="background-color: #f3e8ff; color: #9333ea;" title="Presente"><i class="fa-solid fa-gift"></i></button>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 10px;">
+                            <button class="btn-primary" id="btn-save-cofrinho" style="flex: 1; background: #8C6239; border-color: #8C6239; color: white; padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none;">Salvar</button>
+                        </div>
+                    </div>
+
+                    <!-- VISTA 3: DETALHES DO COFRINHO -->
+                    <div id="cofrinho-detail-view" style="display: none; width: 100%; box-sizing: border-box;">
+                        <div style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <button id="btn-back-to-list" style="background:none; border:none; font-size:1.1rem; color: #8C6239; cursor:pointer; padding: 4px;"><i class="fa-solid fa-arrow-left"></i></button>
+                            <!-- Large icon display centered in detail -->
+                            <div id="cofrinho-detail-icon-container" class="cofrinho-detail-icon-circle">
+                                <i class="fa-solid fa-plane"></i>
+                            </div>
+                            <button id="btn-delete-cofrinho" style="background:none; border:none; font-size:1.1rem; color: #d32f2f; cursor:pointer; padding: 4px;" title="Excluir Cofrinho"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+
+                        <!-- Info Header -->
+                        <div style="text-align: center; margin-bottom: 15px;">
+                            <h3 id="cofrinho-detail-name" style="font-family: var(--font-title); font-weight: 700; margin: 0; color: #333; font-size: 1.4rem;">Férias 2026</h3>
+                            <div style="display: inline-flex; align-items: center; gap: 6px; margin-top: 4px;">
+                                <span id="cofrinho-detail-meta" style="font-size: 0.88rem; color: #666; font-weight: 500;">Meta: R$ 5.000,00</span>
+                                <button id="btn-edit-cofrinho-meta" style="background:none; border:none; color:#8c6239; cursor:pointer; font-size: 0.8rem; padding: 2px;" title="Editar Meta"><i class="fa-solid fa-pencil"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- Card de Saldo e Progresso -->
+                        <div class="piggy-premium-card cofrinho-detail-balance-card" style="margin-bottom: 15px;">
+                            <span style="font-size: 0.72rem; color: #8c7355; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px;">Saldo acumulado</span>
+                            <strong id="cofrinho-detail-balance-val" style="font-size: 2.2rem; font-family: var(--font-title); font-weight: 700; display: block; margin: 2px 0 10px 0; color: #8c6239;">R$ 2.450,00</strong>
+                            
+                            <!-- Doodle progress bar -->
+                            <div class="doodle-progress-bar-wrapper" id="cofrinho-detail-progress-wrapper" style="height: 12px; margin-bottom: 8px;">
+                                <div class="doodle-progress-bar-fill" id="cofrinho-detail-progress-fill" style="width: 49%; background-color: #f43f5e;"></div>
+                                <span class="doodle-progress-bar-pct" id="cofrinho-detail-progress-pct" style="font-size: 0.65rem; line-height: 12px;">49%</span>
+                            </div>
+
+                            <!-- Progresso text footers -->
+                            <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: #8c7355;">
+                                <span id="cofrinho-detail-progress-desc">49% da meta</span>
+                                <span id="cofrinho-detail-remaining-desc">Faltam R$ 2.550,00</span>
+                            </div>
+                        </div>
+
+                        <!-- Bloco de Guardar/Resgatar -->
+                        <div class="cofrinho-detail-action-box piggy-premium-card" style="padding: 15px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <span id="cofrinho-action-box-title" style="font-size:0.85rem; font-weight:700; color:#8c6239;">Guardar dinheiro</span>
+                            </div>
+
+                            <!-- Input Grande de Valor -->
+                            <div style="text-align: center; margin-bottom: 12px; position: relative;">
+                                <span style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); font-weight: 700; color: #8c6239; font-size: 1.1rem;">R$</span>
+                                <input type="number" id="cofrinho-action-val" placeholder="0,00" step="0.01" style="width: 100%; border: 2px solid #ead8c0; border-radius: 12px; padding: 15px 15px 15px 45px; font-size: 1.5rem; font-weight: 700; color: #333; text-align: left; box-sizing: border-box; outline: none; background: white;">
+                            </div>
+
+                            <!-- Quick add buttons -->
+                            <div class="cofrinho-quick-add-buttons" style="display: flex; gap: 8px; margin-bottom: 15px;">
+                                <button type="button" class="btn-quick-add" data-val="10" style="flex:1; padding: 6px; border: 1px solid #ead8c0; background: white; border-radius: 6px; color: #8c6239; font-weight: 600; cursor: pointer;">+10</button>
+                                <button type="button" class="btn-quick-add" data-val="50" style="flex:1; padding: 6px; border: 1px solid #ead8c0; background: white; border-radius: 6px; color: #8c6239; font-weight: 600; cursor: pointer;">+50</button>
+                                <button type="button" class="btn-quick-add" data-val="100" style="flex:1; padding: 6px; border: 1px solid #ead8c0; background: white; border-radius: 6px; color: #8c6239; font-weight: 600; cursor: pointer;">+100</button>
+                            </div>
+
+                            <!-- Action Button -->
+                            <button class="btn-primary" id="btn-confirm-cofrinho-action" style="width: 100%; background: #22c55e; border-color: #22c55e; color: white; padding: 12px; border-radius: 12px; font-size: 1.05rem; font-weight: 700; cursor: pointer; border: none; box-shadow: 0 4px 12px rgba(34,197,94,0.3);">
+                                Confirmar Depósito
+                            </button>
+                            
+                            <!-- Botão de alternar Guardar/Resgatar -->
+                            <button id="btn-switch-cofrinho-mode" style="width: 100%; background: none; border: none; margin-top: 10px; color: #666; font-size: 0.85rem; text-decoration: underline; cursor: pointer;">
+                                Precisa resgatar dinheiro?
+                            </button>
+                        </div>
+
+                        <!-- Histórico -->
+                        <div style="display:flex; flex-direction:column; gap:4px; margin-bottom: 15px;">
+                            <span style="font-size:0.75rem; font-weight:700; color:#8c7355; text-transform:uppercase;">Histórico</span>
+                            <div id="cofrinho-detail-history-list" style="display:flex; flex-direction:column; gap:5px; max-height: 150px; overflow-y: auto;">
+                                <!-- Operações do cofrinho preenchidas por JS -->
+                            </div>
+                            <button id="btn-toggle-detail-history" style="background: none; border: none; color: #8c6239; cursor: pointer; font-size: 0.8rem; font-weight: 600; margin: 4px auto 0 auto; display: flex; align-items: center; gap: 4px;">
+                                <span>Ver tudo</span> <i class="fa-solid fa-chevron-down"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
         <!-- SCREEN 4: ESTANTE DE CADERNOS -->
         <section class="slide shelf-fullscreen-panel" id="screen-shelf">
             <!-- Header -->
@@ -419,7 +552,7 @@
         <nav class="bottom-nav-bar" id="bottom-nav-bar" style="display: none;">
             <button class="nav-tab-btn active" data-tab="home" id="tab-home">
                 <i class="fa-solid fa-house"></i>
-                <span>Resumo</span>
+                <span>Início</span>
             </button>
             <button class="nav-tab-btn" data-tab="details" id="tab-details">
                 <i class="fa-solid fa-list"></i>
@@ -431,9 +564,11 @@
                 </button>
                 <span class="nav-mic-label">Falar</span>
             </div>
-            <div class="nav-tab-btn empty-slot" style="visibility: hidden;">
-                <!-- Espaço vazio reservado -->
-            </div>
+            <button class="nav-tab-btn" data-tab="cofrinho" id="tab-cofrinho" style="position: relative;">
+                <span class="piggy-badge" id="piggy-balance-badge" style="position: absolute; top: -2px; right: 8px; font-size: 0.55rem; padding: 2px 4px;">R$ 0</span>
+                <i class="fa-solid fa-piggy-bank"></i>
+                <span>Cofrinho</span>
+            </button>
             <button class="nav-tab-btn" data-tab="shelf" id="tab-shelf">
                 <i class="fa-solid fa-book"></i>
                 <span>Cadernos</span>
@@ -700,154 +835,7 @@
         </div>
     </div>
 
-    <!-- MODAL: COFRINHO -->
-    <div class="modal-overlay" id="modal-cofrinho" style="z-index: 200;">
-        <div class="modal-card cofrinho-card" style="background: #FCFAF7; border: 2px solid #EAD8C0; max-width: 400px; width: 92%; display: flex; flex-direction: column; max-height: 85vh; overflow-y: auto; box-sizing: border-box;">
-            
-            <!-- VISTA 1: LISTA DE COFRINHOS -->
-            <div id="cofrinho-list-view" style="display: block; width: 100%;">
-                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:15px;">
-                    <div>
-                        <h3 style="font-family: var(--font-title); font-weight: 700; margin:0; color: #8C6239; font-size: 1.35rem;">Meus Cofrinhos</h3>
-                        <p style="font-size: 0.8rem; color: #A08060; margin: 4px 0 0 0; font-family: var(--font-handwriting);">Organize seus objetivos e acompanhe cada conquista.</p>
-                    </div>
-                    <button id="btn-close-cofrinho" style="background:none; border:none; font-size:1.6rem; color: #8C6239; cursor:pointer; line-height: 1; padding: 0 2px;">&times;</button>
-                </div>
-
-                <!-- Lista de cofrinhos com scroll -->
-                <div id="cofrinhos-list-container" style="max-height: 48vh; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px; padding-right: 2px;">
-                    <!-- Preenchido dinamicamente via JS -->
-                </div>
-
-                <!-- Botão Criar Novo Cofrinho -->
-                <button class="btn-new-cofrinho" id="btn-new-cofrinho">
-                    <span class="plus-circle"><i class="fa-solid fa-plus"></i></span>
-                    <span>Novo cofrinho</span>
-                </button>
-            </div>
-
-            <!-- VISTA 2: FORMULÁRIO (CRIAR/EDITAR) -->
-            <div id="cofrinho-form-view" style="display: none; width: 100%;">
-                <div style="display:flex; align-items:center; gap: 10px; margin-bottom:15px;">
-                    <button id="btn-cancel-cofrinho" style="background:none; border:none; font-size:1.1rem; color: #8C6239; cursor:pointer; padding: 4px;"><i class="fa-solid fa-arrow-left"></i></button>
-                    <h3 id="cofrinho-form-title" style="font-family: var(--font-title); font-weight: 700; margin:0; color: #8C6239; font-size: 1.25rem;">Novo cofrinho</h3>
-                </div>
-
-                <div class="modal-field" style="margin-bottom: 12px;">
-                    <label style="color: #8C6239; font-size: 0.85rem; font-weight: 600;">Objetivo / Nome do Cofrinho</label>
-                    <input type="text" id="cofrinho-form-name" placeholder="Ex: Viagem Férias 2026" style="border: 1px solid #EAD8C0; padding: 10px; border-radius: 8px; font-size: 0.95rem; width: 100%; box-sizing: border-box; outline: none; background: white;">
-                </div>
-
-                <div class="modal-field" style="margin-bottom: 15px;">
-                    <label style="color: #8C6239; font-size: 0.85rem; font-weight: 600;">Meta (R$)</label>
-                    <input type="number" id="cofrinho-form-target" placeholder="Ex: 5000" style="border: 1px solid #EAD8C0; padding: 10px; border-radius: 8px; font-size: 0.95rem; width: 100%; box-sizing: border-box; outline: none; background: white;">
-                </div>
-
-                <div class="modal-field" style="margin-bottom: 20px;">
-                    <label style="color: #8C6239; font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 8px;">Escolha o Ícone</label>
-                    <div class="icon-picker-grid" id="cofrinho-form-icons">
-                        <button type="button" class="icon-picker-btn active" data-icon="piggy" style="background-color: #fdf2f8; color: #db2777; border-color: #db2777;" title="Porquinho"><i class="fa-solid fa-piggy-bank"></i></button>
-                        <button type="button" class="icon-picker-btn" data-icon="plane" style="background-color: #ffe4e6; color: #f43f5e;" title="Férias"><i class="fa-solid fa-plane"></i></button>
-                        <button type="button" class="icon-picker-btn" data-icon="child" style="background-color: #e0f2fe; color: #0284c7;" title="Filhos"><i class="fa-solid fa-child"></i></button>
-                        <button type="button" class="icon-picker-btn" data-icon="shield" style="background-color: #dcfce7; color: #15803d;" title="Emergência"><i class="fa-solid fa-shield-halved"></i></button>
-                        <button type="button" class="icon-picker-btn" data-icon="home" style="background-color: #ffedd5; color: #ea580c;" title="Reforma"><i class="fa-solid fa-house"></i></button>
-                        <button type="button" class="icon-picker-btn" data-icon="gift" style="background-color: #f3e8ff; color: #9333ea;" title="Presente"><i class="fa-solid fa-gift"></i></button>
-                    </div>
-                </div>
-
-                <div style="display: flex; gap: 10px;">
-                    <button class="btn-primary" id="btn-save-cofrinho" style="flex: 1; background: #8C6239; border-color: #8C6239; color: white; padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none;">Salvar</button>
-                </div>
-            </div>
-
-            <!-- VISTA 3: DETALHES DO COFRINHO -->
-            <div id="cofrinho-detail-view" style="display: none; width: 100%;">
-                <div style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                    <button id="btn-back-to-list" style="background:none; border:none; font-size:1.1rem; color: #8C6239; cursor:pointer; padding: 4px;"><i class="fa-solid fa-arrow-left"></i></button>
-                    <!-- Large icon display centered in detail -->
-                    <div id="cofrinho-detail-icon-container" class="cofrinho-detail-icon-circle">
-                        <i class="fa-solid fa-plane"></i>
-                    </div>
-                    <button id="btn-delete-cofrinho" style="background:none; border:none; font-size:1.1rem; color: #d32f2f; cursor:pointer; padding: 4px;" title="Excluir Cofrinho"><i class="fa-solid fa-trash"></i></button>
-                </div>
-
-                <!-- Info Header -->
-                <div style="text-align: center; margin-bottom: 15px;">
-                    <h3 id="cofrinho-detail-name" style="font-family: var(--font-title); font-weight: 700; margin: 0; color: #333; font-size: 1.4rem;">Férias 2026</h3>
-                    <div style="display: inline-flex; align-items: center; gap: 6px; margin-top: 4px;">
-                        <span id="cofrinho-detail-meta" style="font-size: 0.88rem; color: #666; font-weight: 500;">Meta: R$ 5.000,00</span>
-                        <button id="btn-edit-cofrinho-meta" style="background:none; border:none; color:#8c6239; cursor:pointer; font-size: 0.8rem; padding: 2px;" title="Editar Meta"><i class="fa-solid fa-pencil"></i></button>
-                    </div>
-                </div>
-
-                <!-- Card de Saldo e Progresso -->
-                <div class="cofrinho-detail-balance-card" style="margin-bottom: 15px;">
-                    <span style="font-size: 0.72rem; color: #8c7355; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px;">Saldo acumulado</span>
-                    <strong id="cofrinho-detail-balance-val" style="font-size: 1.8rem; font-family: var(--font-title); font-weight: 700; display: block; margin: 2px 0 10px 0;">R$ 2.450,00</strong>
-                    
-                    <!-- Doodle progress bar -->
-                    <div class="doodle-progress-bar-wrapper" id="cofrinho-detail-progress-wrapper" style="height: 12px; margin-bottom: 8px;">
-                        <div class="doodle-progress-bar-fill" id="cofrinho-detail-progress-fill" style="width: 49%; background-color: #f43f5e;"></div>
-                        <span class="doodle-progress-bar-pct" id="cofrinho-detail-progress-pct" style="font-size: 0.65rem; line-height: 12px;">49%</span>
-                    </div>
-
-                    <!-- Progresso text footers -->
-                    <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: #8c7355;">
-                        <span id="cofrinho-detail-progress-desc">49% da meta</span>
-                        <span id="cofrinho-detail-remaining-desc">Faltam R$ 2.550,00</span>
-                    </div>
-                </div>
-
-                <!-- Histórico -->
-                <div style="display:flex; flex-direction:column; gap:4px; margin-bottom: 15px;">
-                    <span style="font-size:0.75rem; font-weight:700; color:#8c7355; text-transform:uppercase;">Histórico</span>
-                    <div id="cofrinho-detail-history-list" style="display:flex; flex-direction:column; gap:5px; max-height: 125px; overflow-y: auto;">
-                        <!-- Operações do cofrinho preenchidas por JS -->
-                    </div>
-                    <button id="btn-toggle-detail-history" style="background: none; border: none; color: #8c6239; cursor: pointer; font-size: 0.8rem; font-weight: 600; margin: 4px auto 0 auto; display: flex; align-items: center; gap: 4px;">
-                        <span>Ver tudo</span> <i class="fa-solid fa-chevron-down"></i>
-                    </button>
-                </div>
-
-                <!-- Bloco de Guardar/Resgatar -->
-                <div class="cofrinho-detail-action-box">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                        <span id="cofrinho-action-box-title" style="font-size:0.85rem; font-weight:700; color:#8c6239;">Guardar dinheiro</span>
-                        <button id="btn-close-cofrinho-detail" style="background:none; border:none; font-size:1.2rem; color: #8c6239; cursor:pointer; padding: 0 2px;">&times;</button>
-                    </div>
-
-                    <!-- Input Grande de Valor -->
-                    <div style="text-align: center; margin-bottom: 12px; position: relative;">
-                        <input type="text" id="cofrinho-detail-amount-input" value="R$ 0,00" inputmode="numeric" style="font-family: var(--font-title); font-size: 1.8rem; font-weight: 700; color: #f43f5e; border: none; background: transparent; text-align: center; width: 100%; outline: none; padding: 4px 0;">
-                    </div>
-
-                    <!-- Chips de Valores Rápidos -->
-                    <div style="display: flex; justify-content: center; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
-                        <button class="cofrinho-chip-btn" data-value="50">+ R$ 50</button>
-                        <button class="cofrinho-chip-btn" data-value="100">+ R$ 100</button>
-                        <button class="cofrinho-chip-btn" data-value="200">+ R$ 200</button>
-                        <button class="cofrinho-chip-btn" id="btn-chip-outro" data-value="outro">Outro</button>
-                    </div>
-
-                    <!-- Caixa de Dica de Voz -->
-                    <div class="cofrinho-voice-tip" style="margin-bottom: 12px;">
-                        <i class="fa-solid fa-microphone" style="font-size: 0.85rem; color: #f43f5e; margin-right: 3px;"></i>
-                        <span id="cofrinho-voice-tip-text">Você também pode falar: "Guardar 50 reais no cofrinho férias"</span>
-                    </div>
-
-                    <!-- Ações -->
-                    <div style="display:grid; grid-template-columns: 1.2fr 1fr; gap: 10px;">
-                        <button class="btn-cofrinho-deposit" id="btn-detail-deposit" style="background: #f43f5e; color: white;">
-                            Guardar agora
-                        </button>
-                        <button class="btn-cofrinho-withdraw" id="btn-detail-withdraw" style="background: #fff0f3; color: #f43f5e; border-color: #fbcfe8;">
-                            Resgatar
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- MODAL: COFRINHO REMOVED -->
 
     <!-- MODAL: HISTÓRICO DE CONVERSAS (DIÁRIO) -->
     <div class="modal-overlay" id="modal-chat-logs">

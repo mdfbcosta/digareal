@@ -541,10 +541,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 slideContainer.style.transform = 'translateX(-25%)';
                 updateUI(); // Refresh totals, transactions list, etc.
                 setTimeout(() => centerActiveMonthPill(true), 150);
-            } else if (tabName === 'mensal') {
+            } else if (tabName === 'cofrinho') {
                 slideContainer.style.transform = 'translateX(-50%)';
-                // Trigger render of monthly debts/incomes
-                renderFixedAccountsList();
+                showCofrinhoList();
+                renderCofrinhosList();
             } else if (tabName === 'shelf') {
                 slideContainer.style.transform = 'translateX(-75%)';
                 renderShelfList();
