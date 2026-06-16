@@ -5017,3 +5017,14 @@ Instruções críticas:
     }
 });
 
+
+// Dynamic Sticky Header Calculation
+function updateStickyHeader() {
+    const topGroup = document.getElementById('sticky-top-group');
+    const carouselGroup = document.getElementById('sticky-carousel-group');
+    if (topGroup && carouselGroup) {
+        carouselGroup.style.top = topGroup.offsetHeight + 'px';
+    }
+}
+window.addEventListener('load', updateStickyHeader);
+window.addEventListener('resize', updateStickyHeader);
