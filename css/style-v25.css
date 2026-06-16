@@ -2023,14 +2023,14 @@ body {
 }
 
 .fixed-acc-name {
-    font-family: var(--font-handwriting);
+    font-family: var(--font-normal);
     font-size: 1.05rem;
-    font-weight: 600;
+    font-weight: 400;
     color: var(--text-primary);
 }
 
 .fixed-acc-meta {
-    font-family: var(--font-handwriting);
+    font-family: var(--font-normal);
     font-size: 0.82rem;
     color: var(--text-muted);
 }
@@ -2781,7 +2781,7 @@ body {
 }
 
 .val-actual-paid {
-    font-weight: 700;
+    font-weight: 400;
 }
 
 .val-actual-paid.val-diff-saving {
@@ -4075,7 +4075,7 @@ body {
 .transaction-title {
     font-family: var(--font-normal);
     font-size: 1.05rem;
-    font-weight: 600;
+    font-weight: 400;
     color: var(--text-primary);
 }
 
@@ -4096,7 +4096,7 @@ body {
 .transaction-amount {
     font-family: var(--font-normal);
     font-size: 1.05rem;
-    font-weight: 700;
+    font-weight: 400;
     text-align: right;
     margin-left: 6px;
 }
@@ -4226,5 +4226,7 @@ body {
     padding: 20px;
     margin-bottom: 15px;
 }
+
+
 
 
