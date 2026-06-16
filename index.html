@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -32,19 +32,19 @@
                 <!-- Doodle Porquinho no Fundo -->
                 <div class="home-floating-doodle doodle-piggy" title="Doodle Porquinho"></div>
 
-                <!-- Alfinete Vermelho Dinâmico (Alerta de Dívidas Atrasadas) -->
-                <button class="home-fixed-debts-alert" id="home-fixed-debts-alert" style="display: none;" title="Dívidas mensais em atraso!">
+                <!-- Alfinete Vermelho DinÃ¢mico (Alerta de DÃ­vidas Atrasadas) -->
+                <button class="home-fixed-debts-alert" id="home-fixed-debts-alert" style="display: none;" title="DÃ­vidas mensais em atraso!">
                     <i class="fa-solid fa-thumbtack"></i>
                     <span class="home-fixed-debts-alert-badge"></span>
                 </button>
 
-                <!-- Cabeçalho (Header) da Home -->
+                <!-- CabeÃ§alho (Header) da Home -->
                 <div class="home-header">
                     <div class="home-logo">
                         <img src="diga_real.png" alt="DigaReal Logo" style="height: 38px; display: block; object-fit: contain;">
                     </div>
                     <div class="home-header-actions">
-                        <button class="btn-home-circle" id="btn-home-notifications" title="Notificações">
+                        <button class="btn-home-circle" id="btn-home-notifications" title="NotificaÃ§Ãµes">
                             <i class="fa-regular fa-bell"></i>
                             <span class="home-notification-badge" id="home-notification-badge" style="display: none;"></span>
                         </button>
@@ -65,21 +65,29 @@
                 </div>
 
                 <!-- Seletor de Caderno (Notebook Selector) -->
-                <div class="home-notebook-selector-wrapper">
+                <div class="home-notebook-selector-wrapper" style="position: relative;">
                     <button class="btn-home-notebook-selector" id="btn-home-notebook-selector">
                         <img src="caderno.png" alt="Caderno" class="icon-book-img" style="height: 16px; width: auto; display: block; object-fit: contain;">
                         <span id="home-notebook-name">Meu Caderno</span>
                         <i class="fa-solid fa-chevron-down icon-chevron"></i>
                     </button>
+                    <div class="home-notebooks-dropdown" id="home-notebooks-dropdown" style="display: none; position: absolute; top: calc(100% + 5px); background: white; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); min-width: 220px; z-index: 1000; overflow: hidden; border: 1px solid rgba(0,0,0,0.05); left: 50%; transform: translateX(-50%);">
+                        <div id="home-notebooks-dropdown-list" style="max-height: 250px; overflow-y: auto;">
+                            <!-- populated by JS -->
+                        </div>
+                        <button id="btn-home-create-notebook" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; border: none; background: #fdfbf7; cursor: pointer; color: #b79b6d; font-size: 0.9rem; border-top: 1px solid rgba(0,0,0,0.05); font-weight: 600;">
+                            <i class="fa-solid fa-plus"></i> Novo Caderno
+                        </button>
+                    </div>
                 </div>
 
-                <!-- Display de Saldo Disponível -->
+                <!-- Display de Saldo DisponÃ­vel -->
                 <div class="home-balance-display">
-                    <span class="home-balance-label">Disponível neste caderno</span>
+                    <span class="home-balance-label">DisponÃ­vel neste caderno</span>
                     <strong class="home-balance-val" id="home-balance-val">R$ 0,00</strong>
                 </div>
 
-                <!-- Seção Central do Microfone (Protagonista) -->
+                <!-- SeÃ§Ã£o Central do Microfone (Protagonista) -->
                 <div class="home-mic-section">
                     <div class="home-mic-wrapper" id="home-mic-wrapper">
                         <div class="home-mic-pulse-ring ring-1"></div>
@@ -91,11 +99,11 @@
                         <div class="home-alert-dot" id="home-alert-dot" title="O assistente tem uma pergunta!"></div>
                     </div>
                     <div class="home-voice-instruction">
-                        <img src="toque_e_fale.png" alt="Toque e fale uma movimentação" class="home-voice-instruction-img">
+                        <img src="toque_e_fale.png" alt="Toque e fale uma movimentaÃ§Ã£o" class="home-voice-instruction-img">
                     </div>
                 </div>
 
-                <!-- Seção de Exemplos (Não interativos) -->
+                <!-- SeÃ§Ã£o de Exemplos (NÃ£o interativos) -->
                 <div class="home-examples-section">
                     <span class="home-examples-title">Exemplos:</span>
                     <div class="home-examples-row">
@@ -110,16 +118,16 @@
                     </div>
                 </div>
 
-                <!-- Card de Última Movimentação (Base) -->
+                <!-- Card de Ãšltima MovimentaÃ§Ã£o (Base) -->
                 <div class="home-last-transaction-card" id="home-last-transaction-card" style="display: none;">
                     <div class="last-tx-left">
                         <div class="last-tx-icon-wrapper" id="last-tx-icon-wrapper">
                             <i class="fa-solid fa-arrow-up" id="last-tx-icon"></i>
                         </div>
                         <div class="last-tx-info">
-                            <span class="last-tx-label">Última movimentação</span>
+                            <span class="last-tx-label">Ãšltima movimentaÃ§Ã£o</span>
                             <strong class="last-tx-value" id="last-tx-value">+ R$ 0,00</strong>
-                            <span class="last-tx-desc" id="last-tx-desc">Descrição</span>
+                            <span class="last-tx-desc" id="last-tx-desc">DescriÃ§Ã£o</span>
                         </div>
                     </div>
                     <div class="last-tx-right">
@@ -133,7 +141,7 @@
                     <i class="fa-solid fa-chevron-right"></i>
                 </div>
 
-                <!-- 💬 CHAT SCREEN OVERLAY -->
+                <!-- ðŸ’¬ CHAT SCREEN OVERLAY -->
                 <div class="chat-screen-overlay" id="chat-screen-overlay">
                     <div class="chat-header">
                         <button class="chat-voice-toggle-btn" id="btn-toggle-voice-chat" title="Silenciar assistente">
@@ -168,12 +176,12 @@
                     <div id="sticky-top-group" style="position: sticky; top: 0; z-index: 30; background: rgba(252, 251, 250, 0.95); backdrop-filter: blur(4px); padding: 16px 8px 14px 8px; margin: 0 -8px; padding-left: 16px; padding-right: 16px;">
                         <div class="notebook-top-row">
                             <div style="display: flex; align-items: center; gap: 8px;">
-                                <button class="btn-back-home" id="btn-back-home" title="Voltar ao início">
+                                <button class="btn-back-home" id="btn-back-home" title="Voltar ao inÃ­cio">
                                     <i class="fa-solid fa-chevron-left"></i>
                                 </button>
                                 
                                 <div class="active-notebook-title">
-                                    <span id="notebook-name-display">Caderno Padrão</span>
+                                    <span id="notebook-name-display">Caderno PadrÃ£o</span>
                                     <button style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size: 0.8rem; margin-left: 1px;" id="btn-switch-notebook" title="Trocar de Caderno">
                                         <i class="fa-solid fa-caret-down"></i>
                                     </button>
@@ -186,7 +194,7 @@
                                     <i class="fa-solid fa-volume-high"></i>
                                 </button>
                                 <div class="notebook-menu-wrapper">
-                                    <button class="btn-notebook-menu" id="btn-notebook-menu" title="Opções do Caderno">
+                                    <button class="btn-notebook-menu" id="btn-notebook-menu" title="OpÃ§Ãµes do Caderno">
                                         <i class="fa-solid fa-ellipsis"></i>
                                     </button>
                                     <!-- Dropdown menu flutuante -->
@@ -195,7 +203,7 @@
                                             <img src="logo.png" alt="Logo DigaReal" class="menu-branding-logo">
                                             <div class="menu-branding-text">
                                                 <span class="menu-app-name">DigaReal</span>
-                                                <span class="menu-user-greeting" id="menu-user-greeting">Olá!</span>
+                                                <span class="menu-user-greeting" id="menu-user-greeting">OlÃ¡!</span>
                                             </div>
                                         </div>
                                         <button class="dropdown-item" id="btn-edit-profile" style="border-top: 1px solid rgba(0,0,0,0.06);">
@@ -208,7 +216,7 @@
                                         </button>
                                         <button class="dropdown-item" id="btn-show-chat-logs">
                                             <i class="fa-solid fa-comments"></i>
-                                            <span>Diário de Conversas</span>
+                                            <span>DiÃ¡rio de Conversas</span>
                                         </button>
                                         <button class="dropdown-item" id="btn-export-csv">
                                             <i class="fa-solid fa-file-csv" style="color: #2e7d32;"></i>
@@ -216,11 +224,11 @@
                                         </button>
                                         <button class="dropdown-item" id="btn-dev-simulate-billing" style="border-top: 1px dashed rgba(0,0,0,0.06); color: #16a34a;">
                                             <i class="fa-solid fa-flask" style="color: #16a34a;"></i>
-                                            <span>Simular Cobrança (Teste)</span>
+                                            <span>Simular CobranÃ§a (Teste)</span>
                                         </button>
                                         <button class="dropdown-item" id="btn-dev-add-referral" style="border-top: 1px dashed rgba(0,0,0,0.06); color: #25d366;">
                                             <i class="fa-solid fa-user-plus" style="color: #25d366;"></i>
-                                            <span>Simular Indicação (+1 Amigo)</span>
+                                            <span>Simular IndicaÃ§Ã£o (+1 Amigo)</span>
                                         </button>
                                         <button class="dropdown-item text-danger" id="btn-logout" style="border-top: 1px dashed rgba(0,0,0,0.06);">
                                             <i class="fa-solid fa-right-from-bracket"></i>
@@ -258,7 +266,7 @@
                         </div>
                     </div>
 
-                    <!-- Resumo do Orçamento Fixo (Card KPI Premium Adaptativo) -->
+                    <!-- Resumo do OrÃ§amento Fixo (Card KPI Premium Adaptativo) -->
                     <div class="fixed-budget-summary-card" id="fixed-budget-summary-card" style="display: none; margin: 10px;">
                         <!-- Populado dinamicamente via JS -->
                     </div>
@@ -270,7 +278,7 @@
                                 <!-- Populated dynamically via JS like: OUT | NOV | DEZ/25 | JAN | FEV -->
                             </div>
                             <div class="carousel-pins-container">
-                                <button class="btn-months-picker" id="btn-months-picker" title="Selecionar Mês">
+                                <button class="btn-months-picker" id="btn-months-picker" title="Selecionar MÃªs">
                                     <i class="fa-regular fa-calendar-days" style="color: var(--text-muted); font-size: 1.15rem;"></i>
                                     <i class="fa-solid fa-chevron-down" style="color: var(--text-muted); font-size: 0.65rem; margin-left: 1px;"></i>
                                 </button>
@@ -295,9 +303,9 @@
                             <div class="filter-dropdown-menu" id="filter-dropdown-menu">
                                 <button class="filter-dropdown-item active" data-type="all">Todos</button>
                                 <button class="filter-dropdown-item" data-type="income">Entradas</button>
-                                <button class="filter-dropdown-item" data-type="expense">Saídas</button>
+                                <button class="filter-dropdown-item" data-type="expense">SaÃ­das</button>
                                 <button class="filter-dropdown-item" data-type="recurring">Fixos</button>
-                                <button class="filter-dropdown-item" data-type="sporadic">Esporádicos</button>
+                                <button class="filter-dropdown-item" data-type="sporadic">EsporÃ¡dicos</button>
                             </div>
                         </div>
                         <div class="search-box-compact">
@@ -320,7 +328,7 @@
                     <div class="fixed-content-wrapper" id="fixed-content-wrapper" style="display: none; padding: 10px;">
                         <div class="fixed-add-button-row" id="fixed-add-button-row">
                             <button class="btn-toggle-add-fixed" id="btn-toggle-add-fixed" title="Cadastrar Novo Item">
-                                <i class="fa-solid fa-plus"></i> Dívida
+                                <i class="fa-solid fa-plus"></i> DÃ­vida
                             </button>
                         </div>
                         
@@ -329,8 +337,8 @@
                             <form id="form-fixed-account" onsubmit="return false;">
                                 <div style="display:grid; grid-template-columns: 2fr 1fr; gap: 8px; margin-bottom: 8px;">
                                     <div class="modal-field" style="margin:0;">
-                                        <label for="fixed-name" id="label-fixed-name">Nome da Dívida</label>
-                                        <input type="text" id="fixed-name" placeholder="Ex: Colégio José" required>
+                                        <label for="fixed-name" id="label-fixed-name">Nome da DÃ­vida</label>
+                                        <input type="text" id="fixed-name" placeholder="Ex: ColÃ©gio JosÃ©" required>
                                     </div>
                                     <div class="modal-field" style="margin:0;">
                                         <label for="fixed-value">Valor (R$)</label>
@@ -343,7 +351,7 @@
                                         <input type="number" id="fixed-day" placeholder="Ex: 5" min="1" max="31" required>
                                     </div>
                                     <div class="modal-field" style="margin:0;">
-                                        <label for="fixed-expiration">Válido até (Opcional)</label>
+                                        <label for="fixed-expiration">VÃ¡lido atÃ© (Opcional)</label>
                                         <input type="month" id="fixed-expiration" style="width: 100%; box-sizing: border-box;">
                                     </div>
                                 </div>
@@ -359,7 +367,7 @@
                         </div>
                         
                         <div class="fixed-accounts-list-container" id="fixed-accounts-list-container">
-                            <span class="fixed-accounts-list-subtitle" id="fixed-list-subtitle">Minhas Dívidas Mensais</span>
+                            <span class="fixed-accounts-list-subtitle" id="fixed-list-subtitle">Minhas DÃ­vidas Mensais</span>
                             <div id="fixed-accounts-list" style="display:flex; flex-direction:column; gap:10px;">
                                 <!-- List of fixed accounts will be populated here -->
                             </div>
@@ -387,10 +395,10 @@
 
             <!-- SCREEN 3: COFRINHO PREMIUM -->
             <section class="slide piggy-fullscreen-panel" id="screen-cofrinho" style="position: relative;">
-                <!-- BANNER PENDENTE (Oculto por padrão) -->
+                <!-- BANNER PENDENTE (Oculto por padrÃ£o) -->
                 <div id="cofrinho-pending-banner" style="display: none; background: #fffbeb; border-left: 4px solid #f59e0b; padding: 12px 15px; margin: 10px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); position: absolute; top: 10px; left: 10px; right: 10px; z-index: 50;">
-                    <h4 style="margin: 0 0 5px 0; color: #b45309; font-size: 0.9rem; font-weight: 700;">Transação Pendente</h4>
-                    <p id="cofrinho-pending-text" style="margin: 0 0 10px 0; color: #92400e; font-size: 0.8rem; line-height: 1.3;">Você tem um depósito de R$ 50,00 aguardando pagamento via PIX para o cofrinho Bebê.</p>
+                    <h4 style="margin: 0 0 5px 0; color: #b45309; font-size: 0.9rem; font-weight: 700;">TransaÃ§Ã£o Pendente</h4>
+                    <p id="cofrinho-pending-text" style="margin: 0 0 10px 0; color: #92400e; font-size: 0.8rem; line-height: 1.3;">VocÃª tem um depÃ³sito de R$ 50,00 aguardando pagamento via PIX para o cofrinho BebÃª.</p>
                     <div style="display: flex; gap: 8px;">
                         <button id="btn-pending-confirm" style="background: #10b981; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-weight: 600; font-size: 0.8rem; cursor: pointer;">Confirmei o PIX</button>
                         <button id="btn-pending-cancel" style="background: white; color: #ef4444; border: 1px solid #ef4444; padding: 6px 12px; border-radius: 6px; font-weight: 600; font-size: 0.8rem; cursor: pointer;">Cancelar</button>
@@ -405,7 +413,7 @@
                             <!-- Preenchido dinamicamente via JS -->
                         </div>
 
-                        <!-- Botão Criar Novo Cofrinho -->
+                        <!-- BotÃ£o Criar Novo Cofrinho -->
                         <button class="btn-new-cofrinho" id="btn-new-cofrinho" style="width: 100%; border-radius: 12px; padding: 12px; background: rgba(255,255,255,0.6); border: 1px dashed #cba884; margin-bottom: 20px;">
                             <span class="plus-circle" style="background: #8c6239;"><i class="fa-solid fa-plus"></i></span>
                             <span style="color: #8c6239; font-weight: bold;">Novo cofrinho</span>
@@ -416,14 +424,14 @@
                             <label style="color: #8C6239; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; display: block;">Chave PIX do Banco</label>
                             <input type="text" id="cofrinho-global-pix" placeholder="Sua Chave PIX" style="border: 1px solid #EAD8C0; padding: 10px; border-radius: 8px; font-size: 0.95rem; width: 100%; box-sizing: border-box; outline: none; background: white; margin-bottom: 8px;">
                             <p style="font-size: 0.75rem; color: #A08060; margin: 0; line-height: 1.3;">
-                                Escolha a conta onde ficará guardado o dinheiro dos seus objetivos. Sempre que você guardar dinheiro em um cofrinho, o PIX será direcionado para esta conta.
+                                Escolha a conta onde ficarÃ¡ guardado o dinheiro dos seus objetivos. Sempre que vocÃª guardar dinheiro em um cofrinho, o PIX serÃ¡ direcionado para esta conta.
                                 <br><br>
-                                <strong style="font-weight: 700;">O Diga Real não guarda nem movimenta seu dinheiro</strong>. Seu saldo permanece no banco escolhido por você. Nós apenas ajudamos você a organizar suas metas e acompanhar suas reservas.
+                                <strong style="font-weight: 700;">O Diga Real nÃ£o guarda nem movimenta seu dinheiro</strong>. Seu saldo permanece no banco escolhido por vocÃª. NÃ³s apenas ajudamos vocÃª a organizar suas metas e acompanhar suas reservas.
                             </p>
                         </div>
                     </div>
 
-                    <!-- VISTA 2: FORMULÁRIO (CRIAR/EDITAR) -->
+                    <!-- VISTA 2: FORMULÃRIO (CRIAR/EDITAR) -->
                     <div id="cofrinho-form-view" class="piggy-premium-card" style="display: none; width: 100%; box-sizing: border-box;">
                         <div style="display:flex; align-items:center; gap: 10px; margin-bottom:15px;">
                             <button id="btn-cancel-cofrinho" style="background:none; border:none; font-size:1.1rem; color: #8C6239; cursor:pointer; padding: 4px;"><i class="fa-solid fa-arrow-left"></i></button>
@@ -432,7 +440,7 @@
 
                         <div class="modal-field" style="margin-bottom: 12px;">
                             <label style="color: #8C6239; font-size: 0.85rem; font-weight: 600;">Objetivo / Nome do Cofrinho</label>
-                            <input type="text" id="cofrinho-form-name" placeholder="Ex: Viagem Férias 2026" style="border: 1px solid #EAD8C0; padding: 10px; border-radius: 8px; font-size: 0.95rem; width: 100%; box-sizing: border-box; outline: none; background: white;">
+                            <input type="text" id="cofrinho-form-name" placeholder="Ex: Viagem FÃ©rias 2026" style="border: 1px solid #EAD8C0; padding: 10px; border-radius: 8px; font-size: 0.95rem; width: 100%; box-sizing: border-box; outline: none; background: white;">
                         </div>
 
                         <div class="modal-field" style="margin-bottom: 15px;">
@@ -443,12 +451,12 @@
                         <!-- PIX key removed from here -->
 
                         <div class="modal-field" style="margin-bottom: 20px;">
-                            <label style="color: #8C6239; font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 8px;">Escolha o Ícone</label>
+                            <label style="color: #8C6239; font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 8px;">Escolha o Ãcone</label>
                             <div class="icon-picker-grid" id="cofrinho-form-icons">
                                 <button type="button" class="icon-picker-btn active" data-icon="piggy" style="background-color: #fdf2f8; color: #db2777; border-color: #db2777;" title="Porquinho"><i class="fa-solid fa-piggy-bank"></i></button>
-                                <button type="button" class="icon-picker-btn" data-icon="plane" style="background-color: #ffe4e6; color: #f43f5e;" title="Férias"><i class="fa-solid fa-plane"></i></button>
+                                <button type="button" class="icon-picker-btn" data-icon="plane" style="background-color: #ffe4e6; color: #f43f5e;" title="FÃ©rias"><i class="fa-solid fa-plane"></i></button>
                                 <button type="button" class="icon-picker-btn" data-icon="child" style="background-color: #e0f2fe; color: #0284c7;" title="Filhos"><i class="fa-solid fa-child"></i></button>
-                                <button type="button" class="icon-picker-btn" data-icon="shield" style="background-color: #dcfce7; color: #15803d;" title="Emergência"><i class="fa-solid fa-shield-halved"></i></button>
+                                <button type="button" class="icon-picker-btn" data-icon="shield" style="background-color: #dcfce7; color: #15803d;" title="EmergÃªncia"><i class="fa-solid fa-shield-halved"></i></button>
                                 <button type="button" class="icon-picker-btn" data-icon="home" style="background-color: #ffedd5; color: #ea580c;" title="Reforma"><i class="fa-solid fa-house"></i></button>
                                 <button type="button" class="icon-picker-btn" data-icon="gift" style="background-color: #f3e8ff; color: #9333ea;" title="Presente"><i class="fa-solid fa-gift"></i></button>
                             </div>
@@ -461,14 +469,14 @@
 
                     <!-- VISTA 3: DETALHES DO COFRINHO -->
                     <div id="cofrinho-detail-view" style="display: none; width: 100%; box-sizing: border-box;">
-                        <!-- Cabeçalho idêntico à imagem -->
+                        <!-- CabeÃ§alho idÃªntico Ã  imagem -->
                         <div style="display:grid; grid-template-columns: 40px 1fr 40px; align-items: start; margin-bottom: 8px; position: relative;">
                             <button id="btn-back-to-list" style="background:none; border:none; font-size:1.4rem; color: #8c7355; cursor:pointer; padding: 4px 0; text-align: left;"><i class="fa-solid fa-arrow-left"></i></button>
                             <div style="display:flex; flex-direction:column; align-items:center;">
                                 <div id="cofrinho-detail-icon-container" class="cofrinho-detail-icon-circle" style="background: #e0f2fe; color: #0284c7; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 6px;">
                                     <i class="fa-solid fa-child"></i>
                                 </div>
-                                <h3 id="cofrinho-detail-name" style="font-family: var(--font-title); font-weight: 700; margin: 0; color: #222; font-size: 1.2rem;">Bebê</h3>
+                                <h3 id="cofrinho-detail-name" style="font-family: var(--font-title); font-weight: 700; margin: 0; color: #222; font-size: 1.2rem;">BebÃª</h3>
                                 <span id="cofrinho-detail-meta" style="font-size: 0.8rem; color: #777; font-weight: 500; margin-top: 2px;">Meta: R$ 2.000,00</span>
                             </div>
                             <div style="display:flex; justify-content:flex-end; gap: 8px;">
@@ -518,15 +526,15 @@
                             </div>
                         </div>
 
-                        <!-- Histórico -->
+                        <!-- HistÃ³rico -->
                         <div class="piggy-premium-card" style="padding: 15px 15px 10px 15px;">
                             <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px;">
-                                <h4 style="margin: 0; font-size: 0.9rem; font-weight: 700; color: #666;">Últimas movimentações</h4>
+                                <h4 style="margin: 0; font-size: 0.9rem; font-weight: 700; color: #666;">Ãšltimas movimentaÃ§Ãµes</h4>
                                 <button style="background: none; border: none; color: #0284c7; font-size: 0.8rem; font-weight: 500; cursor: pointer; padding: 0;">Ver todas</button>
                             </div>
 
                             <div id="cofrinho-detail-history-list" style="display:flex; flex-direction:column; gap:12px;">
-                                <!-- Operações do cofrinho preenchidas por JS -->
+                                <!-- OperaÃ§Ãµes do cofrinho preenchidas por JS -->
                             </div>
 
                             <button id="btn-toggle-detail-history" style="width: 100%; background: none; border: none; color: #8c7355; cursor: pointer; font-size: 0.85rem; font-weight: 500; margin-top: 15px; padding: 10px 0; border-top: 1px solid #f0f0f0; display: flex; justify-content: center; align-items: center; gap: 6px;">
@@ -561,7 +569,7 @@
                 <div class="shelf-create-box" style="margin-top: 15px; padding: 16px; border-top:1px solid rgba(0,0,0,0.06); background:rgba(140, 98, 57, 0.02); border-radius:12px;">
                     <h4 style="font-family: var(--font-title); color: #8C6239; margin: 0 0 8px 0; font-size: 0.95rem; font-weight:700;">Novo Caderno</h4>
                     <div style="display:flex; gap:8px;">
-                        <input type="text" id="new-notebook-name" placeholder="Ex: Finanças Casa, Empresa..." style="flex-grow:1; padding: 10px 6px; border-radius:8px; border:1px solid #EAD8C0; outline:none; font-size:0.9rem; background:white;">
+                        <input type="text" id="new-notebook-name" placeholder="Ex: FinanÃ§as Casa, Empresa..." style="flex-grow:1; padding: 10px 6px; border-radius:8px; border:1px solid #EAD8C0; outline:none; font-size:0.9rem; background:white;">
                         <button class="btn-primary" id="btn-create-notebook" style="padding: 10px 8px; border-radius:8px; background: #8C6239; border-color:#8C6239; color:white; font-weight:600; cursor:pointer;"><i class="fa-solid fa-plus"></i> Criar</button>
                     </div>
                 </div>
@@ -570,11 +578,11 @@
 
         </div>
 
-        <!-- Barra de Navegação Inferior Fixa -->
+        <!-- Barra de NavegaÃ§Ã£o Inferior Fixa -->
         <nav class="bottom-nav-bar" id="bottom-nav-bar" style="display: none;">
             <button class="nav-tab-btn active" data-tab="home" id="tab-home">
                 <i class="fa-solid fa-house"></i>
-                <span>Início</span>
+                <span>InÃ­cio</span>
             </button>
             <button class="nav-tab-btn" data-tab="details" id="tab-details">
                 <i class="fa-solid fa-list"></i>
@@ -598,7 +606,7 @@
         </nav>
     </div>
 
-    <!-- 📖 CAPA DO CADERNO: TELA DE LOGIN / CADASTRO -->
+    <!-- ðŸ“– CAPA DO CADERNO: TELA DE LOGIN / CADASTRO -->
     <div class="modal-overlay welcome-cover-overlay" id="modal-welcome">
         
         <div class="landing-split-layout">
@@ -615,7 +623,7 @@
                             <div class="landing-feature-icon"><i class="fa-solid fa-microphone"></i></div>
                             <div class="landing-feature-text">
                                 <strong>Comando de Voz</strong>
-                                <span>Diga o que gastou e nós registramos.</span>
+                                <span>Diga o que gastou e nÃ³s registramos.</span>
                             </div>
                         </div>
                         <div class="landing-feature-item">
@@ -629,7 +637,7 @@
                             <div class="landing-feature-icon"><i class="fa-solid fa-users"></i></div>
                             <div class="landing-feature-text">
                                 <strong>Colaborativo</strong>
-                                <span>Movimente o caderno junto com alguém.</span>
+                                <span>Movimente o caderno junto com alguÃ©m.</span>
                             </div>
                         </div>
                         <div class="landing-feature-item">
@@ -684,11 +692,11 @@
         </div>
     </div>
 
-    <!-- MODAL: FILA DE DÚVIDAS -->
+    <!-- MODAL: FILA DE DÃšVIDAS -->
     <div class="doubts-overlay" id="doubts-panel">
         <div class="doubts-content">
             <div class="doubts-header">
-                <span class="doubts-title"><i class="fa-solid fa-question-circle"></i> Fila de Dúvidas</span>
+                <span class="doubts-title"><i class="fa-solid fa-question-circle"></i> Fila de DÃºvidas</span>
                 <button class="doubts-close" id="btn-close-doubts">&times;</button>
             </div>
             <div class="doubts-list" id="doubts-list-container">
@@ -697,10 +705,10 @@
         </div>
     </div>
 
-    <!-- MODAL: EDIÇÃO / CRIAÇÃO DE TRANSAÇÃO -->
+    <!-- MODAL: EDIÃ‡ÃƒO / CRIAÃ‡ÃƒO DE TRANSAÃ‡ÃƒO -->
     <div class="modal-overlay" id="modal-edit-transaction">
         <div class="modal-card">
-            <h3 style="font-family: var(--font-title); font-weight: 700;" id="edit-modal-title">Editar Transação</h3>
+            <h3 style="font-family: var(--font-title); font-weight: 700;" id="edit-modal-title">Editar TransaÃ§Ã£o</h3>
             
             <div class="modal-field">
                 <label for="edit-item">Item / Origem</label>
@@ -713,13 +721,13 @@
             </div>
 
             <div class="modal-field">
-                <label for="edit-type">Tipo de Transação</label>
+                <label for="edit-type">Tipo de TransaÃ§Ã£o</label>
                 <select id="edit-type">
-                    <option value="salario">Entrada: Salário</option>
-                    <option value="receita_esporadica">Entrada: Receita Esporádica</option>
+                    <option value="salario">Entrada: SalÃ¡rio</option>
+                    <option value="receita_esporadica">Entrada: Receita EsporÃ¡dica</option>
                     <option value="receita_recorrente">Entrada: Receita Recorrente</option>
-                    <option value="despesa_esporadica">Saída: Despesa Esporádica</option>
-                    <option value="despesa_recorrente">Saída: Despesa Recorrente</option>
+                    <option value="despesa_esporadica">SaÃ­da: Despesa EsporÃ¡dica</option>
+                    <option value="despesa_recorrente">SaÃ­da: Despesa Recorrente</option>
                 </select>
             </div>
 
@@ -734,12 +742,12 @@
             </div>
 
             <div class="modal-field">
-                <label for="edit-date">Data da Transação</label>
+                <label for="edit-date">Data da TransaÃ§Ã£o</label>
                 <input type="date" id="edit-date">
             </div>
 
             <div class="modal-field">
-                <label for="edit-time">Horário</label>
+                <label for="edit-time">HorÃ¡rio</label>
                 <input type="time" id="edit-time">
             </div>
 
@@ -758,7 +766,7 @@
         </div>
     </div>
 
-    <!-- MODAL: ADD CATEGORIA RÁPIDA -->
+    <!-- MODAL: ADD CATEGORIA RÃPIDA -->
     <div class="modal-overlay" id="modal-new-category" style="z-index: 210;">
         <div class="modal-card">
             <h3 style="font-family: var(--font-title); font-weight: 700;">Nova Categoria</h3>
@@ -829,12 +837,12 @@
         </div>
     </div>
 
-    <!-- MODAL: CONFIGURAÇÕES DO GEMINI -->
+    <!-- MODAL: CONFIGURAÃ‡Ã•ES DO GEMINI -->
     <div class="modal-overlay" id="modal-gemini-settings" style="z-index: 210;">
         <div class="modal-card">
             <h3 style="font-family: var(--font-title); font-weight: 700; margin-bottom:10px; color: #4f46e5;"><i class="fa-solid fa-brain"></i> Configurar Gemini</h3>
             <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px; line-height: 1.4;">
-                Ative a inteligência artificial do Gemini para processar seus lançamentos por voz ou texto com compreensão inteligente de linguagem natural.
+                Ative a inteligÃªncia artificial do Gemini para processar seus lanÃ§amentos por voz ou texto com compreensÃ£o inteligente de linguagem natural.
             </p>
             
             <div class="modal-field" style="margin-bottom: 12px;">
@@ -876,7 +884,7 @@
                 <div style="display:flex; flex-direction:column; gap:8px;">
                     <input type="text" id="share-guest-contact" placeholder="E-mail ou Celular do Convidado" style="padding: 10px; border-radius: 8px; border: 1px solid #EAD8C0; font-size: 0.9rem; outline:none; background:white;">
                     <div style="display:flex; gap:8px;">
-                        <input type="text" id="share-guest-role" placeholder="Papel (Ex: Cônjuge, Sócio)" style="flex-grow:1; padding: 10px; border-radius: 8px; border: 1px solid #EAD8C0; font-size: 0.9rem; outline:none; background:white;">
+                        <input type="text" id="share-guest-role" placeholder="Papel (Ex: CÃ´njuge, SÃ³cio)" style="flex-grow:1; padding: 10px; border-radius: 8px; border: 1px solid #EAD8C0; font-size: 0.9rem; outline:none; background:white;">
                         <button class="btn-primary" id="btn-add-share-access" style="background: #8C6239; border-color:#8C6239; color:white; font-weight:600; padding: 10px 8px; border-radius: 8px; cursor:pointer;">Adicionar Acesso</button>
                     </div>
                 </div>
@@ -912,30 +920,30 @@
             <p style="font-size: 1rem; font-weight: 700; color: #333; margin-bottom: 15px;" id="pix-modal-amount">R$ 50,00</p>
             
             <button id="btn-copy-cofrinho-pix" style="width: 100%; background: #0284c7; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 600; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 15px;">
-                <i class="fa-regular fa-copy"></i> Copiar Código PIX
+                <i class="fa-regular fa-copy"></i> Copiar CÃ³digo PIX
             </button>
             
-            <p style="font-size: 0.75rem; color: #999; margin: 0;">O valor constará como pendente no seu cofrinho até você confirmar o pagamento.</p>
+            <p style="font-size: 0.75rem; color: #999; margin: 0;">O valor constarÃ¡ como pendente no seu cofrinho atÃ© vocÃª confirmar o pagamento.</p>
         </div>
     </div>
 
-    <!-- MODAL: HISTÓRICO DE CONVERSAS (DIÁRIO) -->
+    <!-- MODAL: HISTÃ“RICO DE CONVERSAS (DIÃRIO) -->
     <div class="modal-overlay" id="modal-chat-logs">
         <div class="modal-card" style="max-height:85vh; display:flex; flex-direction:column; background:#FAF6EE;">
-            <h3 style="font-family: var(--font-title); font-weight: 700; margin-bottom: 8px;"><i class="fa-solid fa-comments"></i> Diário de Conversas</h3>
-            <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:12px;">Histórico completo de conversas arquivadas com o assistente.</p>
+            <h3 style="font-family: var(--font-title); font-weight: 700; margin-bottom: 8px;"><i class="fa-solid fa-comments"></i> DiÃ¡rio de Conversas</h3>
+            <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:12px;">HistÃ³rico completo de conversas arquivadas com o assistente.</p>
             
             <div id="chat-logs-archive-list" style="flex-grow:1; overflow-y:auto; display:flex; flex-direction:column; gap:12px; padding:5px 0;">
                 <!-- Populated dynamically -->
             </div>
             
             <div class="modal-actions" style="margin-top:12px;">
-                <button class="btn-secondary" id="btn-close-chat-logs" style="width:100%;">Fechar Diário</button>
+                <button class="btn-secondary" id="btn-close-chat-logs" style="width:100%;">Fechar DiÃ¡rio</button>
             </div>
         </div>
     </div>
 
-    <!-- 📲 BANNER DE INSTALAÇÃO PWA -->
+    <!-- ðŸ“² BANNER DE INSTALAÃ‡ÃƒO PWA -->
     <div class="pwa-install-banner" id="pwa-install-banner">
         <div class="pwa-install-content">
             <div class="pwa-install-icon">
@@ -967,9 +975,9 @@
             <div id="pix-qrcode-container" style="display:flex; justify-content:center; margin-bottom:20px;"></div>
             <!-- Copia e Cola -->
             <button id="btn-copy-pix" class="btn-secondary" style="width:100%; margin-bottom:8px;">
-                <i class="fa-regular fa-copy"></i> Copiar código PIX
+                <i class="fa-regular fa-copy"></i> Copiar cÃ³digo PIX
             </button>
-            <p style="font-size:0.72rem; color:#94a3b8;">Escaneie com qualquer app bancário</p>
+            <p style="font-size:0.72rem; color:#94a3b8;">Escaneie com qualquer app bancÃ¡rio</p>
             <button id="btn-confirm-pix" class="btn-primary" style="width:100%; margin-top:12px; background:#15803d; border-color:#15803d;">
                 <i class="fa-solid fa-check"></i> Confirmar pagamento realizado
             </button>
@@ -990,13 +998,13 @@
             <!-- Lista de contatos -->
             <div id="pix-agenda-list" style="flex-grow:1;overflow-y:auto;display:flex;flex-direction:column;gap:8px;padding:4px 0;"></div>
 
-            <!-- Formulário de novo contato -->
+            <!-- FormulÃ¡rio de novo contato -->
             <div id="pix-agenda-form" style="border-top:1px solid #e2e8f0; padding-top:16px; margin-top:12px;">
                 <p style="font-size:0.8rem;font-weight:600;color:#1a365d;margin-bottom:8px;">Novo contato PIX</p>
                 <input id="pix-form-label" type="text" placeholder="Label para voz (ex: aluguel, Maria)" class="input-field" style="margin-bottom:8px;">
-                <input id="pix-form-key" type="text" placeholder="Chave PIX (e-mail, CPF, celular, chave aleatória)" class="input-field" style="margin-bottom:8px;">
+                <input id="pix-form-key" type="text" placeholder="Chave PIX (e-mail, CPF, celular, chave aleatÃ³ria)" class="input-field" style="margin-bottom:8px;">
                 <input id="pix-form-name" type="text" placeholder="Nome do favorecido" class="input-field" style="margin-bottom:8px;">
-                <input id="pix-form-desc" type="text" placeholder="Descrição (opcional)" class="input-field" style="margin-bottom:12px;">
+                <input id="pix-form-desc" type="text" placeholder="DescriÃ§Ã£o (opcional)" class="input-field" style="margin-bottom:12px;">
                 <button id="btn-add-pix-contact" class="btn-primary" style="width:100%;">
                     <i class="fa-solid fa-plus"></i> Adicionar contato
                 </button>
@@ -1020,7 +1028,7 @@
             </div>
             <div class="pwa-text">
                 <strong>Instalar Aplicativo</strong>
-                <span>Adicione � tela inicial. N�o ocupa mem�ria!</span>
+                <span>Adicione à tela inicial. Não ocupa memória!</span>
             </div>
             <button id="btn-pwa-install" class="pwa-install-btn">Instalar</button>
             <button id="btn-pwa-close" class="pwa-close-btn"><i class="fa-solid fa-xmark"></i></button>
@@ -1029,6 +1037,7 @@
 
 </body>
 </html>
+
 
 
 
