@@ -34,9 +34,9 @@ body {
     font-family: var(--font-normal);
     background: radial-gradient(circle, #25262e 0%, #0f1013 100%); /* Fundo escuro radial elegante para destacar o frame do celular */
     color: var(--text-primary);
-    overflow: hidden; /* Evita rolagem da pÃ¡gina inteira no celular */
+    overflow: hidden; /* Evita rolagem da página inteira no celular */
     height: 100%;
-    height: 100dvh; /* Altura exata da Ã¡rea visÃ­vel */
+    height: 100dvh; /* Altura exata da área visível */
     width: 100vw;
     display: flex;
     justify-content: center;
@@ -64,7 +64,7 @@ body {
         border-radius: 0;
         border: none;
         height: 100%;
-        height: 100dvh; /* ForÃ§a o app a ocupar exatamente a Ã¡rea visÃ­vel do celular */
+        height: 100dvh; /* Força o app a ocupar exatamente a área visível do celular */
     }
 }
 
@@ -88,7 +88,7 @@ body {
     overflow: hidden; /* Evita que espirais e outros elementos vazem para outros slides */
 }
 
-/* Marca d'Ã¡gua removida das transiÃ§Ãµes globais para evitar sobreposiÃ§Ã£o */
+/* Marca d'água removida das transições globais para evitar sobreposição */
 
 /* Screen 1: Home (Super Minimalist) */
 #screen-home {
@@ -106,7 +106,7 @@ body {
     overflow: hidden;
 }
 
-/* Doodle Porquinho no fundo estilo lÃ¡pis apagado */
+/* Doodle Porquinho no fundo estilo lápis apagado */
 .home-floating-doodle {
     position: absolute;
     pointer-events: none;
@@ -132,7 +132,7 @@ body {
     50% { transform: translateX(-50%) translate(5px, -8px) rotate(4deg); }
 }
 
-/* CabeÃ§alho Premium */
+/* Cabeçalho Premium */
 .home-header {
     display: flex;
     justify-content: space-between;
@@ -160,7 +160,7 @@ body {
     font-family: var(--font-title); /* Lora */
     font-size: 1.7rem;
     font-weight: 700;
-    color: #d97706; /* Dourado/Ã‚mbar */
+    color: #d97706; /* Dourado/Âmbar */
     margin-left: 0px;
 }
 
@@ -175,7 +175,7 @@ body {
     opacity: 0.8;
 }
 
-/* BotÃµes de AÃ§Ã£o do CabeÃ§alho */
+/* Botões de Ação do Cabeçalho */
 .home-header-actions {
     display: flex;
     gap: 12px;
@@ -292,7 +292,7 @@ body {
     font-family: var(--font-normal); /* Inter */
     font-size: 1.48rem;
     font-weight: 700;
-    color: #15803d; /* Verde padrÃ£o */
+    color: #15803d; /* Verde padrão */
     margin-top: 4px;
 }
 
@@ -300,7 +300,7 @@ body {
     color: #ef4444; /* Vermelho para saldo negativo */
 }
 
-/* SeÃ§Ã£o do Microfone (Centro-Inferior) */
+/* Seção do Microfone (Centro-Inferior) */
 .home-mic-section {
     display: flex;
     flex-direction: column;
@@ -455,7 +455,7 @@ body {
     pointer-events: none;
 }
 
-/* SeÃ§Ã£o de Exemplos */
+/* Seção de Exemplos */
 .home-examples-section {
     padding: 0 12px;
     margin-top: 20px;
@@ -532,7 +532,7 @@ body {
     color: var(--red-ink);
 }
 
-/* Card de Ãšltima MovimentaÃ§Ã£o na Base */
+/* Card de Última Movimentação na Base */
 .home-last-transaction-card {
     margin: auto 24px 8px 24px;
     background: #ffffff;
@@ -652,7 +652,7 @@ body {
     display: block;
 }
 
-/* ðŸ’¬ Chat Overlay/Screen Container */
+/* 💬 Chat Overlay/Screen Container */
 .chat-screen-overlay {
     position: absolute;
     top: 0;
@@ -775,7 +775,7 @@ body {
 /* Chat Input Bar */
 .chat-input-bar {
     padding: 12px 8px;
-    padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px)); /* EspaÃ§amento para evitar corte em aparelhos sem borda fÃ­sica */
+    padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px)); /* Espaçamento para evitar corte em aparelhos sem borda física */
     border-top: 1px dashed var(--line-color);
     background: white;
     display: flex;
@@ -844,7 +844,7 @@ body {
     background-color: var(--paper-bg);
 }
 
-/* ðŸ“– Capa de Couro / Papel Premium do Caderno */
+/* 📖 Capa de Couro / Papel Premium do Caderno */
 .welcome-cover-overlay {
     background: radial-gradient(circle, #2e303d 0%, #121317 100%) !important;
     display: flex;
@@ -927,7 +927,7 @@ body {
     position: relative;
 }
 
-/* RuÃ­do sutil da etiqueta (descontinuado) */
+/* Ruído sutil da etiqueta (descontinuado) */
 .paper-label-container::before {
     content: '';
     position: absolute;
@@ -1230,7 +1230,7 @@ body {
     background-color: rgba(0, 0, 0, 0.03);
 }
 
-/* Filtros RetrÃ¡teis */
+/* Filtros Retráteis */
 .collapsible-filters-box {
     display: flex;
     flex-direction: column;
@@ -1291,7 +1291,7 @@ body {
     background-repeat: repeat;
 }
 
-/* 1. Theme: Pautada ClÃ¡ssica Limpa */
+/* 1. Theme: Pautada Clássica Limpa */
 .theme-ruled {
     background-color: var(--paper-bg);
     background-image: 
@@ -2077,7 +2077,7 @@ body {
     background: rgba(185, 28, 28, 0.05);
 }
 
-/* Fullscreen Page: DÃ­vidas Mensais */
+/* Fullscreen Page: Dívidas Mensais */
 .fixed-accounts-fullscreen-panel {
     position: absolute;
     top: 0;
@@ -2377,7 +2377,7 @@ body {
     user-select: text;
 }
 
-/* Premium Paid Badge for DÃ­vidas Mensais */
+/* Premium Paid Badge for Dívidas Mensais */
 .paid-badge {
     display: inline-flex;
     align-items: center;
@@ -2454,7 +2454,7 @@ body {
     padding: 0;
     transition: transform 0.2s ease, filter 0.2s ease;
     filter: drop-shadow(4px 10px 5px rgba(0, 0, 0, 0.22)); /* Sombra projetada na folha do caderno */
-    transform: rotate(15deg); /* InclinaÃ§Ã£o natural do alfinete espetado */
+    transform: rotate(15deg); /* Inclinação natural do alfinete espetado */
     transform-origin: bottom center;
     animation: pinWiggle 4s infinite ease-in-out;
 }
@@ -2853,15 +2853,15 @@ body {
 }
 
 /* Specific Category Accent Colors for Chips */
-.chat-category-chip[data-category="AlimentaÃ§Ã£o"] { border-left: 3px solid #d97706; }
+.chat-category-chip[data-category="Alimentação"] { border-left: 3px solid #d97706; }
 .chat-category-chip[data-category="Moradia"] { border-left: 3px solid #b91c1c; }
 .chat-category-chip[data-category="Transporte"] { border-left: 3px solid #3b82f6; }
 .chat-category-chip[data-category="Lazer"] { border-left: 3px solid #8b5cf6; }
-.chat-category-chip[data-category="SaÃºde"] { border-left: 3px solid #10b981; }
-.chat-category-chip[data-category="EducaÃ§Ã£o"] { border-left: 3px solid #06b6d4; }
-.chat-category-chip[data-category="VestuÃ¡rio"] { border-left: 3px solid #ec4899; }
+.chat-category-chip[data-category="Saúde"] { border-left: 3px solid #10b981; }
+.chat-category-chip[data-category="Educação"] { border-left: 3px solid #06b6d4; }
+.chat-category-chip[data-category="Vestuário"] { border-left: 3px solid #ec4899; }
 .chat-category-chip[data-category="Casa"] { border-left: 3px solid #f97316; }
-.chat-category-chip[data-category="ComunicaÃ§Ã£o"] { border-left: 3px solid #6366f1; }
+.chat-category-chip[data-category="Comunicação"] { border-left: 3px solid #6366f1; }
 .chat-category-chip[data-category="Despesas Pessoais"] { border-left: 3px solid #6b7280; }
 .chat-category-chip[data-category="Receitas"] { border-left: 3px solid #0d9488; }
 
@@ -3553,7 +3553,7 @@ body {
     background: rgba(211, 47, 47, 0.08);
 }
 
-/* --- BANNER DE INSTALAÃ‡ÃƒO PWA --- */
+/* --- BANNER DE INSTALAÇÃO PWA --- */
 .pwa-install-banner {
     position: fixed;
     bottom: 20px;
@@ -4202,7 +4202,7 @@ body {
     background-color: var(--blue-ink, #1976d2);
 }
 
-/* --- ROLAGEM DINÂMICA DO EXTRATO --- */
+/* --- ROLAGEM DIN�MICA DO EXTRATO --- */
 #screen-details {
     overflow-y: auto;
     overflow-x: hidden;
@@ -4560,7 +4560,7 @@ body {
     }
 }
 
-/* Ajustes no Card para se adequar Ã  Landing Page */
+/* Ajustes no Card para se adequar à Landing Page */
 .landing-auth-pane .leather-book-cover {
     width: 100%;
     max-width: 100% !important;
@@ -4683,5 +4683,4 @@ body {
 .pwa-close-btn:hover {
     color: #4a3b2c;
 }
-
 

@@ -4524,7 +4524,7 @@ InstruÃ§Ãµes crÃ­ticas:
         }
 
         const monthsData = [];
-        for (let i = -2; i <= 2; i++) {
+        for (let i = -6; i <= 6; i++) {
             const d = new Date(centerYear, centerMonth + i, 1);
             monthsData.push({
                 year: d.getFullYear(),
