@@ -3854,16 +3854,32 @@ Instruções críticas:
                 return;
             }
             
-            // Marca como pendente e abre modal
+            // Marca como pendente para o banner (caso feche o modal)
             pendingPixTransaction = { amount, cofrinhoId: activeCofrinhoId };
+            checkPendingTransaction();
             
-            if (pixModalAmount) {
-                pixModalAmount.innerText = `R$ ${amount.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-            }
-            if (modalPixQr) modalPixQr.classList.add('active');
+            // Abre o MODAL REAL DE QR CODE PIX
+            const cofrinho = storage.getCofrinho(activeCofrinhoId);
+            const pixName = storage.getCofrinhoPixName() || 'DigaReal Cofrinho';
+            
+            closeCofrinhoDetail();
+            
+            showPixModal({
+                key: globalPix,
+                name: pixName,
+                city: 'Brasil',
+                amount: amount,
+                txId: `COF${Date.now()}`.substring(0, 25),
+                desc: `Guardar no Cofrinho: ${cofrinho ? cofrinho.name : 'Geral'}`
+            }, () => {
+                // Confirmado direto pelo modal de QR Code
+                storage.depositToCofrinho(activeCofrinhoId, amount);
+                pendingPixTransaction = null;
+                checkPendingTransaction();
+                updateUI();
+            });
             
             if (cofrinhoActionVal) cofrinhoActionVal.value = '';
-            checkPendingTransaction();
         });
     }
 
