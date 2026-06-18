@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const today = new Date().toISOString().split('T')[0];
         
         storage.addTransaction({
-            item: 'SalÃ¡rio Principal',
+            item: 'Salário Principal',
             value: 4500.00,
             type: 'salario',
             category: 'Receitas',
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         storage.addTransaction({
-            item: 'Aluguel do MÃªs',
+            item: 'Aluguel do Mês',
             value: 1200.00,
             type: 'despesa_recorrente',
             category: 'Moradia',
@@ -76,14 +76,14 @@ document.addEventListener('DOMContentLoaded', () => {
             item: 'Supermercado Mensal',
             value: 350.00,
             type: 'despesa_recorrente',
-            category: 'AlimentaÃ§Ã£o',
+            category: 'Alimentação',
             date: today,
             time: '14:30',
             author: 'Rosil'
         });
 
         storage.addTransaction({
-            item: 'CombustÃ­vel Posto Ipiranga',
+            item: 'Combustível Posto Ipiranga',
             value: 150.00,
             type: 'despesa_esporadica',
             category: 'Transporte',
@@ -239,14 +239,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // 3. User Login Check
     let authMode = 'login';
 
-    // â”€â”€â”€ Supabase: verificar sessÃ£o ao iniciar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // â”€â”€â”€ Supabase: verificar sessão ao iniciar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     (async () => {
         try {
             const session = await sync.getSession();
             if (session && session.user) {
-                // UsuÃ¡rio jÃ¡ autenticado na nuvem â€” sincronizar dados
-                console.log('[Auth] SessÃ£o ativa:', session.user.email);
-                // Garantir que o localStorage reflete o usuÃ¡rio correto
+                // Usuário já autenticado na nuvem â€” sincronizar dados
+                console.log('[Auth] Sessão ativa:', session.user.email);
+                // Garantir que o localStorage reflete o usuário correto
                 if (!storage.getCurrentUser()) {
                     // Buscar perfil na nuvem e popular localmente
                     const { data: profile } = await supabaseClient
@@ -265,7 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (activeNbId) {
                     sync.subscribeNotebook(activeNbId,
                         (newTx) => {
-                            // TransaÃ§Ã£o chegou de outro dispositivo
+                            // Transação chegou de outro dispositivo
                             const nb = storage.getActiveNotebook();
                             if (nb && !nb.transactions.find(t => t.id === newTx.id)) {
                                 nb.transactions.push({
@@ -291,7 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         } catch(err) {
-            console.warn('[Auth] Erro ao verificar sessÃ£o:', err);
+            console.warn('[Auth] Erro ao verificar sessão:', err);
         }
     })();
     // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -312,7 +312,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (transactionList) {
             transactionList.innerHTML = `
                 <div style="font-family: var(--font-handwriting); text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 1.1rem;">
-                    Nenhuma movimentaÃ§Ã£o neste mÃªs.
+                    Nenhuma movimentação neste mês.
                 </div>
             `;
         }
@@ -329,7 +329,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function checkLogin() {
         const user = storage.getCurrentUser();
-        if (!user || user === 'UsuÃ¡rio') {
+        if (!user || user === 'Usuário') {
             modalWelcome.classList.add('active');
             clearUI();
         } else {
@@ -374,7 +374,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         alert('Por favor, preencha todos os campos!');
                         return false;
                     }
-                    // Desabilitar botÃ£o durante processamento
+                    // Desabilitar botão durante processamento
                     btnAuthSubmit.disabled = true;
                     btnAuthSubmit.innerText = 'Criando conta...';
 
@@ -385,15 +385,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (!localResult.success) {
                         alert(localResult.message || 'Erro ao realizar cadastro.');
                         btnAuthSubmit.disabled = false;
-                        btnAuthSubmit.innerText = 'ComeÃ§ar LanÃ§amentos';
+                        btnAuthSubmit.innerText = 'Começar Lançamentos';
                         return false;
                     }
 
                     // 2) Cadastrar na nuvem (Supabase)
                     const cloudResult = await sync.signUp(contactVal, passwordVal, nameVal, referredByTemp);
                     if (!cloudResult.success) {
-                        // E-mail jÃ¡ existe no Supabase ou outro erro de nuvem
-                        // NÃ£o bloquear â€” funcionarÃ¡ offline
+                        // E-mail já existe no Supabase ou outro erro de nuvem
+                        // Não bloquear â€” funcionará offline
                         console.warn('[Auth] Supabase signup falhou:', cloudResult.message);
                     }
 
@@ -473,7 +473,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } catch (err) {
                 console.error("Erro inesperado no login/cadastro:", err);
-                alert("Erro de conexÃ£o com o servidor: " + err.message + "\nPor favor, verifique se a URL do Supabase estÃ¡ correta.");
+                alert("Erro de conexão com o servidor: " + err.message + "\nPor favor, verifique se a URL do Supabase está correta.");
                 btnAuthSubmit.disabled = false;
                 btnAuthSubmit.innerText = authMode === 'register' ? 'Criar conta' : 'Entrar';
             }
@@ -491,16 +491,16 @@ document.addEventListener('DOMContentLoaded', () => {
             doubtsBadgeText.innerText = `Tenho algumas perguntas, ${displayName}!`;
         }
 
-        // Atualizar saudaÃ§Ã£o e logo no menu dropdown
+        // Atualizar saudação e logo no menu dropdown
         const menuGreeting = document.getElementById('menu-user-greeting');
         if (menuGreeting) {
-            menuGreeting.innerText = `OlÃ¡, ${displayName || 'Visitante'}!`;
+            menuGreeting.innerText = `Olá, ${displayName || 'Visitante'}!`;
         }
 
-        // Mostrar/Ocultar barra de navegaÃ§Ã£o inferior fixa com base no login e aba atual
+        // Mostrar/Ocultar barra de navegação inferior fixa com base no login e aba atual
         const bottomNavBar = document.getElementById('bottom-nav-bar');
         if (bottomNavBar) {
-            if (user && user !== 'UsuÃ¡rio' && activeTab !== 'home') {
+            if (user && user !== 'Usuário' && activeTab !== 'home') {
                 bottomNavBar.style.display = 'flex';
             } else {
                 bottomNavBar.style.display = 'none';
@@ -526,7 +526,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const bottomNavBar = document.getElementById('bottom-nav-bar');
         if (bottomNavBar) {
             const user = storage.getCurrentUser();
-            const isLoggedIn = user && user !== 'UsuÃ¡rio';
+            const isLoggedIn = user && user !== 'Usuário';
             if (isLoggedIn && tabName !== 'home') {
                 bottomNavBar.style.display = 'flex';
             } else {
@@ -601,7 +601,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Vinculos de AÃ§Ã£o da Home (Premium Overhaul)
+    // Vinculos de Ação da Home (Premium Overhaul)
     const btnHomeProfile = document.getElementById('btn-home-profile');
     const homeProfileDropdown = document.getElementById('home-profile-dropdown');
     if (btnHomeProfile && homeProfileDropdown) {
@@ -626,7 +626,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (homeProfileDropdown) homeProfileDropdown.style.display = 'none';
             const modalEditProfile = document.getElementById('modal-edit-profile');
             
-            // Popula os campos com os dados do usuÃ¡rio atual do localStorage
+            // Popula os campos com os dados do usuário atual do localStorage
             const contact = storage.getCurrentUserContact();
             const profile = contact ? storage.getUserProfile(contact) : null;
             if (profile) {
@@ -744,7 +744,7 @@ document.addEventListener('DOMContentLoaded', () => {
         clearTimeout(chatInactivityTimer);
         chatInactivityTimer = setTimeout(() => {
             closeChatOverlay();
-        }, 30000); // Aumentado para 30 segundos para dar tempo do usuÃ¡rio pensar, ler e interagir sem pressa
+        }, 30000); // Aumentado para 30 segundos para dar tempo do usuário pensar, ler e interagir sem pressa
     }
 
     // Bind Inactivity events
@@ -829,7 +829,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 resetChatInactivityTimer();
                 copyToClipboard("00020101021126580014br.gov.bcb.pix0136asaas-pix-key-fictitious-demo-697").then(() => {
                     const originalText = btnCopy.innerHTML;
-                    btnCopy.innerHTML = `<i class="fa-solid fa-check"></i> CÃ³digo Copiado!`;
+                    btnCopy.innerHTML = `<i class="fa-solid fa-check"></i> Código Copiado!`;
                     btnCopy.style.backgroundColor = "#15803d";
                     setTimeout(() => {
                         btnCopy.innerHTML = originalText;
@@ -852,7 +852,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     storage.renewUserSubscription(contact, plan);
                     triggerConfetti();
                     
-                    const welcomeBackMsg = `Obrigada! Pagamento confirmado com sucesso via Asaas. Seu caderno jÃ¡ estÃ¡ 100% liberado! Aproveite.`;
+                    const welcomeBackMsg = `Obrigada! Pagamento confirmado com sucesso via Asaas. Seu caderno já está 100% liberado! Aproveite.`;
                     addAppMessage(welcomeBackMsg, false);
                     
                     updateHomeAlertDot();
@@ -953,7 +953,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btnChatVoice) btnChatVoice.addEventListener('click', toggleVoiceMute);
     if (btnHeaderVoice) btnHeaderVoice.addEventListener('click', toggleVoiceMute);
 
-    // Atualizar UI inicial do botÃ£o de som
+    // Atualizar UI inicial do botão de som
     updateVoiceMutedUI();
 
 
@@ -996,7 +996,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const normalized = text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
         
         const officialCategories = [
-            'AlimentaÃ§Ã£o', 'Moradia', 'Transporte', 'Lazer', 'SaÃºde', 'EducaÃ§Ã£o', 'VestuÃ¡rio', 'Casa', 'ComunicaÃ§Ã£o', 'Despesas Pessoais', 'Receitas'
+            'Alimentação', 'Moradia', 'Transporte', 'Lazer', 'Saúde', 'Educação', 'Vestuário', 'Casa', 'Comunicação', 'Despesas Pessoais', 'Receitas'
         ];
         
         for (const cat of officialCategories) {
@@ -1007,17 +1007,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         const synonyms = {
-            'AlimentaÃ§Ã£o': ['comida', 'mercado', 'supermercado', 'padaria', 'restaurante', 'lanche', 'pizza', 'jantar', 'almoco', 'almoÃ§o', 'cafe', 'cafÃ©', 'feira'],
-            'Moradia': ['aluguel', 'condominio', 'condomÃ­nio', 'luz', 'energia', 'agua', 'Ã¡gua', 'gas', 'gÃ¡s', 'iptu'],
-            'Transporte': ['uber', 'taxi', 'taxista', 'onibus', 'Ã´nibus', 'metro', 'metrÃ´', 'combustivel', 'combustÃ­vel', 'gasolina', 'estacionamento', 'pedagio', 'pedÃ¡gio'],
+            'Alimentação': ['comida', 'mercado', 'supermercado', 'padaria', 'restaurante', 'lanche', 'pizza', 'jantar', 'almoco', 'almoço', 'cafe', 'café', 'feira'],
+            'Moradia': ['aluguel', 'condominio', 'condomínio', 'luz', 'energia', 'agua', 'água', 'gas', 'gás', 'iptu'],
+            'Transporte': ['uber', 'taxi', 'taxista', 'onibus', 'ônibus', 'metro', 'metrô', 'combustivel', 'combustível', 'gasolina', 'estacionamento', 'pedagio', 'pedágio'],
             'Lazer': ['cinema', 'show', 'cerveja', 'bar', 'viagem', 'hotel', 'spotify', 'netflix', 'futebol', 'clube', 'churrasco'],
-            'SaÃºde': ['farmacia', 'farmÃ¡cia', 'medico', 'mÃ©dico', 'remedio', 'remÃ©dio', 'dentista', 'consulta', 'exame', 'hospital', 'psicologo', 'terapia'],
-            'EducaÃ§Ã£o': ['escola', 'faculdade', 'curso', 'livro', 'livros', 'estudo', 'aula', 'mensalidade', 'matricula', 'matrÃ­cula'],
-            'VestuÃ¡rio': ['roupa', 'roupas', 'sapato', 'tenis', 'tÃªnis', 'shopping', 'camisa', 'camiseta', 'calca', 'calÃ§a', 'vestido', 'casaco'],
-            'Casa': ['movel', 'mÃ³vel', 'decoracao', 'decoraÃ§Ã£o', 'cama', 'mesa', 'banho', 'geladeira', 'fogao', 'fogÃ£o', 'microondas', 'utensilio', 'utensÃ­lios'],
-            'ComunicaÃ§Ã£o': ['internet', 'celular', 'telefone', 'plano', 'fibra', 'tim', 'claro', 'vivo', 'recarga'],
-            'Despesas Pessoais': ['pessoal', 'pessoais', 'cabeleireiro', 'barbearia', 'manicure', 'perfume', 'cosmetico', 'cosmÃ©ticos', 'maquiagem', 'presente', 'doaÃ§Ã£o', 'doacao', 'tarifa', 'banco'],
-            'Receitas': ['receita', 'ganho', 'ganhos', 'salario', 'salÃ¡rio', 'venda', 'freela', 'recebi', 'pagamento']
+            'Saúde': ['farmacia', 'farmácia', 'medico', 'médico', 'remedio', 'remédio', 'dentista', 'consulta', 'exame', 'hospital', 'psicologo', 'terapia'],
+            'Educação': ['escola', 'faculdade', 'curso', 'livro', 'livros', 'estudo', 'aula', 'mensalidade', 'matricula', 'matrícula'],
+            'Vestuário': ['roupa', 'roupas', 'sapato', 'tenis', 'tênis', 'shopping', 'camisa', 'camiseta', 'calca', 'calça', 'vestido', 'casaco'],
+            'Casa': ['movel', 'móvel', 'decoracao', 'decoração', 'cama', 'mesa', 'banho', 'geladeira', 'fogao', 'fogão', 'microondas', 'utensilio', 'utensílios'],
+            'Comunicação': ['internet', 'celular', 'telefone', 'plano', 'fibra', 'tim', 'claro', 'vivo', 'recarga'],
+            'Despesas Pessoais': ['pessoal', 'pessoais', 'cabeleireiro', 'barbearia', 'manicure', 'perfume', 'cosmetico', 'cosméticos', 'maquiagem', 'presente', 'doação', 'doacao', 'tarifa', 'banco'],
+            'Receitas': ['receita', 'ganho', 'ganhos', 'salario', 'salário', 'venda', 'freela', 'recebi', 'pagamento']
         };
         
         for (const [cat, words] of Object.entries(synonyms)) {
@@ -1063,7 +1063,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function callGemini(userText) {
         const apiKey = localStorage.getItem('gemini_api_key');
         if (!apiKey) {
-            throw new Error("Chave de API do Gemini nÃ£o configurada.");
+            throw new Error("Chave de API do Gemini não configurada.");
         }
         
         const userName = storage.getCurrentUser();
@@ -1088,56 +1088,56 @@ document.addEventListener('DOMContentLoaded', () => {
         const todayStr = new Date().toLocaleDateString('pt-BR');
         const weekdayStr = new Date().toLocaleDateString('pt-BR', { weekday: 'long' });
         
-        const systemPrompt = `VocÃª Ã© o assistente virtual inteligente do PWA "Minhas Contas" (antigo DigaReal), um caderno de finanÃ§as pessoal.
-O usuÃ¡rio atual se chama: ${userName}.
-O dia de hoje Ã©: ${todayStr} (dia da semana: ${weekdayStr}).
+        const systemPrompt = `Você é o assistente virtual inteligente do PWA "Minhas Contas" (antigo DigaReal), um caderno de finanças pessoal.
+O usuário atual se chama: ${userName}.
+O dia de hoje é: ${todayStr} (dia da semana: ${weekdayStr}).
 
 Categorias oficiais do sistema:
-- AlimentaÃ§Ã£o
+- Alimentação
 - Moradia
 - Transporte
 - Lazer
-- SaÃºde
-- EducaÃ§Ã£o
-- VestuÃ¡rio
+- Saúde
+- Educação
+- Vestuário
 - Casa
-- ComunicaÃ§Ã£o
+- Comunicação
 - Despesas Pessoais
 - Receitas (apenas para entradas de dinheiro)
 
-Os cofrinhos existentes sÃ£o:
+Os cofrinhos existentes são:
 ${JSON.stringify(cofrinhos)}
 
-O saldo total atual Ã©: R$ ${currentBalance.toFixed(2)}
-O extrato de transaÃ§Ãµes recentes Ã©:
+O saldo total atual é: R$ ${currentBalance.toFixed(2)}
+O extrato de transações recentes é:
 ${JSON.stringify(recentTx)}
 
-InstruÃ§Ãµes crÃ­ticas:
+Instruções críticas:
 1. Sempre responda no formato JSON seguindo estritamente este esquema:
 {
   "action": "record_transaction" | "cofrinho_deposit" | "cofrinho_withdraw" | "add_fixed_account" | "add_fixed_income" | "create_cofrinho" | "update_cofrinho" | "delete_cofrinho" | "chat_reply",
-  "item": "nome do item ou descriÃ§Ã£o curta (ex: 'Supermercado')",
-  "value": valor numÃ©rico (meta do cofrinho para 'create_cofrinho'/'update_cofrinho', ou valor monetÃ¡rio),
+  "item": "nome do item ou descrição curta (ex: 'Supermercado')",
+  "value": valor numérico (meta do cofrinho para 'create_cofrinho'/'update_cofrinho', ou valor monetário),
   "category": "categoria oficial",
   "direction": "income" ou "expense",
-  "day": dia do mÃªs (1 a 31) para contas/receitas fixas,
+  "day": dia do mês (1 a 31) para contas/receitas fixas,
   "expiration": "YYYY-MM" (opcional, para contas/receitas fixas),
   "cofrinhoName": "nome do cofrinho",
-  "reply": "Sua resposta simpÃ¡tica, natural e bem resumida (atÃ© 2 frases) para o usuÃ¡rio por escrito/voz. Se registrar algo, diga exatamente o que registrou, o valor e a categoria."
+  "reply": "Sua resposta simpática, natural e bem resumida (até 2 frases) para o usuário por escrito/voz. Se registrar algo, diga exatamente o que registrou, o valor e a categoria."
 }
-2. Se o usuÃ¡rio quiser registrar uma transaÃ§Ã£o normal, use "action": "record_transaction". Classifique a categoria estritamente em uma das oficiais.
-3. Se o usuÃ¡rio quiser guardar/depositar dinheiro em um cofrinho, use "action": "cofrinho_deposit".
-4. Se o usuÃ¡rio quiser resgatar/tirar dinheiro de um cofrinho, use "action": "cofrinho_withdraw".
-5. Se for uma dÃºvida ou pergunta sobre finanÃ§as (como saldos, cofrinhos, gastos ou receitas), use "action": "chat_reply". Calcule as respostas usando as informaÃ§Ãµes de saldo total, cofrinhos e extrato de transaÃ§Ãµes fornecidas. Caso o usuÃ¡rio queira saber quanto falta para atingir a meta de um ou mais cofrinhos, faÃ§a a matemÃ¡tica (meta - saldo) e responda de forma simpÃ¡tica no campo "reply".
-6. Se o usuÃ¡rio quiser cadastrar uma dÃ­vida mensal/conta fixa (ex: 'cadastrar conta de luz todo dia 10 de R$ 150'), use "action": "add_fixed_account".
-7. Se o usuÃ¡rio quiser cadastrar uma receita mensal/salÃ¡rio fixo, use "action": "add_fixed_income".
-8. Se o usuÃ¡rio quiser criar um novo cofrinho (caixinha/poupanÃ§a):
-   - VocÃª NÃƒO deve criÃ¡-lo sem saber a meta (valor). Se o usuÃ¡rio nÃ£o disser a meta e nÃ£o mencionar que quer decidir depois, use "action": "chat_reply" e pergunte qual serÃ¡ a meta dele.
-   - Se o usuÃ¡rio explicitamente disser que nÃ£o sabe a meta, que prefere decidir depois ou coisas semelhantes, use "action": "create_cofrinho" com "value": 0, e no "reply" explique que o cofrinho foi criado com meta R$ 0 e que ele pode alterar depois nas configuraÃ§Ãµes do cofrinho.
+2. Se o usuário quiser registrar uma transação normal, use "action": "record_transaction". Classifique a categoria estritamente em uma das oficiais.
+3. Se o usuário quiser guardar/depositar dinheiro em um cofrinho, use "action": "cofrinho_deposit".
+4. Se o usuário quiser resgatar/tirar dinheiro de um cofrinho, use "action": "cofrinho_withdraw".
+5. Se for uma dúvida ou pergunta sobre finanças (como saldos, cofrinhos, gastos ou receitas), use "action": "chat_reply". Calcule as respostas usando as informações de saldo total, cofrinhos e extrato de transações fornecidas. Caso o usuário queira saber quanto falta para atingir a meta de um ou mais cofrinhos, faça a matemática (meta - saldo) e responda de forma simpática no campo "reply".
+6. Se o usuário quiser cadastrar uma dívida mensal/conta fixa (ex: 'cadastrar conta de luz todo dia 10 de R$ 150'), use "action": "add_fixed_account".
+7. Se o usuário quiser cadastrar uma receita mensal/salário fixo, use "action": "add_fixed_income".
+8. Se o usuário quiser criar um novo cofrinho (caixinha/poupança):
+   - Você NÃƒO deve criá-lo sem saber a meta (valor). Se o usuário não disser a meta e não mencionar que quer decidir depois, use "action": "chat_reply" e pergunte qual será a meta dele.
+   - Se o usuário explicitamente disser que não sabe a meta, que prefere decidir depois ou coisas semelhantes, use "action": "create_cofrinho" com "value": 0, e no "reply" explique que o cofrinho foi criado com meta R$ 0 e que ele pode alterar depois nas configurações do cofrinho.
    - Se ele informar a meta, use "action": "create_cofrinho" com o valor da meta em "value".
    - Identifique o nome do cofrinho em 'cofrinhoName'.
-9. Se o usuÃ¡rio quiser definir ou alterar a meta de um cofrinho existente (ex: 'mude a meta do cofrinho de viagem para 2000' ou 'defina a meta de Comprar Computador para 5000'), use "action": "update_cofrinho". Identifique o nome do cofrinho em 'cofrinhoName' e o novo valor da meta em 'value'.
-10. Se o usuÃ¡rio quiser apagar/excluir um cofrinho existente (ex: 'exclua o cofrinho pc' ou 'apague a caixinha de natal'), use "action": "delete_cofrinho". Identifique o nome do cofrinho em 'cofrinhoName'.`;
+9. Se o usuário quiser definir ou alterar a meta de um cofrinho existente (ex: 'mude a meta do cofrinho de viagem para 2000' ou 'defina a meta de Comprar Computador para 5000'), use "action": "update_cofrinho". Identifique o nome do cofrinho em 'cofrinhoName' e o novo valor da meta em 'value'.
+10. Se o usuário quiser apagar/excluir um cofrinho existente (ex: 'exclua o cofrinho pc' ou 'apague a caixinha de natal'), use "action": "delete_cofrinho". Identifique o nome do cofrinho em 'cofrinhoName'.`;
 
         const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
         
@@ -1252,7 +1252,7 @@ InstruÃ§Ãµes crÃ­ticas:
                         storage.depositToCofrinho(targetCof.id, result.value);
                         updateUI();
                     } else {
-                        addAppMessage("NÃ£o encontrei nenhum cofrinho cadastrado para guardar o dinheiro.", false);
+                        addAppMessage("Não encontrei nenhum cofrinho cadastrado para guardar o dinheiro.", false);
                         return;
                     }
                 } else if (result.action === 'cofrinho_withdraw') {
@@ -1266,14 +1266,14 @@ InstruÃ§Ãµes crÃ­ticas:
                     if (targetCof) {
                         const balance = storage.getCofrinhoBalance(targetCof.id);
                         if (result.value > balance) {
-                            addAppMessage(`Desculpe, vocÃª nÃ£o tem saldo suficiente no cofrinho ${targetCof.name} (saldo atual: R$ ${balance.toFixed(2).replace('.', ',')}).`, false);
+                            addAppMessage(`Desculpe, você não tem saldo suficiente no cofrinho ${targetCof.name} (saldo atual: R$ ${balance.toFixed(2).replace('.', ',')}).`, false);
                             return;
                         } else {
                             storage.withdrawFromCofrinho(targetCof.id, result.value);
                             updateUI();
                         }
                     } else {
-                        addAppMessage("NÃ£o encontrei nenhum cofrinho cadastrado para resgatar o dinheiro.", false);
+                        addAppMessage("Não encontrei nenhum cofrinho cadastrado para resgatar o dinheiro.", false);
                         return;
                     }
                 } else if (result.action === 'add_fixed_account') {
@@ -1288,7 +1288,7 @@ InstruÃ§Ãµes crÃ­ticas:
                         storage.createCofrinho(result.cofrinhoName, metaValue, 'piggy');
                         updateUI();
                     } else {
-                        addAppMessage("NÃ£o consegui identificar o nome do cofrinho que vocÃª quer criar.", false);
+                        addAppMessage("Não consegui identificar o nome do cofrinho que você quer criar.", false);
                         return;
                     }
                 } else if (result.action === 'update_cofrinho') {
@@ -1299,11 +1299,11 @@ InstruÃ§Ãµes crÃ­ticas:
                             storage.updateCofrinho(targetCof.id, targetCof.name, parseFloat(result.value) || 0, targetCof.icon);
                             updateUI();
                         } else {
-                            addAppMessage(`NÃ£o encontrei nenhum cofrinho com o nome "${result.cofrinhoName}" para alterar a meta.`, false);
+                            addAppMessage(`Não encontrei nenhum cofrinho com o nome "${result.cofrinhoName}" para alterar a meta.`, false);
                             return;
                         }
                     } else {
-                        addAppMessage("NÃ£o consegui identificar o nome do cofrinho para alterar a meta.", false);
+                        addAppMessage("Não consegui identificar o nome do cofrinho para alterar a meta.", false);
                         return;
                     }
                 } else if (result.action === 'delete_cofrinho') {
@@ -1314,11 +1314,11 @@ InstruÃ§Ãµes crÃ­ticas:
                             storage.deleteCofrinho(targetCof.id);
                             updateUI();
                         } else {
-                            addAppMessage(`NÃ£o encontrei nenhum cofrinho com o nome "${result.cofrinhoName}" para excluir.`, false);
+                            addAppMessage(`Não encontrei nenhum cofrinho com o nome "${result.cofrinhoName}" para excluir.`, false);
                             return;
                         }
                     } else {
-                        addAppMessage("NÃ£o consegui identificar o nome do cofrinho que vocÃª deseja excluir.", false);
+                        addAppMessage("Não consegui identificar o nome do cofrinho que você deseja excluir.", false);
                         return;
                     }
                 }
@@ -1326,7 +1326,7 @@ InstruÃ§Ãµes crÃ­ticas:
                 addAppMessage(result.reply, false);
             } catch (err) {
                 console.error("Gemini falhou:", err);
-                addAppMessage(`âš ï¸ <strong>Assistente Gemini:</strong> NÃ£o foi possÃ­vel responder via IA (${err.message}). Usando analisador local off-line.`, false);
+                addAppMessage(`âš ï¸ <strong>Assistente Gemini:</strong> Não foi possível responder via IA (${err.message}). Usando analisador local off-line.`, false);
                  processChatAssistantReplyLocal(userText);
             }
         } else {
@@ -1358,10 +1358,10 @@ InstruÃ§Ãµes crÃ­ticas:
             if (sub.status === 'expired') {
                 const prog = storage.getReferralProgress(contact);
                 const hasPromo = storage.getReferralCampaignActive() && prog.active >= 5;
-                const semiannualPriceText = hasPromo ? '6 Meses (Promocional: R$ 26,90)' : '6 Meses (R$ 36,00 - R$ 6,00/mÃªs)';
+                const semiannualPriceText = hasPromo ? '6 Meses (Promocional: R$ 26,90)' : '6 Meses (R$ 36,00 - R$ 6,00/mês)';
                 const referralHtml = getReferralCardHtml(contact);
-                const msgHtml = `OlÃ¡! Seu perÃ­odo de uso do <strong>Minhas Contas</strong> expirou.<br><br>` +
-                                `Para continuar registrando suas movimentaÃ§Ãµes, por favor escolha uma das opÃ§Ãµes abaixo para efetuar a assinatura:<br>` +
+                const msgHtml = `Olá! Seu período de uso do <strong>Minhas Contas</strong> expirou.<br><br>` +
+                                `Para continuar registrando suas movimentações, por favor escolha uma das opções abaixo para efetuar a assinatura:<br>` +
                                 `<div class="chat-category-chips-container">` +
                                 `  <button class="chat-category-chip" data-subscription-plan="monthly">Mensal (R$ 6,97)</button>` +
                                 `  <button class="chat-category-chip" data-subscription-plan="semiannual">${semiannualPriceText}</button>` +
@@ -1375,7 +1375,7 @@ InstruÃ§Ãµes crÃ­ticas:
         // Context-swallowing bug fix: pre-parse to detect new commands
         const preParsed = parser.parseText(userText);
         const lowerNormalized = userText.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-        const explicitKeywords = ['gastei', 'recebi', 'paguei', 'cofrinho', 'divida', 'dÃ­vida', 'conta fixa', 'conta mensal', 'receita mensal', 'receita fixa', 'guardar', 'resgatar', 'poupar', 'sacar'];
+        const explicitKeywords = ['gastei', 'recebi', 'paguei', 'cofrinho', 'divida', 'dívida', 'conta fixa', 'conta mensal', 'receita mensal', 'receita fixa', 'guardar', 'resgatar', 'poupar', 'sacar'];
         const isNewCommand = preParsed.isFixedAccountTemplate || 
                              preParsed.isFixedIncomeTemplate || 
                              preParsed.isCofrinhoTemplate || 
@@ -1427,7 +1427,7 @@ InstruÃ§Ãµes crÃ­ticas:
                     } else {
                         const balance = storage.getCofrinhoBalance(matchedCof.id);
                         if (doubtTx.value > balance) {
-                            addAppMessage(`Desculpe, vocÃª nÃ£o tem saldo suficiente no cofrinho <strong>${matchedCof.name}</strong> (saldo atual: R$ ${balance.toFixed(2).replace('.', ',')}).`, false);
+                            addAppMessage(`Desculpe, você não tem saldo suficiente no cofrinho <strong>${matchedCof.name}</strong> (saldo atual: R$ ${balance.toFixed(2).replace('.', ',')}).`, false);
                         } else {
                             storage.withdrawFromCofrinho(matchedCof.id, doubtTx.value);
                             addAppMessage(`Entendido! Resgatei <strong>R$ ${doubtTx.value.toFixed(2).replace('.', ',')}</strong> do cofrinho <strong>${matchedCof.name}</strong>. ðŸ·ðŸ’µ`, false);
@@ -1436,7 +1436,7 @@ InstruÃ§Ãµes crÃ­ticas:
                     storage.setActiveConversationState({ status: 'idle' });
                     updateUI();
                 } else {
-                    let msgHtml = `NÃ£o entendi qual cofrinho. Por favor, escolha um dos seguintes:<br>`;
+                    let msgHtml = `Não entendi qual cofrinho. Por favor, escolha um dos seguintes:<br>`;
                     msgHtml += `<div class="chat-category-chips-container" style="margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px;">`;
                     cofrinhos.forEach(cof => {
                         msgHtml += `<button class="chat-chip" onclick="window.selectVoiceCofrinho('${cof.id}')">${cof.name}</button>`;
@@ -1459,13 +1459,13 @@ InstruÃ§Ãµes crÃ­ticas:
                         const expiration = doubtTx.expiration || null;
                         storage.addFixedAccount(doubtTx.item, parsedVal, day, expiration);
                         
-                        let msg = `Entendido! Cadastrei a dÃ­vida mensal <strong>"${doubtTx.item}"</strong> no valor de R$ ${parsedVal.toFixed(2).replace('.', ',')} com vencimento todo dia ${day}`;
+                        let msg = `Entendido! Cadastrei a dívida mensal <strong>"${doubtTx.item}"</strong> no valor de R$ ${parsedVal.toFixed(2).replace('.', ',')} com vencimento todo dia ${day}`;
                         if (expiration) {
                             const [year, month] = expiration.split('-');
-                            const monthNames = ['Janeiro', 'Fevereiro', 'MarÃ§o', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+                            const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
                             const idx = parseInt(month, 10) - 1;
                             const expFormatted = (idx >= 0 && idx < 12) ? `${monthNames[idx]} de ${year}` : `${month}/${year}`;
-                            msg += ` (vÃ¡lida atÃ© ${expFormatted})`;
+                            msg += ` (válida até ${expFormatted})`;
                         }
                         msg += `. ðŸ“Œ`;
                         storage.setActiveConversationState({ status: 'idle' });
@@ -1478,10 +1478,10 @@ InstruÃ§Ãµes crÃ­ticas:
                         let msg = `Entendido! Cadastrei a receita mensal <strong>"${doubtTx.item}"</strong> no valor de R$ ${parsedVal.toFixed(2).replace('.', ',')} com recebimento todo dia ${day}`;
                         if (expiration) {
                             const [year, month] = expiration.split('-');
-                            const monthNames = ['Janeiro', 'Fevereiro', 'MarÃ§o', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+                            const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
                             const idx = parseInt(month, 10) - 1;
                             const expFormatted = (idx >= 0 && idx < 12) ? `${monthNames[idx]} de ${year}` : `${month}/${year}`;
-                            msg += ` (vÃ¡lida atÃ© ${expFormatted})`;
+                            msg += ` (válida até ${expFormatted})`;
                         }
                         msg += `. ðŸ“Œ`;
                         storage.setActiveConversationState({ status: 'idle' });
@@ -1518,7 +1518,7 @@ InstruÃ§Ãµes crÃ­ticas:
                         } else {
                             const balance = storage.getCofrinhoBalance(targetId);
                             if (parsedVal > balance) {
-                                addAppMessage(`Desculpe, vocÃª nÃ£o tem saldo suficiente no cofrinho <strong>${targetName}</strong> (saldo atual: R$ ${balance.toFixed(2).replace('.', ',')}).`, false);
+                                addAppMessage(`Desculpe, você não tem saldo suficiente no cofrinho <strong>${targetName}</strong> (saldo atual: R$ ${balance.toFixed(2).replace('.', ',')}).`, false);
                             } else {
                                 storage.withdrawFromCofrinho(targetId, parsedVal);
                                 addAppMessage(`Entendido! Resgatei <strong>R$ ${parsedVal.toFixed(2).replace('.', ',')}</strong> do cofrinho <strong>${targetName}</strong>. ðŸ·ðŸ’µ`, false);
@@ -1539,7 +1539,7 @@ InstruÃ§Ãµes crÃ­ticas:
                         return;
                     }
                 } else {
-                    addAppMessage(`Desculpe, nÃ£o consegui entender o valor em "${userText}". Pode me dizer apenas o valor em nÃºmero (ex: 50)?`, true);
+                    addAppMessage(`Desculpe, não consegui entender o valor em "${userText}". Pode me dizer apenas o valor em número (ex: 50)?`, true);
                     return;
                 }
             } else if (missing === 'item') {
@@ -1560,7 +1560,7 @@ InstruÃ§Ãµes crÃ­ticas:
                 let direction = null;
                 if (['gasto', 'gastei', 'paguei', 'despesa', 'compra', 'comprei', 'saida', 'debito', 'custou'].some(w => lowerText.includes(w))) {
                     direction = 'expense';
-                } else if (['recebido', 'recebi', 'ganhei', 'receita', 'entrada', 'salario', 'salÃ¡rio'].some(w => lowerText.includes(w))) {
+                } else if (['recebido', 'recebi', 'ganhei', 'receita', 'entrada', 'salario', 'salário'].some(w => lowerText.includes(w))) {
                     direction = 'income';
                 }
 
@@ -1576,9 +1576,9 @@ InstruÃ§Ãµes crÃ­ticas:
                     processChatAssistantReply(reconText);
                     return;
                 } else {
-                    let msgHtml = `NÃ£o entendi se foi gasto ou recebido. O valor de R$ ${doubtTx.value.toFixed(2).replace('.', ',')} com <strong>"${doubtTx.item}"</strong> foi recebido ou gasto?<br>`;
+                    let msgHtml = `Não entendi se foi gasto ou recebido. O valor de R$ ${doubtTx.value.toFixed(2).replace('.', ',')} com <strong>"${doubtTx.item}"</strong> foi recebido ou gasto?<br>`;
                     msgHtml += `<div class="chat-category-chips-container">`;
-                    msgHtml += `<button class="chat-category-chip" data-direction="expense">Gasto (SaÃ­da)</button>`;
+                    msgHtml += `<button class="chat-category-chip" data-direction="expense">Gasto (Saída)</button>`;
                     msgHtml += `<button class="chat-category-chip" data-direction="income">Recebido (Entrada)</button>`;
                     msgHtml += `</div>`;
                     addAppMessage(msgHtml, true);
@@ -1632,7 +1632,7 @@ InstruÃ§Ãµes crÃ­ticas:
                 let speakPrompt = "";
                 
                 if (result.missing === 'value') {
-                    msgHtml = result.reason || `Qual foi o valor da movimentaÃ§Ã£o?`;
+                    msgHtml = result.reason || `Qual foi o valor da movimentação?`;
                     speakPrompt = msgHtml;
                 } else if (result.missing === 'item') {
                     msgHtml = result.reason || `Com o que foi o valor de R$ ${result.value.toFixed(2).replace('.', ',')}?`;
@@ -1640,7 +1640,7 @@ InstruÃ§Ãµes crÃ­ticas:
                 } else if (result.missing === 'direction') {
                     msgHtml = `O valor de R$ ${result.value.toFixed(2).replace('.', ',')} com <strong>"${result.item}"</strong> foi recebido ou gasto?<br>`;
                     msgHtml += `<div class="chat-category-chips-container">`;
-                    msgHtml += `<button class="chat-category-chip" data-direction="expense">Gasto (SaÃ­da)</button>`;
+                    msgHtml += `<button class="chat-category-chip" data-direction="expense">Gasto (Saída)</button>`;
                     msgHtml += `<button class="chat-category-chip" data-direction="income">Recebido (Entrada)</button>`;
                     msgHtml += `</div>`;
                     speakPrompt = `O valor de R$ ${result.value.toFixed(2).replace('.', ',')} com ${result.item} foi recebido ou gasto?`;
@@ -1669,13 +1669,13 @@ InstruÃ§Ãµes crÃ­ticas:
             } else {
                 if (result.isFixedAccountTemplate) {
                     storage.addFixedAccount(result.item, result.value, result.day, result.expiration);
-                    let msg = `Entendido! Cadastrei a dÃ­vida mensal <strong>"${result.item}"</strong> no valor de R$ ${result.value.toFixed(2).replace('.', ',')} com vencimento todo dia ${result.day}`;
+                    let msg = `Entendido! Cadastrei a dívida mensal <strong>"${result.item}"</strong> no valor de R$ ${result.value.toFixed(2).replace('.', ',')} com vencimento todo dia ${result.day}`;
                     if (result.expiration) {
                         const [year, month] = result.expiration.split('-');
-                        const monthNames = ['Janeiro', 'Fevereiro', 'MarÃ§o', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+                        const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
                         const idx = parseInt(month, 10) - 1;
                         const expFormatted = (idx >= 0 && idx < 12) ? `${monthNames[idx]} de ${year}` : `${month}/${year}`;
-                        msg += ` (vÃ¡lida atÃ© ${expFormatted})`;
+                        msg += ` (válida até ${expFormatted})`;
                     }
                     msg += `. ðŸ“Œ`;
                     addAppMessage(msg, false);
@@ -1684,10 +1684,10 @@ InstruÃ§Ãµes crÃ­ticas:
                     let msg = `Entendido! Cadastrei a receita mensal <strong>"${result.item}"</strong> no valor de R$ ${result.value.toFixed(2).replace('.', ',')} com recebimento todo dia ${result.day}`;
                     if (result.expiration) {
                         const [year, month] = result.expiration.split('-');
-                        const monthNames = ['Janeiro', 'Fevereiro', 'MarÃ§o', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+                        const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
                         const idx = parseInt(month, 10) - 1;
                         const expFormatted = (idx >= 0 && idx < 12) ? `${monthNames[idx]} de ${year}` : `${month}/${year}`;
-                        msg += ` (vÃ¡lida atÃ© ${expFormatted})`;
+                        msg += ` (válida até ${expFormatted})`;
                     }
                     msg += `. ðŸ“Œ`;
                     addAppMessage(msg, false);
@@ -1702,7 +1702,7 @@ InstruÃ§Ãµes crÃ­ticas:
                     } else if (result.cofrinhoAction === 'resgatar') {
                         const balance = storage.getCofrinhoBalance(targetId);
                         if (result.value > balance) {
-                            addAppMessage(`Desculpe, vocÃª nÃ£o tem saldo suficiente no cofrinho <strong>${targetName}</strong> (saldo atual: R$ ${balance.toFixed(2).replace('.', ',')}).`, false);
+                            addAppMessage(`Desculpe, você não tem saldo suficiente no cofrinho <strong>${targetName}</strong> (saldo atual: R$ ${balance.toFixed(2).replace('.', ',')}).`, false);
                         } else {
                             storage.withdrawFromCofrinho(targetId, result.value);
                             addAppMessage(`Entendido! Resgatei <strong>R$ ${result.value.toFixed(2).replace('.', ',')}</strong> do cofrinho <strong>${targetName}</strong>. ðŸ·ðŸ’µ`, false);
@@ -1730,7 +1730,7 @@ InstruÃ§Ãµes crÃ­ticas:
         if (messages.length === 0) {
             const user = storage.getCurrentUser();
             const hour = new Date().getHours();
-            let greeting = "OlÃ¡";
+            let greeting = "Olá";
             if (hour >= 6 && hour < 12) greeting = "Bom dia";
             else if (hour >= 12 && hour < 18) greeting = "Boa tarde";
             else greeting = "Boa noite";
@@ -1791,7 +1791,7 @@ InstruÃ§Ãµes crÃ­ticas:
         const urlBase = window.location.href.split('?')[0];
         const referralLink = `${urlBase}?ref=${encodeURIComponent(contact)}`;
         
-        const shareText = `Estou usando o aplicativo Minhas Contas para controlar meus gastos e receitas por voz! Ã‰ muito simples e prÃ¡tico. Teste grÃ¡tis por 30 dias usando meu link: ${referralLink}`;
+        const shareText = `Estou usando o aplicativo Minhas Contas para controlar meus gastos e receitas por voz! Ã‰ muito simples e prático. Teste grátis por 30 dias usando meu link: ${referralLink}`;
         const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
         
         return `<div class="referral-progress-card">` +
@@ -1799,11 +1799,11 @@ InstruÃ§Ãµes crÃ­ticas:
                `    <i class="fa-solid fa-gift" style="color: #25d366;"></i> Indique e Ganhe` +
                `  </div>` +
                `  <div class="referral-progress-desc">` +
-               `    Obtendo 5 novos cadastros usando seu link, vocÃª paga menos na assinatura semestral (<strong>R$ 26,90</strong> em vez de R$ 36,00)!` +
+               `    Obtendo 5 novos cadastros usando seu link, você paga menos na assinatura semestral (<strong>R$ 26,90</strong> em vez de R$ 36,00)!` +
                `  </div>` +
                `  <div class="referral-doodle-progress-wrapper">` +
                `    <div class="referral-doodle-progress-fill" style="width: ${pct}%;"></div>` +
-               `    <span class="referral-doodle-progress-pct">${activeCount}/5 indicaÃ§Ãµes</span>` +
+               `    <span class="referral-doodle-progress-pct">${activeCount}/5 indicações</span>` +
                `  </div>` +
                `  <a href="${whatsappUrl}" target="_blank" class="btn-whatsapp-share pulse-whatsapp" id="btn-share-whatsapp-referral">` +
                `    <i class="fa-brands fa-whatsapp"></i> Compartilhar no WhatsApp` +
@@ -1824,7 +1824,7 @@ InstruÃ§Ãµes crÃ­ticas:
         
         const prog = storage.getReferralProgress(contact);
         const hasPromo = storage.getReferralCampaignActive() && prog.active >= 5;
-        const semiannualPriceText = hasPromo ? '6 Meses (Promocional: R$ 26,90)' : '6 Meses (R$ 36,00 - R$ 6,00/mÃªs)';
+        const semiannualPriceText = hasPromo ? '6 Meses (Promocional: R$ 26,90)' : '6 Meses (R$ 36,00 - R$ 6,00/mês)';
         
         if (sub.status !== 'expired' && now >= sub.expiresAt) {
             // Subscription expired!
@@ -1834,8 +1834,8 @@ InstruÃ§Ãµes crÃ­ticas:
             const referralHtml = getReferralCardHtml(contact);
             
             // Add app message for immediate billing
-            const msgHtml = `OlÃ¡! Seu perÃ­odo de uso do <strong>Minhas Contas</strong> expirou.<br><br>` +
-                            `Para continuar registrando suas despesas e receitas por voz de forma ultra rÃ¡pida, escolha uma das opÃ§Ãµes abaixo para assinar:<br>` +
+            const msgHtml = `Olá! Seu período de uso do <strong>Minhas Contas</strong> expirou.<br><br>` +
+                            `Para continuar registrando suas despesas e receitas por voz de forma ultra rápida, escolha uma das opções abaixo para assinar:<br>` +
                             `<div class="chat-category-chips-container">` +
                             `  <button class="chat-category-chip" data-subscription-plan="monthly">Mensal (R$ 6,97)</button>` +
                             `  <button class="chat-category-chip" data-subscription-plan="semiannual">${semiannualPriceText}</button>` +
@@ -1855,8 +1855,8 @@ InstruÃ§Ãµes crÃ­ticas:
                 
                 const referralHtml = getReferralCardHtml(contact);
                 
-                const msgHtml = `Oi! Passando para te lembrar que seu perÃ­odo gratuito termina em <strong>7 dias</strong>. ðŸƒ<br>` +
-                                `Se quiser garantir o acesso e renovar agora mesmo, escolha uma opÃ§Ã£o abaixo. Caso contrÃ¡rio, pode deixar para o dia do vencimento!<br>` +
+                const msgHtml = `Oi! Passando para te lembrar que seu período gratuito termina em <strong>7 dias</strong>. ðŸƒ<br>` +
+                                `Se quiser garantir o acesso e renovar agora mesmo, escolha uma opção abaixo. Caso contrário, pode deixar para o dia do vencimento!<br>` +
                                 `<div class="chat-category-chips-container">` +
                                 `  <button class="chat-category-chip" data-subscription-plan="monthly">Mensal (R$ 6,97)</button>` +
                                 `  <button class="chat-category-chip" data-subscription-plan="semiannual">${semiannualShortText}</button>` +
@@ -1870,8 +1870,8 @@ InstruÃ§Ãµes crÃ­ticas:
                 
                 const referralHtml = getReferralCardHtml(contact);
                 
-                const msgHtml = `Oi! Faltam apenas <strong>3 dias</strong> para vencer seu perÃ­odo do aplicativo. ðŸ•’<br>` +
-                                `Deseja efetuar a assinatura hoje para nÃ£o precisar se preocupar no vencimento?<br>` +
+                const msgHtml = `Oi! Faltam apenas <strong>3 dias</strong> para vencer seu período do aplicativo. ðŸ•’<br>` +
+                                `Deseja efetuar a assinatura hoje para não precisar se preocupar no vencimento?<br>` +
                                 `<div class="chat-category-chips-container">` +
                                 `  <button class="chat-category-chip" data-subscription-plan="monthly">Mensal (R$ 6,97)</button>` +
                                 `  <button class="chat-category-chip" data-subscription-plan="semiannual">${semiannualShortText}</button>` +
@@ -1888,11 +1888,11 @@ InstruÃ§Ãµes crÃ­ticas:
         const hasPromo = plan === 'semiannual' && storage.getReferralCampaignActive() && prog.active >= 5;
         
         const price = hasPromo ? 'R$ 26,90' : (plan === 'semiannual' ? 'R$ 36,00' : 'R$ 6,97');
-        const planName = plan === 'semiannual' ? (hasPromo ? 'Semestral (Promocional IndicaÃ§Ã£o)' : 'Semestral') : 'Mensal';
+        const planName = plan === 'semiannual' ? (hasPromo ? 'Semestral (Promocional Indicação)' : 'Semestral') : 'Mensal';
         
-        let msgHtml = `Ã“tima escolha! VocÃª selecionou o plano <strong>${planName} (${price})</strong>.<br>`;
+        let msgHtml = `Ã“tima escolha! Você selecionou o plano <strong>${planName} (${price})</strong>.<br>`;
         if (hasPromo) {
-            msgHtml += `ðŸŽ‰ <strong>Desconto de indicaÃ§Ã£o aplicado!</strong> 5 indicaÃ§Ãµes qualificadas foram utilizadas. Ao confirmar, elas serÃ£o consumidas do seu saldo.<br><br>`;
+            msgHtml += `ðŸŽ‰ <strong>Desconto de indicação aplicado!</strong> 5 indicações qualificadas foram utilizadas. Ao confirmar, elas serão consumidas do seu saldo.<br><br>`;
         }
         msgHtml += `Escaneie o QR Code abaixo no aplicativo do seu banco ou copie a chave Pix Copia e Cola para realizar o pagamento.`;
                       
@@ -1903,10 +1903,10 @@ InstruÃ§Ãµes crÃ­ticas:
                    `    <i class="fa-solid fa-qrcode"></i>` +
                    `  </div>` +
                    `  <button class="chat-pix-btn chat-pix-btn-copy" id="btn-copy-pix">` +
-                   `    <i class="fa-solid fa-copy"></i> Copiar CÃ³digo PIX` +
+                   `    <i class="fa-solid fa-copy"></i> Copiar Código PIX` +
                    `  </button>` +
                    `  <button class="chat-pix-btn chat-pix-btn-simulate" id="btn-simulate-pix-paid" data-plan="${plan}" data-promo="${hasPromo ? 'true' : 'false'}">` +
-                   `    <i class="fa-solid fa-flask"></i> Simular ConfirmaÃ§Ã£o do Banco` +
+                   `    <i class="fa-solid fa-flask"></i> Simular Confirmação do Banco` +
                    `  </button>` +
                    `</div>`;
         
@@ -1996,7 +1996,7 @@ InstruÃ§Ãµes crÃ­ticas:
         });
     }
 
-    // 10. DiÃ¡rio de Conversas (Archived Chat Logs)
+    // 10. Diário de Conversas (Archived Chat Logs)
     function renderArchivedChatLogs() {
         const list = document.getElementById('chat-logs-archive-list');
         if (!list) return;
@@ -2089,7 +2089,7 @@ InstruÃ§Ãµes crÃ­ticas:
         
         if (!tx) return;
 
-        editModalTitle.innerText = "Editar TransaÃ§Ã£o";
+        editModalTitle.innerText = "Editar Transação";
         editItem.value = tx.item;
         editValue.value = tx.value;
         editDate.value = tx.date;
@@ -2113,11 +2113,11 @@ InstruÃ§Ãµes crÃ­ticas:
             editType.disabled = false;
             editCategory.disabled = false;
             editType.innerHTML = `
-                <option value="salario" ${tx.type === 'salario' ? 'selected' : ''}>Entrada: SalÃ¡rio</option>
-                <option value="receita_esporadica" ${tx.type === 'receita_esporadica' ? 'selected' : ''}>Entrada: Receita EsporÃ¡dica</option>
+                <option value="salario" ${tx.type === 'salario' ? 'selected' : ''}>Entrada: Salário</option>
+                <option value="receita_esporadica" ${tx.type === 'receita_esporadica' ? 'selected' : ''}>Entrada: Receita Esporádica</option>
                 <option value="receita_recorrente" ${tx.type === 'receita_recorrente' ? 'selected' : ''}>Entrada: Receita Recorrente</option>
-                <option value="despesa_esporadica" ${tx.type === 'despesa_esporadica' ? 'selected' : ''}>SaÃ­da: Despesa EsporÃ¡dica</option>
-                <option value="despesa_recorrente" ${tx.type === 'despesa_recorrente' ? 'selected' : ''}>SaÃ­da: Despesa Recorrente</option>
+                <option value="despesa_esporadica" ${tx.type === 'despesa_esporadica' ? 'selected' : ''}>Saída: Despesa Esporádica</option>
+                <option value="despesa_recorrente" ${tx.type === 'despesa_recorrente' ? 'selected' : ''}>Saída: Despesa Recorrente</option>
             `;
         }
 
@@ -2240,7 +2240,7 @@ InstruÃ§Ãµes crÃ­ticas:
                     if (modalNewCategory) modalNewCategory.classList.remove('active');
                     newCategoryName.value = '';
                 } else {
-                    alert("Categoria jÃ¡ existe!");
+                    alert("Categoria já existe!");
                 }
             }
         });
@@ -2281,7 +2281,7 @@ InstruÃ§Ãµes crÃ­ticas:
             
             card.innerHTML = `
                 <div class="notebook-cover-title">${b.name}</div>
-                <div class="notebook-cover-owner">Por: ${b.owner || 'ProprietÃ¡rio'}</div>
+                <div class="notebook-cover-owner">Por: ${b.owner || 'Proprietário'}</div>
                 <div class="notebook-cover-badge ${isGuest ? 'guest' : ''}">${isGuest ? 'Convidado' : 'Dono'}</div>
                 
                 <div class="notebook-cover-actions">
@@ -2325,7 +2325,7 @@ InstruÃ§Ãµes crÃ­ticas:
             if (btnDelete) {
                 btnDelete.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    if (confirm(`Deseja realmente excluir permanentemente o caderno "${b.name}"? Todos os lanÃ§amentos, dÃ­vidas, receitas e histÃ³rico serÃ£o apagados.`)) {
+                    if (confirm(`Deseja realmente excluir permanentemente o caderno "${b.name}"? Todos os lançamentos, dívidas, receitas e histórico serão apagados.`)) {
                         const res = storage.deleteNotebook(b.id);
                         if (res.success) {
                             renderShelfList();
@@ -2374,7 +2374,7 @@ InstruÃ§Ãµes crÃ­ticas:
                 if (isOwner) {
                     openSharingModal(activeNb.id);
                 } else {
-                    alert("Apenas o proprietÃ¡rio pode gerenciar o compartilhamento deste caderno.");
+                    alert("Apenas o proprietário pode gerenciar o compartilhamento deste caderno.");
                 }
             }
         });
@@ -2430,13 +2430,13 @@ InstruÃ§Ãµes crÃ­ticas:
         const nb = storage.getNotebook(notebookId);
         if (!nb) return;
 
-        // 1. ProprietÃ¡rio (Dono)
+        // 1. Proprietário (Dono)
         const ownerRow = document.createElement('div');
         ownerRow.className = 'share-member-row';
         ownerRow.innerHTML = `
             <div class="share-member-info">
                 <div class="share-member-name">
-                    ${nb.owner || 'ProprietÃ¡rio'} 
+                    ${nb.owner || 'Proprietário'} 
                     <span class="share-member-role-badge">Dono</span>
                 </div>
                 <div class="share-member-contact">${nb.ownerContact || ''}</div>
@@ -2449,7 +2449,7 @@ InstruÃ§Ãµes crÃ­ticas:
         const shared = nb.sharedWith || [];
         shared.forEach(sh => {
             const member = nb.members ? nb.members.find(m => m.contact && m.contact.toLowerCase() === sh.contact.toLowerCase()) : null;
-            const displayName = member ? member.name : 'Pendente (Ainda nÃ£o entrou)';
+            const displayName = member ? member.name : 'Pendente (Ainda não entrou)';
 
             const row = document.createElement('div');
             row.className = 'share-member-row';
@@ -2466,7 +2466,7 @@ InstruÃ§Ãµes crÃ­ticas:
 
             const revokeBtn = row.querySelector('.share-member-revoke-btn');
             revokeBtn.addEventListener('click', () => {
-                if (confirm(`Revogar o acesso de "${displayName !== 'Pendente (Ainda nÃ£o entrou)' ? displayName : sh.contact}" a este caderno?`)) {
+                if (confirm(`Revogar o acesso de "${displayName !== 'Pendente (Ainda não entrou)' ? displayName : sh.contact}" a este caderno?`)) {
                     storage.removeNotebookShare(notebookId, sh.contact);
                     renderSharingMembers(notebookId);
                     renderShelfList();
@@ -2477,7 +2477,7 @@ InstruÃ§Ãµes crÃ­ticas:
         });
     }
 
-    // 14.5. DÃ­vidas Mensais & Receitas Mensais Modal Logic (Agenda Mensal)
+    // 14.5. Dívidas Mensais & Receitas Mensais Modal Logic (Agenda Mensal)
     const btnOpenFixedAccounts = document.getElementById('btn-open-fixed-accounts');
     const btnOpenFixedIncomes = document.getElementById('btn-open-fixed-incomes');
     const btnMenuFixedAccounts = document.getElementById('btn-menu-fixed-accounts');
@@ -2549,11 +2549,11 @@ InstruÃ§Ãµes crÃ­ticas:
             if (fixedWrapper) fixedWrapper.style.display = 'block';
             if (doodleBox) doodleBox.style.display = 'none';
 
-            if (btnToggleAdd) btnToggleAdd.innerHTML = '<i class="fa-solid fa-plus"></i> DÃ­vida';
-            if (fixedNameLabel) fixedNameLabel.innerText = 'Nome da DÃ­vida';
-            if (fixedNameInput) fixedNameInput.placeholder = 'Ex: ColÃ©gio JosÃ©';
+            if (btnToggleAdd) btnToggleAdd.innerHTML = '<i class="fa-solid fa-plus"></i> Dívida';
+            if (fixedNameLabel) fixedNameLabel.innerText = 'Nome da Dívida';
+            if (fixedNameInput) fixedNameInput.placeholder = 'Ex: Colégio José';
             if (fixedDayLabel) fixedDayLabel.innerText = 'Dia do Vencimento';
-            if (fixedListSubtitle) fixedListSubtitle.innerText = 'Minhas DÃ­vidas Mensais';
+            if (fixedListSubtitle) fixedListSubtitle.innerText = 'Minhas Dívidas Mensais';
             
             renderFixedAccountsList();
         } else if (mode === 'a-receber') {
@@ -2569,7 +2569,7 @@ InstruÃ§Ãµes crÃ­ticas:
 
             if (btnToggleAdd) btnToggleAdd.innerHTML = '<i class="fa-solid fa-plus"></i> Receita';
             if (fixedNameLabel) fixedNameLabel.innerText = 'Nome da Receita';
-            if (fixedNameInput) fixedNameInput.placeholder = 'Ex: SalÃ¡rio Mensal';
+            if (fixedNameInput) fixedNameInput.placeholder = 'Ex: Salário Mensal';
             if (fixedDayLabel) fixedDayLabel.innerText = 'Dia do Recebimento';
             if (fixedListSubtitle) fixedListSubtitle.innerText = 'Minhas Receitas Mensais';
 
@@ -2657,7 +2657,7 @@ InstruÃ§Ãµes crÃ­ticas:
                     const contact = storage.getCurrentUserContact();
                     const sub = contact ? storage.getUserSubscription(contact) : null;
                     if (sub && sub.status === 'expired') {
-                        alert("Sua assinatura expirou. Efetue o pagamento via assistente no chat para registrar novos lanÃ§amentos!");
+                        alert("Sua assinatura expirou. Efetue o pagamento via assistente no chat para registrar novos lançamentos!");
                         showFixedForm(false);
                         openChatOverlay();
                         return;
@@ -2702,7 +2702,7 @@ InstruÃ§Ãµes crÃ­ticas:
             function formatMonthYear(ymString) {
                 if (!ymString || !ymString.includes('-')) return ymString;
                 const [year, month] = ymString.split('-');
-                const monthNames = ['Janeiro', 'Fevereiro', 'MarÃ§o', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+                const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
                 const idx = parseInt(month, 10) - 1;
                 return (idx >= 0 && idx < 12) ? `${monthNames[idx]} de ${year}` : `${month}/${year}`;
             }
@@ -2736,11 +2736,11 @@ InstruÃ§Ãµes crÃ­ticas:
                 
                 const totalCount = activeAccounts.length;
                 const pct = totalDebtsVal > 0 ? Math.min(100, Math.round((paidDebtsVal / totalDebtsVal) * 100)) : 0;
-                const statusText = totalCount > 0 ? `${paidCount} de ${totalCount} pagas` : 'Nenhuma dÃ­vida';
+                const statusText = totalCount > 0 ? `${paidCount} de ${totalCount} pagas` : 'Nenhuma dívida';
                 
                 summaryCardEl.innerHTML = `
                     <div class="kpi-card-header">
-                        <span class="kpi-card-title">Resumo de DÃ­vidas â€¢ ${formatMonthYear(selectedMonth)}</span>
+                        <span class="kpi-card-title">Resumo de Dívidas â€¢ ${formatMonthYear(selectedMonth)}</span>
                         <span class="kpi-card-badge">${statusText}</span>
                     </div>
                     <div class="kpi-card-body">
@@ -2837,7 +2837,7 @@ InstruÃ§Ãµes crÃ­ticas:
             if (activeAccounts.length === 0) {
                 fixedAccountsList.innerHTML = `
                     <div style="font-family: var(--font-handwriting); text-align: center; padding: 20px; color: var(--text-muted); font-size: 1rem;">
-                        Nenhuma dÃ­vida mensal ativa para este mÃªs.
+                        Nenhuma dívida mensal ativa para este mês.
                     </div>
                 `;
                 return;
@@ -2855,7 +2855,7 @@ InstruÃ§Ãµes crÃ­ticas:
                     const monthNames = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
                     const idx = parseInt(month, 10) - 1;
                     const expFormatted = (idx >= 0 && idx < 12) ? `${monthNames[idx]}/${year}` : `${month}/${year}`;
-                    expMeta = ` â€¢ VÃ¡lido atÃ© ${expFormatted}`;
+                    expMeta = ` â€¢ Válido até ${expFormatted}`;
                 }
                 
                 const paymentTx = transactions.find(t => 
@@ -2901,7 +2901,7 @@ InstruÃ§Ãµes crÃ­ticas:
                     const isSaving = diff < 0;
                     const diffClass = isSaving ? 'val-diff-saving' : 'val-diff-spending';
                     const diffSign = diff > 0 ? '+' : '-';
-                    const diffLabel = isSaving ? 'Economia' : 'AcrÃ©scimo';
+                    const diffLabel = isSaving ? 'Economia' : 'Acréscimo';
                     valueHtml = `
                         <span class="val-planned-struck" title="Valor planejado: R$ ${acc.value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}">${acc.value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                         <span class="val-actual-paid ${diffClass}" title="Valor pago real: R$ ${paymentTx.value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}">R$ ${paymentTx.value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
@@ -2939,7 +2939,7 @@ InstruÃ§Ãµes crÃ­ticas:
                         const cleanedValue = promptValue.replace(/\s/g, '').replace(',', '.');
                         const parsedValue = parseFloat(cleanedValue);
                         if (isNaN(parsedValue) || parsedValue < 0) {
-                            alert("Valor invÃ¡lido!");
+                            alert("Valor inválido!");
                             return;
                         }
                         
@@ -2973,7 +2973,7 @@ InstruÃ§Ãµes crÃ­ticas:
                 }
                 
                 item.querySelector('.btn-delete-fixed').addEventListener('click', () => {
-                    if (confirm(`Deseja excluir a dÃ­vida mensal "${acc.name}"?`)) {
+                    if (confirm(`Deseja excluir a dívida mensal "${acc.name}"?`)) {
                         storage.deleteFixedAccount(acc.id);
                         updateUI();
                     }
@@ -2985,7 +2985,7 @@ InstruÃ§Ãµes crÃ­ticas:
             if (activeIncomes.length === 0) {
                 fixedAccountsList.innerHTML = `
                     <div style="font-family: var(--font-handwriting); text-align: center; padding: 20px; color: var(--text-muted); font-size: 1rem;">
-                        Nenhuma receita mensal ativa para este mÃªs.
+                        Nenhuma receita mensal ativa para este mês.
                     </div>
                 `;
                 return;
@@ -3003,7 +3003,7 @@ InstruÃ§Ãµes crÃ­ticas:
                     const monthNames = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
                     const idx = parseInt(month, 10) - 1;
                     const expFormatted = (idx >= 0 && idx < 12) ? `${monthNames[idx]}/${year}` : `${month}/${year}`;
-                    expMeta = ` â€¢ VÃ¡lido atÃ© ${expFormatted}`;
+                    expMeta = ` â€¢ Válido até ${expFormatted}`;
                 }
                 
                 const receiveTx = transactions.find(t => 
@@ -3066,7 +3066,7 @@ InstruÃ§Ãµes crÃ­ticas:
                         const cleanedValue = promptValue.replace(/\s/g, '').replace(',', '.');
                         const parsedValue = parseFloat(cleanedValue);
                         if (isNaN(parsedValue) || parsedValue < 0) {
-                            alert("Valor invÃ¡lido!");
+                            alert("Valor inválido!");
                             return;
                         }
                         
@@ -3111,7 +3111,7 @@ InstruÃ§Ãµes crÃ­ticas:
         }
     }
 
-    // 14.6. Cofrinho Logic and Bindings (MÃºltiplos Cofrinhos)
+    // 14.6. Cofrinho Logic and Bindings (Múltiplos Cofrinhos)
     const btnFloatingPiggy = document.getElementById('btn-floating-piggy');
     const modalCofrinho = document.getElementById('modal-cofrinho');
     const cofrinhoCard = modalCofrinho ? modalCofrinho.querySelector('.cofrinho-card') : null;
@@ -3126,7 +3126,7 @@ InstruÃ§Ãµes crÃ­ticas:
     const cofrinhosListContainer = document.getElementById('cofrinhos-list-container');
     const btnNewCofrinho = document.getElementById('btn-new-cofrinho');
 
-    // Elementos do FormulÃ¡rio
+    // Elementos do Formulário
     const btnCancelCofrinho = document.getElementById('btn-cancel-cofrinho');
     const cofrinhoFormTitle = document.getElementById('cofrinho-form-title');
     const cofrinhoFormName = document.getElementById('cofrinho-form-name');
@@ -3149,7 +3149,7 @@ InstruÃ§Ãµes crÃ­ticas:
     const cofrinhoDetailHistoryList = document.getElementById('cofrinho-detail-history-list');
     const btnToggleDetailHistory = document.getElementById('btn-toggle-detail-history');
     
-    // Elementos de AÃ§Ã£o do Detalhe
+    // Elementos de Ação do Detalhe
     const cofrinhoActionBoxTitle = document.getElementById('cofrinho-action-box-title');
     const btnCloseCofrinhoDetail = document.getElementById('btn-close-cofrinho-detail');
     const cofrinhoActionVal = document.getElementById('cofrinho-action-val');
@@ -3164,7 +3164,7 @@ InstruÃ§Ãµes crÃ­ticas:
         });
     }
 
-    // Elementos Modal PIX e PendÃªncia
+    // Elementos Modal PIX e Pendência
     const modalPixQr = document.getElementById('modal-pix-qr');
     const btnCloseCofrinhoPix = document.getElementById('btn-close-cofrinho-pix');
     const btnCopyCofrinhoPix = document.getElementById('btn-copy-cofrinho-pix');
@@ -3203,7 +3203,7 @@ InstruÃ§Ãµes crÃ­ticas:
         }
     }
 
-    // NavegaÃ§Ã£o
+    // Navegação
     function showCofrinhoList() {
         if (listView) listView.style.display = 'block';
         if (formView) formView.style.display = 'none';
@@ -3265,14 +3265,14 @@ InstruÃ§Ãµes crÃ­ticas:
         });
     }
 
-    // PendÃªncias
+    // Pendências
     function checkPendingTransaction() {
         if (!cofrinhoPendingBanner) return;
         if (pendingPixTransaction) {
             const cof = storage.getCofrinho(pendingPixTransaction.cofrinhoId);
             const name = cof ? cof.name : 'Cofrinho';
             if (cofrinhoPendingText) {
-                cofrinhoPendingText.innerText = `VocÃª tem um depÃ³sito de R$ ${pendingPixTransaction.amount.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} aguardando pagamento via PIX para o cofrinho ${name}.`;
+                cofrinhoPendingText.innerText = `Você tem um depósito de R$ ${pendingPixTransaction.amount.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} aguardando pagamento via PIX para o cofrinho ${name}.`;
             }
             cofrinhoPendingBanner.style.display = 'block';
         } else {
@@ -3280,7 +3280,7 @@ InstruÃ§Ãµes crÃ­ticas:
         }
     }
 
-    // RenderizaÃ§Ã£o
+    // Renderização
     function renderCofrinhosList() {
         if (!cofrinhosListContainer) return;
         cofrinhosListContainer.innerHTML = '';
@@ -3289,7 +3289,7 @@ InstruÃ§Ãµes crÃ­ticas:
         if (cofrinhos.length === 0) {
             cofrinhosListContainer.innerHTML = `
                 <div style="font-family: var(--font-handwriting); text-align: center; padding: 30px 10px; color: var(--text-muted); font-size: 1rem; line-height: 1.4;">
-                    Nenhum cofrinho criado ainda.<br>Clique em "+ Novo cofrinho" para comeÃ§ar!
+                    Nenhum cofrinho criado ainda.<br>Clique em "+ Novo cofrinho" para começar!
                 </div>
             `;
             return;
@@ -3389,7 +3389,7 @@ InstruÃ§Ãµes crÃ­ticas:
         });
         
         if (cofrinhoTxs.length === 0) {
-            cofrinhoDetailHistoryList.innerHTML = `<div style="font-family: var(--font-handwriting); text-align: center; padding: 10px; color: var(--text-muted); font-size: 0.9rem;">Nenhuma transaÃ§Ã£o neste cofrinho.</div>`;
+            cofrinhoDetailHistoryList.innerHTML = `<div style="font-family: var(--font-handwriting); text-align: center; padding: 10px; color: var(--text-muted); font-size: 0.9rem;">Nenhuma transação neste cofrinho.</div>`;
             if (btnToggleDetailHistory) btnToggleDetailHistory.style.display = 'none';
             return;
         }
@@ -3480,7 +3480,7 @@ InstruÃ§Ãµes crÃ­ticas:
         });
     }
 
-    // Eventos de AÃ§Ã£o e CriaÃ§Ã£o
+    // Eventos de Ação e Criação
     if (btnNewCofrinho) {
         btnNewCofrinho.addEventListener('click', () => {
             showCofrinhoForm();
@@ -3521,7 +3521,7 @@ InstruÃ§Ãµes crÃ­ticas:
                 return;
             }
             if (isNaN(target) || target <= 0) {
-                alert("Por favor, digite uma meta vÃ¡lida (maior que zero)!");
+                alert("Por favor, digite uma meta válida (maior que zero)!");
                 return;
             }
 
@@ -3551,7 +3551,7 @@ InstruÃ§Ãµes crÃ­ticas:
             if (activeCofrinhoId) {
                 const cof = storage.getCofrinho(activeCofrinhoId);
                 const name = cof ? cof.name : 'este cofrinho';
-                if (confirm(`Deseja mesmo excluir o cofrinho "${name}"? Todo o histÃ³rico de economias dele serÃ¡ apagado permanentemente!`)) {
+                if (confirm(`Deseja mesmo excluir o cofrinho "${name}"? Todo o histórico de economias dele será apagado permanentemente!`)) {
                     storage.deleteCofrinho(activeCofrinhoId);
                     showCofrinhoList();
                     updateUI();
@@ -3560,7 +3560,7 @@ InstruÃ§Ãµes crÃ­ticas:
         });
     }
 
-    // Toggle HistÃ³rico Completo
+    // Toggle Histórico Completo
     if (btnToggleDetailHistory) {
         btnToggleDetailHistory.addEventListener('click', () => {
             showAllHistory = !showAllHistory;
@@ -3568,7 +3568,7 @@ InstruÃ§Ãµes crÃ­ticas:
         });
     }
 
-    // Chips RÃ¡pidos de Valor (+10, +50, +100)
+    // Chips Rápidos de Valor (+10, +50, +100)
     if (btnQuickAdds) {
         btnQuickAdds.forEach(btn => {
             btn.addEventListener('click', () => {
@@ -3602,19 +3602,19 @@ InstruÃ§Ãµes crÃ­ticas:
         });
     }
 
-    // DepÃ³sito (Guardar)
+    // Depósito (Guardar)
     if (btnConfirmGuardar) {
         btnConfirmGuardar.addEventListener('click', () => {
             if (!activeCofrinhoId) return;
             const amount = getNumericAmount();
             if (isNaN(amount) || amount <= 0) {
-                alert("Por favor, digite um valor vÃ¡lido para guardar!");
+                alert("Por favor, digite um valor válido para guardar!");
                 return;
             }
             
             const globalPix = storage.getCofrinhoPixKey();
             if (!globalPix) {
-                alert("VocÃª precisa configurar a Chave PIX do Banco na tela de Cofrinhos primeiro.");
+                alert("Você precisa configurar a Chave PIX do Banco na tela de Cofrinhos primeiro.");
                 return;
             }
             
@@ -3637,16 +3637,16 @@ InstruÃ§Ãµes crÃ­ticas:
             if (!activeCofrinhoId) return;
             const amount = getNumericAmount();
             if (isNaN(amount) || amount <= 0) {
-                alert("Por favor, digite um valor vÃ¡lido para resgatar!");
+                alert("Por favor, digite um valor válido para resgatar!");
                 return;
             }
             const currentBalance = storage.getCofrinhoBalance(activeCofrinhoId);
             if (amount > currentBalance) {
-                alert("VocÃª nÃ£o tem saldo suficiente neste cofrinho!");
+                alert("Você não tem saldo suficiente neste cofrinho!");
                 return;
             }
             
-            alert(`O valor de R$ ${amount.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} resgatado ficarÃ¡ pendente atÃ© vocÃª confirmar que fez a transferÃªncia manual da conta onde guarda o dinheiro dos cofrinhos.`);
+            alert(`O valor de R$ ${amount.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} resgatado ficará pendente até você confirmar que fez a transferência manual da conta onde guarda o dinheiro dos cofrinhos.`);
             
             storage.withdrawFromCofrinho(activeCofrinhoId, amount);
             if (cofrinhoActionVal) cofrinhoActionVal.value = '';
@@ -3654,7 +3654,7 @@ InstruÃ§Ãµes crÃ­ticas:
         });
     }
 
-    // ConfirmaÃ§Ã£o de PIX Pendente (Banner)
+    // Confirmação de PIX Pendente (Banner)
     if (btnPendingConfirm) {
         btnPendingConfirm.addEventListener('click', () => {
             if (pendingPixTransaction) {
@@ -3668,14 +3668,14 @@ InstruÃ§Ãµes crÃ­ticas:
 
     if (btnPendingCancel) {
         btnPendingCancel.addEventListener('click', () => {
-            if (confirm("Deseja cancelar esta transaÃ§Ã£o pendente?")) {
+            if (confirm("Deseja cancelar esta transação pendente?")) {
                 pendingPixTransaction = null;
                 updateUI();
             }
         });
     }
 
-    // AtualizaÃ§Ã£o Geral da UI do Cofrinho
+    // Atualização Geral da UI do Cofrinho
     function updateCofrinhoUI() {
         if (cofrinhoGlobalPix) {
             cofrinhoGlobalPix.value = storage.getCofrinhoPixKey();
@@ -3775,7 +3775,7 @@ InstruÃ§Ãµes crÃ­ticas:
         cofrinhoCard.addEventListener('touchstart', onDragStart, { passive: false });
     }
 
-    // Expor funÃ§Ã£o global de escolha de cofrinho via chat
+    // Expor função global de escolha de cofrinho via chat
     window.selectVoiceCofrinho = function(cofrinhoId) {
         const state = storage.getActiveConversationState();
         if (state && state.status === 'awaiting_info' && state.missing === 'cofrinhoId') {
@@ -3788,7 +3788,7 @@ InstruÃ§Ãµes crÃ­ticas:
                 } else {
                     const balance = storage.getCofrinhoBalance(cofrinhoId);
                     if (doubtTx.value > balance) {
-                        addAppMessage(`Desculpe, vocÃª nÃ£o tem saldo suficiente no cofrinho <strong>${cofrinho.name}</strong> (saldo atual: R$ ${balance.toFixed(2).replace('.', ',')}).`, false);
+                        addAppMessage(`Desculpe, você não tem saldo suficiente no cofrinho <strong>${cofrinho.name}</strong> (saldo atual: R$ ${balance.toFixed(2).replace('.', ',')}).`, false);
                     } else {
                         storage.withdrawFromCofrinho(cofrinhoId, doubtTx.value);
                         addAppMessage(`Entendido! Resgatei <strong>R$ ${doubtTx.value.toFixed(2).replace('.', ',')}</strong> do cofrinho <strong>${cofrinho.name}</strong>. ðŸ·ðŸ’µ`, false);
@@ -3807,11 +3807,11 @@ InstruÃ§Ãµes crÃ­ticas:
         container.innerHTML = '';
 
         const items = [
-            { item: 'CafÃ© da Tarde', value: 6.50 },
+            { item: 'Café da Tarde', value: 6.50 },
             { item: 'Uber para Casa', value: 24.90 },
-            { item: 'Padaria de ManhÃ£', value: 12.00 },
+            { item: 'Padaria de Manhã', value: 12.00 },
             { item: 'Mercado Express', value: 85.00 },
-            { item: 'FarmÃ¡cia', value: 45.90 }
+            { item: 'Farmácia', value: 45.90 }
         ];
 
         items.forEach(sh => {
@@ -3829,9 +3829,9 @@ InstruÃ§Ãµes crÃ­ticas:
                     // Try to guess category based on keyword
                     let guessCat = 'Lazer';
                     const cleanItem = sh.item.toLowerCase();
-                    if (cleanItem.includes('padaria') || cleanItem.includes('cafÃ©') || cleanItem.includes('mercado')) guessCat = 'AlimentaÃ§Ã£o';
+                    if (cleanItem.includes('padaria') || cleanItem.includes('café') || cleanItem.includes('mercado')) guessCat = 'Alimentação';
                     if (cleanItem.includes('uber')) guessCat = 'Transporte';
-                    if (cleanItem.includes('farmÃ¡cia')) guessCat = 'SaÃºde';
+                    if (cleanItem.includes('farmácia')) guessCat = 'Saúde';
 
                     const newTx = storage.addTransaction({
                         item: sh.item,
@@ -3900,15 +3900,15 @@ InstruÃ§Ãµes crÃ­ticas:
                     }
                 });
 
-                // Atualizar o texto do botÃ£o do dropdown
+                // Atualizar o texto do botão do dropdown
                 const span = btnFilterDropdown.querySelector('span');
                 if (span) {
                     const textMap = {
                         'all': 'Todos',
                         'income': 'Entradas',
-                        'expense': 'SaÃ­das',
+                        'expense': 'Saídas',
                         'recurring': 'Fixos',
-                        'sporadic': 'EsporÃ¡dicos'
+                        'sporadic': 'Esporádicos'
                     };
                     span.innerText = textMap[type] || 'Filtros';
                 }
@@ -3920,7 +3920,7 @@ InstruÃ§Ãµes crÃ­ticas:
         });
     }
 
-    // Seletor de Meses atravÃ©s de CalendÃ¡rio
+    // Seletor de Meses através de Calendário
     const btnMonthsPicker = document.getElementById('btn-months-picker');
     const monthsCarouselPicker = document.getElementById('months-carousel-picker');
     if (btnMonthsPicker && monthsCarouselPicker) {
@@ -3954,7 +3954,7 @@ InstruÃ§Ãµes crÃ­ticas:
     const profileEmail = document.getElementById('profile-email');
     const profileWhatsapp = document.getElementById('profile-whatsapp');
     
-    // MÃ¡scara de telefone (99) 99999-9999
+    // Máscara de telefone (99) 99999-9999
     if (profileWhatsapp) {
         profileWhatsapp.addEventListener('input', function (e) {
             let x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
@@ -4193,7 +4193,7 @@ InstruÃ§Ãµes crÃ­ticas:
             const contact = storage.getCurrentUserContact();
             if (contact) {
                 if (notebookDropdown) notebookDropdown.classList.remove('active');
-                alert("SimulaÃ§Ã£o Iniciada!\n\n1. Primeiro veremos o aviso de 7 dias restantes (ativo agora).\n2. Daqui a 6 segundos veremos o aviso de 3 dias.\n3. Daqui a 12 segundos veremos o vencimento completo.");
+                alert("Simulação Iniciada!\n\n1. Primeiro veremos o aviso de 7 dias restantes (ativo agora).\n2. Daqui a 6 segundos veremos o aviso de 3 dias.\n3. Daqui a 12 segundos veremos o vencimento completo.");
                 
                 const now = Date.now();
                 
@@ -4206,7 +4206,7 @@ InstruÃ§Ãµes crÃ­ticas:
                 checkSubscriptionStatus();
                 updateUI();
                 
-                // --- PASSO 2: Lembrete de 3 dias restantes (apÃ³s 6 segundos) ---
+                // --- PASSO 2: Lembrete de 3 dias restantes (após 6 segundos) ---
                 setTimeout(() => {
                     const sub = storage.getUserSubscription(contact);
                     if (sub && sub.status === 'trial') {
@@ -4220,13 +4220,13 @@ InstruÃ§Ãµes crÃ­ticas:
                     }
                 }, 6000);
                 
-                // --- PASSO 3: Vencimento Total (apÃ³s 12 segundos) ---
+                // --- PASSO 3: Vencimento Total (após 12 segundos) ---
                 setTimeout(() => {
                     const sub = storage.getUserSubscription(contact);
                     if (sub && sub.status === 'trial') {
                         const nowStep3 = Date.now();
                         storage.updateUserSubscription(contact, {
-                            expiresAt: nowStep3 - 5000, // Expirado hÃ¡ 5 segundos
+                            expiresAt: nowStep3 - 5000, // Expirado há 5 segundos
                             lastReminderSent: '3days'
                         });
                         checkSubscriptionStatus();
@@ -4242,7 +4242,7 @@ InstruÃ§Ãµes crÃ­ticas:
         btnDevAddReferral.addEventListener('click', () => {
             const contact = storage.getCurrentUserContact();
             if (!contact) {
-                alert("Nenhum usuÃ¡rio logado!");
+                alert("Nenhum usuário logado!");
                 return;
             }
             if (notebookDropdown) notebookDropdown.classList.remove('active');
@@ -4251,13 +4251,13 @@ InstruÃ§Ãµes crÃ­ticas:
             storage.addReferralPoint(contact);
             const prog = storage.getReferralProgress(contact);
             
-            alert(`Sucesso! SimulaÃ§Ã£o de IndicaÃ§Ã£o efetuada (+1 amigo).\n\nSaldo de IndicaÃ§Ãµes Ativas: ${prog.active}/5`);
+            alert(`Sucesso! Simulação de Indicação efetuada (+1 amigo).\n\nSaldo de Indicações Ativas: ${prog.active}/5`);
             
             if (prog.active >= 5) {
                 openChatOverlay();
-                const msgHtml = `ðŸŽ‰ <strong>ParabÃ©ns!</strong> VocÃª atingiu a meta de 5 indicaÃ§Ãµes qualificadas!<br>` +
-                                `Seu desconto especial para o plano <strong>Semestral</strong> foi liberado! Ao assinar o plano semestral, vocÃª pagarÃ¡ apenas <strong>R$ 26,90</strong>.<br><br>` +
-                                `Escolha uma das opÃ§Ãµes abaixo para assinar:<br>` +
+                const msgHtml = `ðŸŽ‰ <strong>Parabéns!</strong> Você atingiu a meta de 5 indicações qualificadas!<br>` +
+                                `Seu desconto especial para o plano <strong>Semestral</strong> foi liberado! Ao assinar o plano semestral, você pagará apenas <strong>R$ 26,90</strong>.<br><br>` +
+                                `Escolha uma das opções abaixo para assinar:<br>` +
                                 `<div class="chat-category-chips-container">` +
                                 `  <button class="chat-category-chip" data-subscription-plan="monthly">Mensal (R$ 6,97)</button>` +
                                 `  <button class="chat-category-chip" data-subscription-plan="semiannual">6 Meses (Promocional: R$ 26,90)</button>` +
@@ -4279,16 +4279,16 @@ InstruÃ§Ãµes crÃ­ticas:
         overlay.addEventListener('click', (e) => {
             // Apenas fecha se o clique foi diretamente no elemento de overlay (fundo semi-transparente)
             if (e.target === overlay) {
-                // Impedir fechar o modal de boas-vindas se o usuÃ¡rio nÃ£o estiver logado
+                // Impedir fechar o modal de boas-vindas se o usuário não estiver logado
                 if (overlay.id === 'modal-welcome') {
                     const user = storage.getCurrentUser();
-                    if (!user || user === 'UsuÃ¡rio') {
+                    if (!user || user === 'Usuário') {
                         return;
                     }
                 }
                 overlay.classList.remove('active');
                 
-                // Se for o modal de ediÃ§Ã£o de transaÃ§Ã£o, reseta o ID de ediÃ§Ã£o
+                // Se for o modal de edição de transação, reseta o ID de edição
                 if (overlay.id === 'modal-edit-transaction') {
                     editingTxId = null;
                 }
@@ -4316,13 +4316,13 @@ InstruÃ§Ãµes crÃ­ticas:
         const dateObj = new Date(year, month, day);
         
         const months = [
-            'Janeiro', 'Fevereiro', 'MarÃ§o', 'Abril', 'Maio', 'Junho',
+            'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
             'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
         ];
         
         const weekdays = [
-            'Domingo', 'Segunda-feira', 'TerÃ§a-feira', 'Quarta-feira',
-            'Quinta-feira', 'Sexta-feira', 'SÃ¡bado'
+            'Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira',
+            'Quinta-feira', 'Sexta-feira', 'Sábado'
         ];
         
         const dayName = weekdays[dateObj.getDay()];
@@ -4368,7 +4368,7 @@ InstruÃ§Ãµes crÃ­ticas:
             }
         }
 
-        // Calculate Unpaid Debts (Agendado atÃ©)
+        // Calculate Unpaid Debts (Agendado até)
         const selectedMonth = currentFilters.selectedMonthYear;
         const accounts = storage.getFixedAccounts();
         const activeDebts = accounts.filter(acc => !acc.expiration || selectedMonth <= acc.expiration);
@@ -4398,7 +4398,7 @@ InstruÃ§Ãµes crÃ­ticas:
                 const parts = selectedMonth.split('-');
                 const monthStr = parts.length === 2 ? parts[1] : '';
                 const dayStr = String(maxDayUnpaid).padStart(2, '0');
-                agendadoLabelEl.innerText = `Agendado atÃ© ${dayStr}/${monthStr}`;
+                agendadoLabelEl.innerText = `Agendado até ${dayStr}/${monthStr}`;
             } else {
                 agendadoLabelEl.innerText = 'Agendado';
             }
@@ -4449,7 +4449,7 @@ InstruÃ§Ãµes crÃ­ticas:
         if (filtered.length === 0) {
             transactionList.innerHTML = `
                 <div style="font-family: var(--font-handwriting); text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 1.1rem;">
-                    Nenhuma movimentaÃ§Ã£o neste mÃªs.
+                    Nenhuma movimentação neste mês.
                 </div>
             `;
             renderDoodleCharts([]);
@@ -4477,7 +4477,7 @@ InstruÃ§Ãµes crÃ­ticas:
 
             itemRow.innerHTML = `
                 <div class="transaction-icon ${isInc ? 'income' : 'expense'}">
-                    <i class="fa-solid ${isInc ? 'fa-arrow-down' : 'fa-arrow-up'}"></i>
+                    <i class="fa-solid ${isInc ? 'fa-arrow-up' : 'fa-arrow-down'}"></i>
                 </div>
                 <div class="transaction-info">
                     <span class="transaction-title">${t.item}</span>
@@ -4557,7 +4557,7 @@ InstruÃ§Ãµes crÃ­ticas:
 
                 pill.addEventListener('click', () => {
                     currentFilters.selectedMonthYear = monthVal;
-                    // Sincroniza todos os carrossÃ©is
+                    // Sincroniza todos os carrosséis
                     document.querySelectorAll('.months-carousel').forEach(c => {
                         c.querySelectorAll('.carousel-month-item').forEach(p => {
                             if (p.getAttribute('data-month-val') === monthVal) {
@@ -4723,13 +4723,13 @@ InstruÃ§Ãµes crÃ­ticas:
             }
         }
 
-        // 3. Card de Ãºltima movimentaÃ§Ã£o
+        // 3. Card de última movimentação
         const homeLastTxCard = document.getElementById('home-last-transaction-card');
         if (homeLastTxCard) {
             if (txs.length === 0) {
                 homeLastTxCard.style.display = 'none';
             } else {
-                // Obter Ãºltima transaÃ§Ã£o ordenada por data e hora decrescente
+                // Obter última transação ordenada por data e hora decrescente
                 const sortedTxs = [...txs].sort((a, b) => {
                     const dateA = (a.date || '') + 'T' + (a.time || '00:00');
                     const dateB = (b.date || '') + 'T' + (b.time || '00:00');
@@ -4757,7 +4757,7 @@ InstruÃ§Ãµes crÃ­ticas:
                         if (lastTxIcon) lastTxIcon.className = 'fa-solid fa-arrow-down';
                     }
 
-                    lastTxDesc.innerText = lastTx.item || 'Sem descriÃ§Ã£o';
+                    lastTxDesc.innerText = lastTx.item || 'Sem descrição';
 
                     if (lastTx.date && typeof lastTx.date === 'string') {
                         const todayStr = new Date().toISOString().slice(0, 10);
@@ -4845,7 +4845,7 @@ InstruÃ§Ãµes crÃ­ticas:
 
         if (isIOS) {
             // iOS Custom Guide (Safari doesn't support beforeinstallprompt)
-            pwaInstructions.innerHTML = 'Toque em <i class="fa-regular fa-share-from-square" style="color:#8C6239;"></i> e depois em <strong>"Adicionar Ã  Tela de InÃ­cio"</strong>.';
+            pwaInstructions.innerHTML = 'Toque em <i class="fa-regular fa-share-from-square" style="color:#8C6239;"></i> e depois em <strong>"Adicionar Ã  Tela de Início"</strong>.';
             if (btnPwaInstall) btnPwaInstall.style.display = 'none'; // hide install button, instructions are text-only
             
             // Show banner after a short delay so it feels premium
@@ -4874,7 +4874,7 @@ InstruÃ§Ãµes crÃ­ticas:
                 deferredPrompt.prompt();
                 deferredPrompt.userChoice.then((choiceResult) => {
                     if (choiceResult.outcome === 'accepted') {
-                        console.log('UsuÃ¡rio aceitou a instalaÃ§Ã£o do PWA');
+                        console.log('Usuário aceitou a instalação do PWA');
                         pwaBanner.classList.remove('active');
                     }
                     deferredPrompt = null;
@@ -4898,13 +4898,13 @@ InstruÃ§Ãµes crÃ­ticas:
     // 20. PIX QR CODE MODAL
     // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
-    let _pixPayloadCache = '';  // guarda o Ãºltimo payload para "copiar cÃ³digo"
-    let _pixConfirmCallback = null; // callback apÃ³s confirmar pagamento
+    let _pixPayloadCache = '';  // guarda o último payload para "copiar código"
+    let _pixConfirmCallback = null; // callback após confirmar pagamento
 
     /**
      * Exibe o modal de QR Code PIX.
      * @param {object} opts - { key, name, city, amount, txId, desc }
-     * @param {function} [onConfirm] - callback quando usuÃ¡rio confirma que pagou
+     * @param {function} [onConfirm] - callback quando usuário confirma que pagou
      */
     function showPixModal(opts, onConfirm) {
         const modal = document.getElementById('modal-pix-qrcode');
@@ -4943,13 +4943,13 @@ InstruÃ§Ãµes crÃ­ticas:
         });
     }
 
-    // Copiar cÃ³digo PIX (Pix Copia e Cola)
+    // Copiar código PIX (Pix Copia e Cola)
     const btnCopyPix = document.getElementById('btn-copy-pix');
     if (btnCopyPix) {
         btnCopyPix.addEventListener('click', () => {
             copyToClipboard(_pixPayloadCache).then(() => {
                 btnCopyPix.innerText = 'âœ“ Copiado!';
-                setTimeout(() => { btnCopyPix.innerHTML = '<i class="fa-regular fa-copy"></i> Copiar cÃ³digo PIX'; }, 2000);
+                setTimeout(() => { btnCopyPix.innerHTML = '<i class="fa-regular fa-copy"></i> Copiar código PIX'; }, 2000);
             });
         });
     }
@@ -4991,7 +4991,7 @@ InstruÃ§Ãµes crÃ­ticas:
         `).join('');
     }
 
-    // Abrir modal agenda PIX (acessÃ­vel de outros lugares do app)
+    // Abrir modal agenda PIX (acessível de outros lugares do app)
     window.openPixAgenda = function() {
         renderPixAgendaList();
         document.getElementById('modal-pix-agenda').classList.add('active');
@@ -5013,7 +5013,7 @@ InstruÃ§Ãµes crÃ­ticas:
             const desc = document.getElementById('pix-form-desc').value.trim();
 
             if (!label || !key) {
-                alert('Label e chave PIX sÃ£o obrigatÃ³rios!');
+                alert('Label e chave PIX são obrigatórios!');
                 return;
             }
 
@@ -5025,7 +5025,7 @@ InstruÃ§Ãµes crÃ­ticas:
                 description: desc
             });
 
-            // Limpar formulÃ¡rio
+            // Limpar formulário
             ['pix-form-label', 'pix-form-key', 'pix-form-name', 'pix-form-desc']
                 .forEach(id => { document.getElementById(id).value = ''; });
 
@@ -5034,10 +5034,10 @@ InstruÃ§Ãµes crÃ­ticas:
     }
 
     // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-    // 22. HOOK: sincronizar transaÃ§Ãµes com Supabase apÃ³s addTransaction
+    // 22. HOOK: sincronizar transações com Supabase após addTransaction
     // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
-    // Monkey-patch no storage para adicionar sync async a cada nova transaÃ§Ã£o
+    // Monkey-patch no storage para adicionar sync async a cada nova transação
     const _origAddTransaction = storage.addTransaction.bind(storage);
     storage.addTransaction = function(txData) {
         const newTx = _origAddTransaction(txData);
@@ -5045,7 +5045,7 @@ InstruÃ§Ãµes crÃ­ticas:
             const nb = storage.getActiveNotebook();
             if (nb) {
                 sync.insertTransaction(newTx, nb.id).catch(err =>
-                    console.warn('[Sync] Falha ao sync transaÃ§Ã£o:', err)
+                    console.warn('[Sync] Falha ao sync transação:', err)
                 );
             }
         }
@@ -5070,7 +5070,7 @@ InstruÃ§Ãµes crÃ­ticas:
             txId: `COF${Date.now()}`.substring(0, 25),
             desc: `Cofrinho: ${cof.name}`
         }, () => {
-            // ApÃ³s confirmar pagamento: registrar depÃ³sito no cofrinho
+            // Após confirmar pagamento: registrar depósito no cofrinho
             storage.depositToCofrinho(cofrinhoId, amount);
             updateUI();
         });
@@ -5078,11 +5078,11 @@ InstruÃ§Ãµes crÃ­ticas:
 
     // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // 24. HOOK: Pagamento por voz ("Real, pagar aluguel")
-    // IntegraÃ§Ã£o com o assistente de chat â€” detecta intent de pagamento PIX
+    // Integração com o assistente de chat â€” detecta intent de pagamento PIX
     // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
-    // Este hook Ã© chamado pelo processador de chat quando o Gemini retorna
-    // action === 'pix_payment' (precisarÃ¡ ser configurado no parser)
+    // Este hook é chamado pelo processador de chat quando o Gemini retorna
+    // action === 'pix_payment' (precisará ser configurado no parser)
     window.handlePixPaymentVoice = function(label, amount) {
         const contact = PixAgenda.findByLabel(label);
         if (!contact) {
@@ -5128,7 +5128,7 @@ InstruÃ§Ãµes crÃ­ticas:
                         installingWorker.onstatechange = () => {
                             if (installingWorker.state === 'installed') {
                                 if (navigator.serviceWorker.controller) {
-                                    console.log('Novo conteÃºdo disponÃ­vel; recarregando a pÃ¡gina...');
+                                    console.log('Novo conteúdo disponível; recarregando a página...');
                                     window.location.reload();
                                 }
                             }
@@ -5139,7 +5139,7 @@ InstruÃ§Ãµes crÃ­ticas:
         });
     }
 
-    // NavegaÃ§Ã£o por Swipe (Home <-> Extrato)
+    // Navegação por Swipe (Home <-> Extrato)
     let touchstartX = 0;
     let touchstartY = 0;
     
@@ -5155,7 +5155,7 @@ InstruÃ§Ãµes crÃ­ticas:
         const diffX = touchendX - touchstartX;
         const diffY = touchendY - touchstartY;
         
-        // Verifica se o movimento horizontal Ã© dominante e considerÃ¡vel
+        // Verifica se o movimento horizontal é dominante e considerável
         if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 60) {
             // Se swipe para a esquerda e na home -> Extrato
             if (diffX < -60 && activeTab === 'home') {
