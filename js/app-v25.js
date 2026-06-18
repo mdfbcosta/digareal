@@ -5433,11 +5433,16 @@ Instruções críticas:
 
             // Determinar o "estado atual"
             let currentStateIndex = -1;
+            
+            let currentSegment = 'dia-a-dia';
+            const activePill = document.querySelector('.segmented-pill.active');
+            if (activePill) currentSegment = activePill.getAttribute('data-target') || 'dia-a-dia';
+
             if (activeTab === 'home') currentStateIndex = 0;
             else if (activeTab === 'details') {
-                if (currentSegment === 'daily') currentStateIndex = 1;
-                else if (currentSegment === 'debts') currentStateIndex = 2;
-                else if (currentSegment === 'incomes') currentStateIndex = 3;
+                if (currentSegment === 'dia-a-dia') currentStateIndex = 1;
+                else if (currentSegment === 'a-pagar') currentStateIndex = 2;
+                else if (currentSegment === 'a-receber') currentStateIndex = 3;
             }
             else if (activeTab === 'piggy') currentStateIndex = 4;
             else if (activeTab === 'profile') currentStateIndex = 5;
@@ -5466,13 +5471,13 @@ Instruções críticas:
             switchTab('home');
         } else if (index === 1) {
             switchTab('details');
-            switchSegmentedMode('daily');
+            switchSegmentedMode('dia-a-dia');
         } else if (index === 2) {
             switchTab('details');
-            switchSegmentedMode('debts');
+            switchSegmentedMode('a-pagar');
         } else if (index === 3) {
             switchTab('details');
-            switchSegmentedMode('incomes');
+            switchSegmentedMode('a-receber');
         } else if (index === 4) {
             switchTab('piggy');
         } else if (index === 5) {
