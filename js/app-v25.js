@@ -5405,9 +5405,7 @@ Instruções críticas:
         // Se algum modal estiver aberto (chat overlay, pílula, categorias), não aciona swipe
         if (document.querySelector('.chat-screen-overlay.active') ||
             document.querySelector('.quick-input-pill-card.active') ||
-            document.querySelector('.modal-category-summary.active') ||
-            document.querySelector('.modal-pix-agenda.active') ||
-            document.getElementById('edit-modal').style.display === 'flex') {
+            document.querySelector('.modal-overlay.active')) {
             return;
         }
 
