@@ -535,10 +535,9 @@ body {
 /* Card de Última Movimentação na Base */
 .home-last-transaction-card {
     margin: auto 24px 8px 24px;
-    background: #ffffff;
+    background: transparent;
     border-radius: 16px;
-    border: 1px solid rgba(0, 0, 0, 0.04);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.015);
+    border: 1px solid rgba(0, 0, 0, 0.03);
     padding: 14px 8px;
     display: flex;
     justify-content: space-between;
@@ -550,8 +549,8 @@ body {
 
 .home-last-transaction-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.03);
-    border-color: rgba(0,0,0,0.08);
+    border-color: rgba(0,0,0,0.06);
+    background: rgba(255,255,255,0.4);
 }
 
 .last-tx-left {
@@ -637,7 +636,7 @@ body {
 /* Seta ">" centralizada verticalmente na borda direita */
 .swipe-arrow-right {
     position: absolute;
-    right: 12px;
+    right: 4px;
     top: 50%;
     transform: translateY(-50%);
     font-size: 1.85rem;
@@ -646,6 +645,20 @@ body {
     opacity: 0.6;
     animation: horizontalNudgeRight 2s infinite ease-in-out;
     z-index: 10;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2px;
+}
+
+.swipe-arrow-label-vertical {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    font-weight: 600;
+    font-family: var(--font-normal);
 }
 
 .swipe-arrow-right i {

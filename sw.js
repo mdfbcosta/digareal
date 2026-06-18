@@ -1,4 +1,4 @@
-const CACHE_NAME = 'minhas-contas-v45';
+const CACHE_NAME = 'minhas-contas-v46';
 const ASSETS = [
   './index.html',
   './css/style-v25.css',
