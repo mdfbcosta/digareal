@@ -610,43 +610,63 @@ document.addEventListener('DOMContentLoaded', () => {
     const quickInputMessageArea = document.getElementById('quick-input-pill-message-area');
     const quickInputRow = document.querySelector('.quick-input-pill-input-row');
 
+    function submitQuickInputPillText() {
+        if (!quickInputField) return;
+        const text = quickInputField.value.trim();
+        if (text === '') return;
+
+        // Switch to message view
+        quickInputRow.style.display = 'none';
+        quickInputMessageArea.classList.add('active');
+        quickInputActions.style.display = 'none';
+        quickInputAiText.innerHTML = "<em>Processando...</em>";
+
+        setTimeout(() => {
+            const result = parser.parseText(text);
+            if (result.action === 'add_transaction' && result.confidence >= 0.6 && result.category) {
+                pendingPillTx = result;
+                const isIncome = result.type === 'salario' || result.type.startsWith('receita');
+                const typeLabel = isIncome ? 'Entrada' : 'Saída';
+                const valFmt = result.value.toFixed(2).replace('.', ',');
+                
+                quickInputAiText.innerHTML = `<strong>${typeLabel}:</strong> ${result.item} — R$ ${valFmt} — ${result.category}.<br><br>Confirma?`;
+                quickInputActions.style.display = 'flex';
+            } else {
+                // Tratar falhas do parser
+                let errorMsg = "Não consegui entender completamente. Tente refazer a frase.";
+                if (result.hasDoubt && result.doubtField === 'category') {
+                    errorMsg = `Qual a categoria de "${result.item}"?`;
+                }
+                quickInputAiText.innerHTML = errorMsg;
+                
+                setTimeout(() => {
+                    quickInputMessageArea.classList.remove('active');
+                    quickInputRow.style.display = 'flex';
+                    quickInputField.focus();
+                }, 2500);
+            }
+        }, 300);
+    }
+
     if (quickInputField) {
+        // Toggle mic/send icon
+        quickInputField.addEventListener('input', () => {
+            resetPillInactivityTimer();
+            if (btnQuickMic) {
+                if (quickInputField.value.trim() !== '') {
+                    btnQuickMic.innerHTML = '<i class="fa-solid fa-paper-plane"></i>';
+                    btnQuickMic.classList.add('is-send-mode');
+                } else {
+                    btnQuickMic.innerHTML = '<i class="fa-solid fa-microphone"></i>';
+                    btnQuickMic.classList.remove('is-send-mode');
+                }
+            }
+        });
+
         quickInputField.addEventListener('keyup', (e) => {
             resetPillInactivityTimer();
-            if (e.key === 'Enter' && quickInputField.value.trim() !== '') {
-                const text = quickInputField.value.trim();
-                
-                // Switch to message view
-                quickInputRow.style.display = 'none';
-                quickInputMessageArea.classList.add('active');
-                quickInputActions.style.display = 'none';
-                quickInputAiText.innerHTML = "<em>Processando...</em>";
-
-                setTimeout(() => {
-                    const result = parser.parseText(text);
-                    if (result.action === 'add_transaction' && result.confidence >= 0.6 && result.category) {
-                        pendingPillTx = result;
-                        const isIncome = result.type === 'salario' || result.type.startsWith('receita');
-                        const typeLabel = isIncome ? 'Entrada' : 'Saída';
-                        const valFmt = result.value.toFixed(2).replace('.', ',');
-                        
-                        quickInputAiText.innerHTML = `<strong>${typeLabel}:</strong> ${result.item} — R$ ${valFmt} — ${result.category}.<br><br>Confirma?`;
-                        quickInputActions.style.display = 'flex';
-                    } else {
-                        // Tratar falhas do parser
-                        let errorMsg = "Não consegui entender completamente. Tente refazer a frase.";
-                        if (result.hasDoubt && result.doubtField === 'category') {
-                            errorMsg = `Qual a categoria de "${result.item}"?`;
-                        }
-                        quickInputAiText.innerHTML = errorMsg;
-                        
-                        setTimeout(() => {
-                            quickInputMessageArea.classList.remove('active');
-                            quickInputRow.style.display = 'flex';
-                            quickInputField.focus();
-                        }, 2500);
-                    }
-                }, 300);
+            if (e.key === 'Enter') {
+                submitQuickInputPillText();
             }
         });
     }
@@ -665,7 +685,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 setTimeout(() => {
                     closeQuickInputPill();
-                    if (quickInputField) quickInputField.value = '';
+                    if (quickInputField) {
+                        quickInputField.value = '';
+                        quickInputField.dispatchEvent(new Event('input'));
+                    }
                 }, 1500);
             }
         });
@@ -685,6 +708,13 @@ document.addEventListener('DOMContentLoaded', () => {
         btnQuickMic.addEventListener('click', (e) => {
             e.stopPropagation();
             resetPillInactivityTimer();
+            
+            if (btnQuickMic.classList.contains('is-send-mode')) {
+                // Submit text instead of starting voice
+                submitQuickInputPillText();
+                return;
+            }
+
             if (synthesizer) synthesizer.cancel();
             if (voice) {
                 // If they use mic, let's close the pill and use the normal voice flow
