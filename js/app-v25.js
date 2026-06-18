@@ -129,6 +129,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // On Speech Transcription
         (text) => {
+            const pillCard = document.getElementById('quick-input-pill-card');
+            if (pillCard && pillCard.classList.contains('active')) {
+                const pillInput = document.getElementById('quick-input-field');
+                if (pillInput) {
+                    pillInput.value = text;
+                    pillInput.dispatchEvent(new Event('input'));
+                    // We must wait a tiny bit for the function to be defined or just call it if it is hoisted
+                    // submitQuickInputPillText is hoisted or we can just trigger enter key or dispatch event
+                    // Actually, submitQuickInputPillText is defined later inside the DOMContentLoaded, so it's not accessible here.
+                    // Instead, we can dispatch a custom event or just trigger Enter key.
+                    const enterEvent = new KeyboardEvent('keyup', {
+                        key: 'Enter',
+                        code: 'Enter',
+                        which: 13,
+                        keyCode: 13
+                    });
+                    pillInput.dispatchEvent(enterEvent);
+                }
+                return;
+            }
+
             const chatOverlay = document.getElementById('chat-screen-overlay');
             if (chatOverlay.classList.contains('active')) {
                 const inputField = document.getElementById('chat-input-field');
@@ -157,15 +178,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const homeMicWrapper = document.getElementById('home-mic-wrapper');
             const chatMicBtn = document.getElementById('chat-mic-btn');
             const btnNavMic = document.getElementById('btn-nav-mic');
+            const btnQuickMic = document.getElementById('btn-quick-mic');
             
             if (isListening) {
                 if (homeMicWrapper) homeMicWrapper.classList.add('listening');
                 if (chatMicBtn) chatMicBtn.classList.add('active-mic');
                 if (btnNavMic) btnNavMic.classList.add('active-mic');
+                if (btnQuickMic) btnQuickMic.classList.add('listening');
             } else {
                 if (homeMicWrapper) homeMicWrapper.classList.remove('listening');
                 if (chatMicBtn) chatMicBtn.classList.remove('active-mic');
                 if (btnNavMic) btnNavMic.classList.remove('active-mic');
+                if (btnQuickMic) btnQuickMic.classList.remove('listening');
             }
         }
     );
@@ -717,8 +741,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (synthesizer) synthesizer.cancel();
             if (voice) {
-                // If they use mic, let's close the pill and use the normal voice flow
-                closeQuickInputPill();
+                // Toggle voice directly in the pill
                 voice.toggle();
             }
         });
