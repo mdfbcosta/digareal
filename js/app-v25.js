@@ -5375,34 +5375,112 @@ Instruções críticas:
         });
     }
 
-    // Navegação por Swipe (Home <-> Extrato)
+    // Navegação Global por Swipe (Home <-> Extrato <-> Cofrinho <-> Perfil)
     let touchstartX = 0;
     let touchstartY = 0;
-    
+    let touchstartTime = 0;
+    let touchStartXIsCarousel = false;
+    let touchStartXIsInteractive = false;
+
     document.addEventListener('touchstart', e => {
         touchstartX = e.changedTouches[0].screenX;
         touchstartY = e.changedTouches[0].screenY;
+        touchstartTime = new Date().getTime();
+
+        // 1. Verificar se tocou no carrossel de meses (evitar conflito com scroll horizontal nativo)
+        const isCarousel = e.target.closest('.months-carousel-container');
+        touchStartXIsCarousel = !!isCarousel;
+
+        // 2. Verificar se tocou em elemento interativo (botão, input, select, etc)
+        // Isso evita que o usuário tente usar um range slider ou mover cursor no input e dispare swipe
+        const isInteractive = e.target.closest('button, input, select, textarea, a, .chat-category-chip');
+        touchStartXIsInteractive = !!isInteractive;
+
     }, {passive: true});
 
     document.addEventListener('touchend', e => {
+        // Se começou no carrossel ou em botões/inputs, não aciona swipe de navegação
+        if (touchStartXIsCarousel || touchStartXIsInteractive) return;
+
+        // Se algum modal estiver aberto (chat overlay, pílula, categorias), não aciona swipe
+        if (document.querySelector('.chat-screen-overlay.active') ||
+            document.querySelector('.quick-input-pill-card.active') ||
+            document.querySelector('.modal-category-summary.active') ||
+            document.querySelector('.modal-pix-agenda.active') ||
+            document.getElementById('edit-modal').style.display === 'flex') {
+            return;
+        }
+
         const touchendX = e.changedTouches[0].screenX;
         const touchendY = e.changedTouches[0].screenY;
+        const touchendTime = new Date().getTime();
         
         const diffX = touchendX - touchstartX;
         const diffY = touchendY - touchstartY;
+        const duration = touchendTime - touchstartTime;
         
-        // Verifica se o movimento horizontal é dominante e considerável
-        if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 60) {
-            // Se swipe para a esquerda e na home -> Extrato
-            if (diffX < -60 && activeTab === 'home') {
-                switchTab('extract');
+        // Critérios rigorosos para ser um "Swipe Horizontal"
+        // 1. Deve ser mais horizontal do que vertical
+        // 2. Deve ter arrastado pelo menos 60px
+        // 3. Deve ser um movimento rápido (menos de 400ms)
+        if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 60 && duration < 400) {
+            
+            // Ordem Lógica das Telas:
+            // 0: home
+            // 1: details (Dia a Dia - daily)
+            // 2: details (A Pagar - debts)
+            // 3: details (A Receber - incomes)
+            // 4: piggy
+            // 5: profile
+
+            // Determinar o "estado atual"
+            let currentStateIndex = -1;
+            if (activeTab === 'home') currentStateIndex = 0;
+            else if (activeTab === 'details') {
+                if (currentSegment === 'daily') currentStateIndex = 1;
+                else if (currentSegment === 'debts') currentStateIndex = 2;
+                else if (currentSegment === 'incomes') currentStateIndex = 3;
             }
-            // Se swipe para a direita e no extrato -> Home
-            else if (diffX > 60 && activeTab === 'extract') {
-                switchTab('home');
+            else if (activeTab === 'piggy') currentStateIndex = 4;
+            else if (activeTab === 'profile') currentStateIndex = 5;
+
+            if (currentStateIndex === -1) return;
+
+            // Swipe Esquerda (Avançar)
+            if (diffX < 0) {
+                if (currentStateIndex < 5) {
+                    const nextIndex = currentStateIndex + 1;
+                    navigateToSwipeState(nextIndex);
+                }
+            } 
+            // Swipe Direita (Voltar)
+            else if (diffX > 0) {
+                if (currentStateIndex > 0) {
+                    const prevIndex = currentStateIndex - 1;
+                    navigateToSwipeState(prevIndex);
+                }
             }
         }
     }, {passive: true});
+
+    function navigateToSwipeState(index) {
+        if (index === 0) {
+            switchTab('home');
+        } else if (index === 1) {
+            switchTab('details');
+            switchSegmentedMode('daily');
+        } else if (index === 2) {
+            switchTab('details');
+            switchSegmentedMode('debts');
+        } else if (index === 3) {
+            switchTab('details');
+            switchSegmentedMode('incomes');
+        } else if (index === 4) {
+            switchTab('piggy');
+        } else if (index === 5) {
+            switchTab('profile');
+        }
+    }
 
 });
 
