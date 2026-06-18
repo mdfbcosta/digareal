@@ -564,6 +564,149 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Center microphone button in bottom bar
+    // Quick Input Pill (Modo Silencioso) variables
+    let pendingPillTx = null;
+    let pillInactivityTimer = null;
+
+    function openQuickInputPill() {
+        const pillCard = document.getElementById('quick-input-pill-card');
+        const inputField = document.getElementById('quick-input-field');
+        const msgArea = document.getElementById('quick-input-pill-message-area');
+        const inputRow = document.querySelector('.quick-input-pill-input-row');
+        
+        if (!pillCard) return;
+        
+        pillCard.classList.add('active');
+        msgArea.classList.remove('active');
+        inputRow.style.display = 'flex';
+        
+        setTimeout(() => {
+            if (inputField) inputField.focus();
+        }, 100);
+
+        resetPillInactivityTimer();
+    }
+
+    function closeQuickInputPill() {
+        const pillCard = document.getElementById('quick-input-pill-card');
+        if (pillCard) pillCard.classList.remove('active');
+        clearTimeout(pillInactivityTimer);
+    }
+
+    function resetPillInactivityTimer() {
+        clearTimeout(pillInactivityTimer);
+        pillInactivityTimer = setTimeout(() => {
+            closeQuickInputPill();
+        }, 30000); // Fechar automaticamente após 30 segundos de inatividade
+    }
+
+    // Initialize Pill Logic
+    const quickInputField = document.getElementById('quick-input-field');
+    const btnQuickMic = document.getElementById('btn-quick-mic');
+    const btnQuickConfirmYes = document.getElementById('btn-quick-confirm-yes');
+    const btnQuickConfirmNo = document.getElementById('btn-quick-confirm-no');
+    const quickInputAiText = document.getElementById('quick-input-ai-text');
+    const quickInputActions = document.getElementById('quick-input-actions');
+    const quickInputMessageArea = document.getElementById('quick-input-pill-message-area');
+    const quickInputRow = document.querySelector('.quick-input-pill-input-row');
+
+    if (quickInputField) {
+        quickInputField.addEventListener('keyup', (e) => {
+            resetPillInactivityTimer();
+            if (e.key === 'Enter' && quickInputField.value.trim() !== '') {
+                const text = quickInputField.value.trim();
+                
+                // Switch to message view
+                quickInputRow.style.display = 'none';
+                quickInputMessageArea.classList.add('active');
+                quickInputActions.style.display = 'none';
+                quickInputAiText.innerHTML = "<em>Processando...</em>";
+
+                setTimeout(() => {
+                    const result = parser.parseText(text);
+                    if (result.action === 'add_transaction' && result.confidence >= 0.6 && result.category) {
+                        pendingPillTx = result;
+                        const isIncome = result.type === 'salario' || result.type.startsWith('receita');
+                        const typeLabel = isIncome ? 'Entrada' : 'Saída';
+                        const valFmt = result.value.toFixed(2).replace('.', ',');
+                        
+                        quickInputAiText.innerHTML = `<strong>${typeLabel}:</strong> ${result.item} — R$ ${valFmt} — ${result.category}.<br><br>Confirma?`;
+                        quickInputActions.style.display = 'flex';
+                    } else {
+                        // Tratar falhas do parser
+                        let errorMsg = "Não consegui entender completamente. Tente refazer a frase.";
+                        if (result.hasDoubt && result.doubtField === 'category') {
+                            errorMsg = `Qual a categoria de "${result.item}"?`;
+                        }
+                        quickInputAiText.innerHTML = errorMsg;
+                        
+                        setTimeout(() => {
+                            quickInputMessageArea.classList.remove('active');
+                            quickInputRow.style.display = 'flex';
+                            quickInputField.focus();
+                        }, 2500);
+                    }
+                }, 300);
+            }
+        });
+    }
+
+    if (btnQuickConfirmYes) {
+        btnQuickConfirmYes.addEventListener('click', () => {
+            resetPillInactivityTimer();
+            if (pendingPillTx) {
+                storage.addTransaction(pendingPillTx);
+                const cleanItem = pendingPillTx.item.toLowerCase().trim();
+                storage.learnTerm(cleanItem, pendingPillTx.category, pendingPillTx.type);
+                
+                quickInputAiText.innerHTML = `<strong>Registrado!</strong> <i class="fa-solid fa-check" style="color: #10b981;"></i>`;
+                quickInputActions.style.display = 'none';
+                updateUI();
+                
+                setTimeout(() => {
+                    closeQuickInputPill();
+                    if (quickInputField) quickInputField.value = '';
+                }, 1500);
+            }
+        });
+    }
+
+    if (btnQuickConfirmNo) {
+        btnQuickConfirmNo.addEventListener('click', () => {
+            resetPillInactivityTimer();
+            pendingPillTx = null;
+            quickInputMessageArea.classList.remove('active');
+            quickInputRow.style.display = 'flex';
+            if (quickInputField) quickInputField.focus();
+        });
+    }
+
+    if (btnQuickMic) {
+        btnQuickMic.addEventListener('click', (e) => {
+            e.stopPropagation();
+            resetPillInactivityTimer();
+            if (synthesizer) synthesizer.cancel();
+            if (voice) {
+                // If they use mic, let's close the pill and use the normal voice flow
+                closeQuickInputPill();
+                voice.toggle();
+            }
+        });
+    }
+
+    // Fechar pílula ao clicar fora
+    document.addEventListener('click', (e) => {
+        const pillCard = document.getElementById('quick-input-pill-card');
+        if (pillCard && pillCard.classList.contains('active')) {
+            const isClickInside = pillCard.contains(e.target);
+            const isNavMic = e.target.closest('#btn-nav-mic');
+            if (!isClickInside && !isNavMic) {
+                closeQuickInputPill();
+            }
+        }
+    });
+
+    // Center microphone button in bottom bar
     const btnNavMic = document.getElementById('btn-nav-mic');
     if (btnNavMic) {
         btnNavMic.addEventListener('click', (e) => {
@@ -571,7 +714,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (synthesizer) {
                 synthesizer.cancel();
             }
-            if (voice) {
+            if (activeTab === 'details') {
+                openQuickInputPill();
+            } else if (voice) {
                 voice.toggle();
             }
         });
