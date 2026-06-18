@@ -1936,11 +1936,22 @@ Instruções críticas:
 
 
 
-    // 9. Doodle Charts Render
+    // 9. Doodle Charts Render (agora para o modal)
+    let _lastFilteredTxsForChart = [];
+
     function renderDoodleCharts(filteredTxs) {
-        const chartBox = document.getElementById('doodle-chart-box');
-        const barsContainer = document.getElementById('doodle-bars-container');
-        
+        _lastFilteredTxsForChart = filteredTxs;
+    }
+
+    function openCategorySummaryModal() {
+        const modal = document.getElementById('modal-category-summary');
+        const barsContainer = document.getElementById('modal-doodle-bars-container');
+        const subtitle = document.getElementById('category-summary-subtitle');
+        const totalSpan = document.getElementById('category-summary-total');
+        if (!modal || !barsContainer) return;
+
+        const filteredTxs = _lastFilteredTxsForChart;
+
         // Group expenses by category
         const categoriesData = {};
         let totalExpenses = 0;
@@ -1960,13 +1971,23 @@ Instruções críticas:
             val: categoriesData[cat]
         }));
 
-        if (catArray.length === 0) {
-            chartBox.style.display = 'none';
-            return;
+        // Set subtitle with month info
+        if (currentFilters && currentFilters.selectedMonthYear) {
+            const [y, m] = currentFilters.selectedMonthYear.split('-');
+            const monthNames = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+            subtitle.textContent = `Gastos em ${monthNames[parseInt(m)-1]} de ${y}`;
+        } else {
+            subtitle.textContent = 'Gastos do período selecionado';
         }
 
-        chartBox.style.display = 'block';
         barsContainer.innerHTML = '';
+
+        if (catArray.length === 0) {
+            barsContainer.innerHTML = '<div style="text-align: center; padding: 30px; color: var(--text-muted); font-size: 0.9rem;">Nenhuma despesa neste período.</div>';
+            totalSpan.textContent = '';
+            modal.classList.add('active');
+            return;
+        }
 
         // Sort descending
         catArray.sort((a,b) => b.val - a.val);
@@ -1994,6 +2015,9 @@ Instruções críticas:
                 barRow.querySelector('.doodle-bar-fill').style.width = `${percentage}%`;
             }, 100);
         });
+
+        totalSpan.textContent = `Total: R$ ${totalExpenses.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        modal.classList.add('active');
     }
 
     // 10. Diário de Conversas (Archived Chat Logs)
@@ -2078,6 +2102,21 @@ Instruções críticas:
     if (btnCloseChatLogs) {
         btnCloseChatLogs.addEventListener('click', () => {
             document.getElementById('modal-chat-logs').classList.remove('active');
+        });
+    }
+
+    // Category Summary Modal event listeners
+    const btnCategorySummary = document.getElementById('btn-category-summary');
+    if (btnCategorySummary) {
+        btnCategorySummary.addEventListener('click', () => {
+            openCategorySummaryModal();
+        });
+    }
+
+    const btnCloseCategorySummary = document.getElementById('btn-close-category-summary');
+    if (btnCloseCategorySummary) {
+        btnCloseCategorySummary.addEventListener('click', () => {
+            document.getElementById('modal-category-summary').classList.remove('active');
         });
     }
 
@@ -2519,7 +2558,6 @@ Instruções críticas:
         const fixedKpi = document.getElementById('fixed-budget-summary-card');
         const txList = document.getElementById('transaction-list');
         const fixedWrapper = document.getElementById('fixed-content-wrapper');
-        const doodleBox = document.getElementById('doodle-chart-box');
 
         const fixedNameLabel = document.getElementById('label-fixed-name');
         const fixedNameInput = document.getElementById('fixed-name');
@@ -2537,7 +2575,7 @@ Instruções críticas:
             if (fixedKpi) fixedKpi.style.display = 'none';
             if (txList) txList.style.display = 'block';
             if (fixedWrapper) fixedWrapper.style.display = 'none';
-            if (doodleBox && !document.getElementById('search-transactions').value) doodleBox.style.display = 'block';
+
         } else if (mode === 'a-pagar') {
             const pillPagar = document.getElementById('pill-a-pagar');
             if (pillPagar) pillPagar.classList.add('active');
@@ -2547,7 +2585,7 @@ Instruções críticas:
             if (fixedKpi) fixedKpi.style.display = 'flex';
             if (txList) txList.style.display = 'none';
             if (fixedWrapper) fixedWrapper.style.display = 'block';
-            if (doodleBox) doodleBox.style.display = 'none';
+
 
             if (btnToggleAdd) btnToggleAdd.innerHTML = '<i class="fa-solid fa-plus"></i> Dívida';
             if (fixedNameLabel) fixedNameLabel.innerText = 'Nome da Dívida';
@@ -2565,7 +2603,7 @@ Instruções críticas:
             if (fixedKpi) fixedKpi.style.display = 'flex';
             if (txList) txList.style.display = 'none';
             if (fixedWrapper) fixedWrapper.style.display = 'block';
-            if (doodleBox) doodleBox.style.display = 'none';
+
 
             if (btnToggleAdd) btnToggleAdd.innerHTML = '<i class="fa-solid fa-plus"></i> Receita';
             if (fixedNameLabel) fixedNameLabel.innerText = 'Nome da Receita';

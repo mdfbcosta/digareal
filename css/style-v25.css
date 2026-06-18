@@ -1,4 +1,4 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Kalam:wght@300;400;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Kalam:wght@300;400;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
 
 :root {
     --bg-color: #f7f4ee;
@@ -1179,12 +1179,16 @@ body {
 .months-carousel {
     flex-grow: 1;
     display: flex;
-    justify-content: space-between;
-    gap: 2px;
-    overflow: visible;
+    justify-content: flex-start;
+    gap: 8px;
+    overflow-x: auto;
+    overflow-y: hidden;
     padding: 6px 1px;
     scrollbar-width: none;
     width: 100%;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
 }
 
 .months-carousel::-webkit-scrollbar {
@@ -1192,16 +1196,17 @@ body {
 }
 
 .carousel-month-item {
-    flex: 1 1 0px;
-    min-width: 0;
+    flex: 0 0 auto;
+    min-width: 55px;
     font-size: 0.78rem;
     font-weight: 600;
     color: var(--text-muted);
     cursor: pointer;
-    padding: 6px 1px;
+    padding: 6px 10px;
     transition: all 0.2s;
     border-radius: 14px;
     text-align: center;
+    scroll-snap-align: center;
 }
 
 .carousel-month-item.active {
@@ -3977,10 +3982,32 @@ body {
 }
 
 .search-box-compact {
-    flex-grow: 1;
+    flex: 1 1 0;
+    min-width: 0;
     position: relative;
     display: flex;
     align-items: center;
+}
+
+.btn-category-summary {
+    flex: 0 0 auto;
+    background: linear-gradient(135deg, #f0e6d6, #e8dcc8);
+    border: 1px solid rgba(140, 98, 57, 0.2);
+    border-radius: 10px;
+    padding: 7px 10px;
+    cursor: pointer;
+    color: #8C6239;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(140, 98, 57, 0.1);
+}
+
+.btn-category-summary:active {
+    transform: scale(0.92);
+    box-shadow: 0 1px 3px rgba(140, 98, 57, 0.15);
 }
 
 .search-input-compact {

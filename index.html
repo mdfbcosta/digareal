@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -310,6 +310,9 @@
                             <input type="text" class="search-input-compact" id="search-transactions" placeholder="Buscar...">
                             <i class="fa-solid fa-magnifying-glass search-icon-compact"></i>
                         </div>
+                        <button class="btn-category-summary" id="btn-category-summary" title="Resumo por Categoria">
+                            <i class="fa-solid fa-bars-progress"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -372,13 +375,7 @@
                         </div>
                     </div>
 
-                    <!-- Doodle Report Section -->
-                    <div class="doodle-chart-box" id="doodle-chart-box" style="display: none;">
-                        <div class="doodle-chart-title">Resumo por Categoria</div>
-                        <div class="doodle-bars-container" id="doodle-bars-container">
-                            <!-- Populated dynamically -->
-                        </div>
-                    </div>
+                    <!-- Doodle Report Section removido - agora em modal -->
 
                 </div>
 
@@ -1030,6 +1027,27 @@
             </div>
             <button id="btn-pwa-install" class="pwa-install-btn">Instalar</button>
             <button id="btn-pwa-close" class="pwa-close-btn"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+    </div>
+
+    <!-- MODAL: RESUMO POR CATEGORIAS -->
+    <div class="modal-overlay" id="modal-category-summary">
+        <div class="modal-card" style="max-height: 85vh; display: flex; flex-direction: column; background: #FAF6EE;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                <h3 style="font-family: var(--font-title); font-weight: 700; margin: 0; color: #333; font-size: 1.1rem;">
+                    <i class="fa-solid fa-bars-progress" style="color: #8C6239; margin-right: 6px;"></i> Resumo por Categoria
+                </h3>
+                <button id="btn-close-category-summary" style="background: none; border: none; cursor: pointer; font-size: 1.2rem; color: #999; padding: 4px;">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <p id="category-summary-subtitle" style="font-size: 0.78rem; color: var(--text-muted); margin: 0 0 14px 0;"></p>
+            <div id="modal-doodle-bars-container" class="doodle-bars-container" style="flex-grow: 1; overflow-y: auto; padding: 4px 0;">
+                <!-- Populated dynamically -->
+            </div>
+            <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(0,0,0,0.06); display: flex; justify-content: space-between; align-items: center;">
+                <span id="category-summary-total" style="font-size: 0.85rem; font-weight: 700; color: #333;"></span>
+            </div>
         </div>
     </div>
 
